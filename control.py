@@ -25,7 +25,6 @@ except Exception as e:
 
 STN1 = {
     'auto': True,
-    'band': 0,
     'ant': 0,
     'antname': "--",
     'fil': 0,
@@ -34,7 +33,6 @@ STN1 = {
 
 STN2 = {
     'auto': True,
-    'band': 0,
     'ant': 0,
     'antname': "--",
     'fil': 0,
@@ -86,52 +84,48 @@ def assign_stn1(band):
     global STN1
     global OUTS
     global SP
-    if band != STN1['banda']:
-        if band in SP:
-            for e in SP[band]:
-                if OUTS[e] == "N":
-                    OUTS[e] = 1
-                    OUTS[STN1['ant']] = "N"
-                    STN1['ant'] = e
-                    STN1['antname'] = ANT[e]
-                    if STN1['bpf']:
-                        assign_filter_stn1(band)
-                    break
-                elif OUTS[e] == 1:
-                    break
-                else:
-                    pass
-        else:
-            OUTS[STN1['ant']] = "N"
-            STN1['ant'] = 0
-            if STN1['bpf']:
-                assign_filter_stn1(band)
+    if band in SP:
+        for e in SP[band]:
+            if OUTS[e] == "N":
+                OUTS[e] = 1
+                OUTS[STN1['ant']] = "N"
+                STN1['ant'] = e
+                STN1['antname'] = ANT[e]
+                break
+            elif OUTS[e] == 1:
+                break
+            else:
+                pass
+    else:
+        OUTS[STN1['ant']] = "N"
+        STN1['ant'] = 0
+
+    if STN1['bpf']:
+        assign_filter_stn1(band)
 
 
 def assign_stn2(band):
     global STN2
     global OUTS
     global SP
-    if band != STN2['band']:
-        if band in SP:
-            for e in SP[band]:
-                if OUTS[e] == "N":
-                    OUTS[e] = 2
-                    OUTS[STN2['ant']] = "N"
-                    STN2['ant'] = e
-                    STN2['antname'] = ANT[e]
-                    if STN2['bpf']:
-                        assign_filter_stn2(band)
-                    break
-                elif OUTS[e] == 2:
-                    break
-                else:
-                    pass
-        else:
-            OUTS[STN2['ant']] = "N"
-            STN2['ant'] = 0
-            if STN2['bpf']:
-                assign_filter_stn2(band)
+    if band in SP:
+        for e in SP[band]:
+            if OUTS[e] == "N":
+                OUTS[e] = 2
+                OUTS[STN2['ant']] = "N"
+                STN2['ant'] = e
+                STN2['antname'] = ANT[e]
+                break
+            elif OUTS[e] == 2:
+                break
+            else:
+                pass
+    else:
+        OUTS[STN2['ant']] = "N"
+        STN2['ant'] = 0
+
+    if STN2['bpf']:
+        assign_filter_stn2(band)
 
 
 def assign_filter_stn1(band):
@@ -258,24 +252,28 @@ def on_message(client, userdata, msg):
     if msg.topic == "set/stn1/film":
         if STN1['bpf']:
             STN1['bpf'] = False
+            SO2R = "0"
         else:
             STN1['bpf'] = True
 
     if msg.topic == "set/stn2/film":
         if STN2['bpf']:
             STN2['bpf'] = False
+            SO2R = "0"
         else:
             STN2['bpf'] = True
 
     if msg.topic == "set/stn1/antm":
         if STN1['auto']:
             STN1['auto'] = False
+            SO2R = "0"
         else:
             STN1['auto'] = True
 
     if msg.topic == "set/stn2/antm":
         if STN2['auto']:
             STN2['auto'] = False
+            SO2R = "0"
         else:
             STN2['auto'] = True
 
@@ -284,12 +282,20 @@ def on_message(client, userdata, msg):
             SO2R = "0"
         else:
             SO2R = "1"
+            STN1['auto'] = True
+            STN1['bpf'] = True
+            STN2['auto'] = True
+            STN2['bpf'] = True
 
     if msg.topic == "set/stn2/so2r":
         if SO2R == "2":
             SO2R = "0"
         else:
             SO2R = "2"
+            STN1['auto'] = True
+            STN1['bpf'] = True
+            STN2['auto'] = True
+            STN2['bpf'] = True
 
     status()
 
