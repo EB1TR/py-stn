@@ -78,23 +78,23 @@ def do_udp():
                     mqtt_client.publish("stn1/radio1/qrg", qrg)
                     mqtt_client.publish("stn1/radio1/banda", band)
                     mqtt_client.publish("stn1/radio1/mode", mode)
-                    mqtt_client.publish("stn1/radio1/op", band)
+                    mqtt_client.publish("stn1/radio1/op", op)
                 if radio == 2:
                     mqtt_client.publish("stn1/radio2/qrg", qrg)
                     mqtt_client.publish("stn1/radio2/banda", band)
                     mqtt_client.publish("stn1/radio2/mode", mode)
-                    mqtt_client.publish("stn1/radio2/op", band)
+                    mqtt_client.publish("stn1/radio2/op", op)
             if stn == 2:
                 if radio == 1:
                     mqtt_client.publish("stn2/radio1/qrg", qrg)
                     mqtt_client.publish("stn2/radio1/banda", band)
                     mqtt_client.publish("stn2/radio1/mode", mode)
-                    mqtt_client.publish("stn2/radio1/op", band)
+                    mqtt_client.publish("stn2/radio1/op", op)
                 if radio == 2:
                     mqtt_client.publish("stn2/radio2/qrg", qrg)
                     mqtt_client.publish("stn2/radio2/banda", band)
                     mqtt_client.publish("stn2/radio2/mode", mode)
-                    mqtt_client.publish("stn2/radio2/op", band)
+                    mqtt_client.publish("stn2/radio2/op", op)
         except:
             print("MQTT problem")
 
