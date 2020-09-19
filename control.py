@@ -119,20 +119,28 @@ SO2R = "0"
 
 def activate_ant_gpio(stn, old, new):
     if stn == 1:
-        LED(GPIO_STN1_SP[old]).off()
-        LED(GPIO_STN1_SP[new]).on()
+        if not old == 0:
+            LED(GPIO_STN1_SP[old]).off()
+        if not new == 0:
+            LED(GPIO_STN1_SP[new]).on()
     if stn == 2:
-        LED(GPIO_STN2_SP[old]).off()
-        LED(GPIO_STN2_SP[new]).on()
+        if not old == 0:
+            LED(GPIO_STN2_SP[old]).off()
+        if not new == 0:
+            LED(GPIO_STN2_SP[new]).on()
 
 
 def activate_fil_gpio(stn, old, new):
     if stn == 1:
-        LED(GPIO_STN1_FIL[old]).off()
-        LED(GPIO_STN1_FIL[new]).on()
+        if not old == 0:
+            LED(GPIO_STN1_FIL[old]).off()
+        if not new == 0:
+            LED(GPIO_STN1_FIL[new]).on()
     if stn == 2:
-        LED(GPIO_STN2_FIL[old]).off()
-        LED(GPIO_STN2_FIL[new]).on()
+        if not old == 0:
+            LED(GPIO_STN2_FIL[old]).off()
+        if not new == 0:
+            LED(GPIO_STN2_FIL[new]).on()
 
 
 def assign_stn1(band):
