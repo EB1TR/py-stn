@@ -15,37 +15,31 @@
 
     		<table class="tablestn">
         		<tr>
-            		<td class="colcentered" colspan="7"><h1>STATION 1</h1></td>
-            		<td class="colcentered" colspan="7"><h1>STATION 2</h1></td>
+            		<td class="colcentered" colspan="7"><h1>STATION 1 | By: <span id="stn1-op">--</span></h1></td>
+            		<td class="colcentered" colspan="7"><h1>STATION 2 | By: <span id="stn2-op">--</span></h1></td>
         		</tr>
-				<tr>
-					<td class="colcentered" colspan="7">By: <span id="stn1-op">--</span></td>
-            		<td class="colcentered" colspan="7">By: <span id="stn2-op">--</span></td>
+                <tr>
+            		<td colspan="7" style="font-size: 24px; font-weight: bold; text-align: center">
+						<span id="stn1-r1-qrg">****.**</span> <span id="stn1-r1-mode">--</span> | <span id="stn1-an">****.**</span>
+					</td>
+            		<td colspan="7" style="font-size: 24px; font-weight: bold; text-align: center">
+						<span id="stn2-r1-qrg">****.**</span> <span id="stn2-r1-mode">--</span> | <span id="stn2-an">****.**</span>
+					</td>
         		</tr>
+				<tr><td colspan="14"><hr></td></tr>
         		<tr>
-            		<td class="colcentered" colspan="7"><a href="#"><span onclick="send_command('set/stn1/so2r', 0)" class="spanitemw" id="stn1-so2r">SO2R</span></a></td>
-            		<td class="colcentered" colspan="7"><a href="#"><span onclick="send_command('set/stn2/so2r', 0)" class="spanitemw" id="stn2-so2r">SO2R</span></a></td>
+            		<td class="colcentered" colspan="7"></td>
+            		<td class="colcentered" colspan="7"></td>
         		</tr>
                 <tr>
-            		<td colspan="7" style="font-size: 18px; font-weight: bold; text-align: center"><span id="stn1-r1-qrg">****.**</span> <span id="stn1-r1-mode">--</span></td>
-            		<td colspan="7" style="font-size: 18px; font-weight: bold; text-align: center"><span id="stn2-r1-qrg">****.**</span> <span id="stn2-r1-mode">--</span></td>
+            		<td class="colcentered" colspan="3"><a href="#"><span onclick="send_command('set/stn1/antm', 0)" class="spanitemw" id="stn1-as">SixPack</span></a></td>
+            		<td class="colcentered" colspan="1"><a href="#"><span onclick="send_command('set/stn1/so2r', 0)" class="spanitemw" id="stn1-so2r">SO2R</span></a></td>
+            		<td class="colcentered" colspan="3"><a href="#"><span onclick="send_command('set/stn1/film', 0)" class="spanitemw" id="stn1-fs">BPF</span></a></td>
+            		<td class="colcentered" colspan="3"><a href="#"><span onclick="send_command('set/stn2/antm', 0)" class="spanitemw" id="stn2-as">SixPack</span></a></td>
+            		<td class="colcentered" colspan="1"><a href="#"><span onclick="send_command('set/stn2/so2r', 0)" class="spanitemw" id="stn2-so2r">SO2R</span></a></td>
+            		<td class="colcentered" colspan="3"><a href="#"><span onclick="send_command('set/stn2/film', 0)" class="spanitemw" id="stn2-fs">BPF</span></a></td>
         		</tr>
-        		  <tr>
-            		<td colspan="7" style="font-size: 18px; font-weight: bold; text-align: center" id="stn1-an">Nombre 1</td>
-            		<td colspan="7" style="font-size: 18px; font-weight: bold; text-align: center" id="stn2-an">Nombre 2</td>
-        		</tr>
-                <tr>
-            		<td class="colcentered" colspan="3"><a href="#"><span onclick="send_command('set/stn1/antm', 0)" class="spanitemw" id="stn1-as">ANT AUTO/MAN</span></a></td>
-            		<td class="colcentered" colspan="1"><h5>AUTO/MAN</h5></td>
-            		<td class="colcentered" colspan="3"><a href="#"><span onclick="send_command('set/stn1/film', 0)" class="spanitemw" id="stn1-fs">FIL AUTO/MAN</span></a></td>
-            		<td class="colcentered" colspan="3"><a href="#"><span onclick="send_command('set/stn2/antm', 0)" class="spanitemw" id="stn2-as">ANT AUTO/MAN</span></a></td>
-            		<td class="colcentered" colspan="1"><h5>AUTO/MAN</h5></td>
-            		<td class="colcentered" colspan="3"><a href="#"><span onclick="send_command('set/stn2/film', 0)" class="spanitemw" id="stn2-fs">FIL AUTO/MAN</span></a></td>
-        		</tr>
-                <tr>
-            		<td class="colcentered" colspan="7"><h4>SIXPACK STN1</h4></td>
-            		<td class="colcentered" colspan="7"><h4>SIXPACK STN2</h4></td>
-        		</tr>
+				<tr><td colspan="14"><hr></td></tr>
         		<tr>
             		<td class="tdstn"><a href="#"><span onclick="send_command('set/stn1/ant', 0)" class="spanitem" id="stn1-a0">ANT 0</span></a></td>
             		<td class="tdstn"><a href="#"><span onclick="send_command('set/stn1/ant', 1)" class="spanitem" id="stn1-a1">ANT 1</span></a></td>
@@ -62,10 +56,7 @@
                     <td class="tdstn"><a href="#"><span onclick="send_command('set/stn2/ant', 5)" class="spanitem" id="stn2-a5">ANT 5</span></a></td>
                     <td class="tdstn"><a href="#"><span onclick="send_command('set/stn2/ant', 6)" class="spanitem" id="stn2-a6">ANT 6</span></a></td>
         		</tr>
-                <tr>
-            		<td class="colcentered" colspan="7"><h4>FILTROS STN1</h4></td>
-            		<td class="colcentered" colspan="7"><h4>FILTROS STN2</h4></td>
-        		</tr>
+				<tr><td colspan="14"><hr></td></tr>
         		<tr>
             		<td class="tdstn"><a href="#"><span onclick="send_command('set/stn1/fil', 0)" class="spanitem" id="stn1-f0">FIL 0</span></td>
             		<td class="tdstn"><a href="#"><span onclick="send_command('set/stn1/fil', 1)" class="spanitem" id="stn1-f1">FIL 1</span></td>

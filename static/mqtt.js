@@ -51,13 +51,21 @@ function send_command(comm, dato){
 // called when a message arrives
 function onMessageArrived(message) {
     if (message.destinationName == "stn1/radio1/qrg") {
-        $('#stn1-qrg').text(message.payloadString)
-    } else if (message.destinationName == "stn1/radio2/qrg") {
-        $('#stn2-qrg').text(message.payloadString)
+        $('#stn1-r1-qrg').text(message.payloadString/100)
     } else if (message.destinationName == "stn2/radio1/qrg") {
+        $('#stn2-r1-qrg').text(message.payloadString/100)
+    } else if (message.destinationName == "stn1/radio2/qrg") {
         console.log("cc")
     } else if (message.destinationName == "stn2/radio2/qrg") {
         console.log("cc")
+    } else if (message.destinationName == "stn1/radio1/mode") {
+        $('#stn1-r1-mode').text(message.payloadString)
+    } else if (message.destinationName == "stn2/radio1/mode") {
+        $('#stn2-r1-mode').text(message.payloadString)
+    } else if (message.destinationName == "stn1/radio1/op") {
+        $('#stn1-op').text(message.payloadString)
+    } else if (message.destinationName == "stn2/radio1/op") {
+        $('#stn2-op').text(message.payloadString)
     } else {
         json = JSON.parse(message.payloadString)
         if (json.stn1 != undefined) {
