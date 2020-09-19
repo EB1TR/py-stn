@@ -58,7 +58,6 @@ def do_udp():
         data, addr = sock.recvfrom(1024)
         data = data.decode('utf-8')
         doc = xmltodict.parse(data)
-        print(doc)
         if doc["RadioInfo"]['StationName'] == "STN1":
             stn = 1
         else:
@@ -71,6 +70,12 @@ def do_udp():
         op = op.upper()
 
         band = define_band(qrg)
+        print("STN: " + str(stn) +
+              " | Radio: " + str(radio) +
+              " | QRG: " + str(qrg/100) +
+              " | Mode:" + str(mode) +
+              " | OP: " + str(op)
+              )
 
         try:
             if stn == 1:
