@@ -60,9 +60,9 @@ def do_udp():
         data, addr = sock.recvfrom(1024)
         data = data.decode('utf-8')
         doc = xmltodict.parse(data)
-        if doc["RadioInfo"]['StationName'] == "STN1":
+        if doc["RadioInfo"]['StationName'] == STN1:
             stn = 1
-        else:
+        if doc["RadioInfo"]['StationName'] == STN2:
             stn = 2
 
         qrg = int(doc["RadioInfo"]['Freq'])
