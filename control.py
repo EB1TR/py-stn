@@ -13,6 +13,7 @@ __date__ = "12/09/2020"
 import settings
 import json
 import paho.mqtt.client as mqtt
+from gpiozero import LED
 
 try:
     MQTT = settings.Config.MQTT
@@ -77,7 +78,61 @@ SP = {
     160: [1]
 }
 
+GPIO_STN1_SP = {
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6
+}
+
+GPIO_STN1_FIL = {
+    1: 7,
+    2: 8,
+    3: 9,
+    4: 10,
+    5: 11,
+    6: 12
+}
+
+GPIO_STN2_SP = {
+    1: 13,
+    2: 14,
+    3: 15,
+    4: 16,
+    5: 17,
+    6: 18
+}
+
+GPIO_STN2_FIL = {
+    1: 19,
+    2: 20,
+    3: 21,
+    4: 22,
+    5: 23,
+    6: 24
+}
+
 SO2R = "0"
+
+
+def activate_ant_gpio(stn, old, new):
+    if stn == 1:
+        LED(GPIO_STN1_SP[old]).off()
+        LED(GPIO_STN1_SP[new]).on()
+    if stn == 2:
+        LED(GPIO_STN2_SP[old]).off()
+        LED(GPIO_STN2_SP[new]).on()
+
+
+def activate_fil_gpio(stn, old, new):
+    if stn == 1:
+        LED(GPIO_STN1_FIL[old]).off()
+        LED(GPIO_STN1_FIL[new]).on()
+    if stn == 2:
+        LED(GPIO_STN2_FIL[old]).off()
+        LED(GPIO_STN2_FIL[new]).on()
 
 
 def assign_stn1(band):
@@ -87,6 +142,7 @@ def assign_stn1(band):
     if band in SP:
         for e in SP[band]:
             if OUTS[e] == "N":
+                activate_ant_gpio(1, STN1['ant'], e)
                 OUTS[e] = 1
                 OUTS[STN1['ant']] = "N"
                 STN1['ant'] = e
@@ -111,6 +167,7 @@ def assign_stn2(band):
     if band in SP:
         for e in SP[band]:
             if OUTS[e] == "N":
+                activate_ant_gpio(2, STN2['ant'], e)
                 OUTS[e] = 2
                 OUTS[STN2['ant']] = "N"
                 STN2['ant'] = e
@@ -132,8 +189,10 @@ def assign_filter_stn1(band):
     global STN1
     global FIL
     if band != 99:
+        activate_fil_gpio(1, STN1['fil'], FIL[band])
         STN1['fil'] = FIL[band]
     else:
+        LED(GPIO_STN1_FIL[STN1['fil']]).off()
         STN1['fil'] = 0
 
 
@@ -141,8 +200,10 @@ def assign_filter_stn2(band):
     global STN2
     global FIL
     if band != 99:
+        activate_fil_gpio(2, STN2['fil'], FIL[band])
         STN2['fil'] = FIL[band]
     else:
+        LED(GPIO_STN2_FIL[STN2['fil']]).off()
         STN2['fil'] = 0
 
 
@@ -226,6 +287,8 @@ def on_message(client, userdata, msg):
     if not STN1['auto'] and msg.topic == "set/stn1/ant":
         dato = int(dato)
         if OUTS[dato] == "N" or dato == 0:
+            if not dato == 0:
+                activate_ant_gpio(1, STN1['ant'], dato)
             OUTS[dato] = 1
             OUTS[STN1['ant']] = "N"
             STN1['ant'] = dato
@@ -236,6 +299,8 @@ def on_message(client, userdata, msg):
     if not STN2['auto'] and msg.topic == "set/stn2/ant":
         dato = int(dato)
         if OUTS[dato] == "N" or dato == 0:
+            if not dato == 0:
+                activate_ant_gpio(2, STN2['ant'], dato)
             OUTS[dato] = 2
             OUTS[STN2['ant']] = "N"
             STN2['ant'] = dato
@@ -244,10 +309,14 @@ def on_message(client, userdata, msg):
             pass
 
     if not STN1['bpf'] and msg.topic == "set/stn1/fil":
-        STN1['fil'] = int(dato)
+        dato = int(dato)
+        activate_fil_gpio(1, STN1['fil'], dato)
+        STN1['fil'] = dato
 
     if not STN2['bpf'] and msg.topic == "set/stn2/fil":
-        STN2['fil'] = int(dato)
+        dato = int(dato)
+        activate_fil_gpio(1, STN1['fil'], dato)
+        STN2['fil'] = dato
 
     if msg.topic == "set/stn1/film":
         if STN1['bpf']:
