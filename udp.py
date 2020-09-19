@@ -58,6 +58,7 @@ def do_udp():
         data, addr = sock.recvfrom(1024)
         data = data.decode('utf-8')
         doc = xmltodict.parse(data)
+        print(doc)
         if doc["RadioInfo"]['StationName'] == "STN1":
             stn = 1
         else:
@@ -65,6 +66,9 @@ def do_udp():
 
         qrg = int(doc["RadioInfo"]['Freq'])
         radio = int(doc["RadioInfo"]['RadioNr'])
+        mode = str(doc["RadioInfo"]['Mode'])
+        op = str(doc["RadioInfo"]['OpCall'])
+        op = op.upper()
 
         band = define_band(qrg)
 
@@ -73,16 +77,24 @@ def do_udp():
                 if radio == 1:
                     mqtt_client.publish("stn1/radio1/qrg", qrg)
                     mqtt_client.publish("stn1/radio1/banda", band)
+                    mqtt_client.publish("stn1/radio1/mode", mode)
+                    mqtt_client.publish("stn1/radio1/op", band)
                 if radio == 2:
                     mqtt_client.publish("stn1/radio2/qrg", qrg)
                     mqtt_client.publish("stn1/radio2/banda", band)
+                    mqtt_client.publish("stn1/radio2/mode", mode)
+                    mqtt_client.publish("stn1/radio2/op", band)
             if stn == 2:
                 if radio == 1:
                     mqtt_client.publish("stn2/radio1/qrg", qrg)
                     mqtt_client.publish("stn2/radio1/banda", band)
+                    mqtt_client.publish("stn2/radio1/mode", mode)
+                    mqtt_client.publish("stn2/radio1/op", band)
                 if radio == 2:
                     mqtt_client.publish("stn2/radio2/qrg", qrg)
                     mqtt_client.publish("stn2/radio2/banda", band)
+                    mqtt_client.publish("stn2/radio2/mode", mode)
+                    mqtt_client.publish("stn2/radio2/op", band)
         except:
             print("MQTT problem")
 

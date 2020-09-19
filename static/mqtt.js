@@ -20,6 +20,14 @@ function onConnect() {
   client.subscribe("stn1/radio2/qrg");
   client.subscribe("stn2/radio1/qrg");
   client.subscribe("stn2/radio2/qrg");
+  client.subscribe("stn1/radio1/mode");
+  client.subscribe("stn1/radio2/mode");
+  client.subscribe("stn2/radio1/mode");
+  client.subscribe("stn2/radio2/mode");
+  client.subscribe("stn1/radio1/op");
+  client.subscribe("stn1/radio2/op");
+  client.subscribe("stn2/radio1/op");
+  client.subscribe("stn2/radio2/op");
   message = new Paho.MQTT.Message('0');
   message.destinationName = "refrescar";
   client.send(message);
