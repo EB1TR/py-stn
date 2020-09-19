@@ -39,5 +39,11 @@ class Config:
     if environ.get('MQTT_PORT'):
         MQTT_PORT = int(ENVIR('MQTT_PORT'))
 
+    if environ.get('STN1'):
+        STN1 = ENVIR('STN1')
+
+    if environ.get('STN2'):
+        STN2 = ENVIR('STN2')
+
 
 

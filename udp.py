@@ -18,6 +18,8 @@ import xmltodict
 try:
     MQTT_HOST = settings.Config.MQTT_HOST
     MQTT_PORT = settings.Config.MQTT_PORT
+    STN1 = settings.Config.STN1
+    STN2 = settings.Config.STN2
     pass
 except Exception as e:
     print('Unexpected: %s' % e)
