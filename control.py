@@ -78,69 +78,97 @@ SP = {
     160: [1]
 }
 
-GPIO_STN1_SP = {
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 4,
-    5: 5,
-    6: 6
-}
-
-GPIO_STN1_FIL = {
-    1: 7,
-    2: 8,
-    3: 9,
-    4: 10,
-    5: 11,
-    6: 12
-}
-
-GPIO_STN2_SP = {
-    1: 13,
-    2: 14,
-    3: 15,
-    4: 16,
-    5: 17,
-    6: 18
-}
-
-GPIO_STN2_FIL = {
-    1: 19,
-    2: 20,
-    3: 21,
-    4: 22,
-    5: 23,
-    6: 24
-}
+gpio_pin1 = LED(1)
+gpio_pin2 = LED(2)
+gpio_pin3 = LED(3)
+gpio_pin4 = LED(4)
+gpio_pin5 = LED(5)
+gpio_pin6 = LED(6)
+gpio_pin7 = LED(7)
+gpio_pin8 = LED(8)
+gpio_pin9 = LED(9)
+gpio_pin10 = LED(10)
+gpio_pin11 = LED(11)
+gpio_pin12 = LED(12)
+gpio_pin13 = LED(13)
+gpio_pin14 = LED(14)
+gpio_pin15 = LED(15)
+gpio_pin16 = LED(16)
+gpio_pin17 = LED(17)
+gpio_pin18 = LED(18)
+gpio_pin19 = LED(19)
+gpio_pin20 = LED(20)
+gpio_pin21 = LED(21)
+gpio_pin22 = LED(22)
+gpio_pin23 = LED(23)
+gpio_pin24 = LED(24)
 
 SO2R = "0"
-
 
 def activate_ant_gpio(stn, old, new):
     if stn == 1:
         if not old == 0:
-            LED(GPIO_STN1_SP[old]).off()
+            if old == 1: gpio_pin1.off()
+            if old == 2: gpio_pin2.off()
+            if old == 3: gpio_pin3.off()
+            if old == 4: gpio_pin4.off()
+            if old == 5: gpio_pin5.off()
+            if old == 6: gpio_pin6.off()
         if not new == 0:
-            LED(GPIO_STN1_SP[new]).on()
+            if old == 1: gpio_pin1.on()
+            if old == 2: gpio_pin2.on()
+            if old == 3: gpio_pin3.on()
+            if old == 4: gpio_pin4.on()
+            if old == 5: gpio_pin5.on()
+            if old == 6: gpio_pin6.on()
     if stn == 2:
         if not old == 0:
-            LED(GPIO_STN2_SP[old]).off()
+            if old == 1: gpio_pin7.off()
+            if old == 2: gpio_pin8.off()
+            if old == 3: gpio_pin9.off()
+            if old == 4: gpio_pin10.off()
+            if old == 5: gpio_pin11.off()
+            if old == 6: gpio_pin12.off()
         if not new == 0:
-            LED(GPIO_STN2_SP[new]).on()
+            if old == 1: gpio_pin7.on()
+            if old == 2: gpio_pin8.on()
+            if old == 3: gpio_pin9.on()
+            if old == 4: gpio_pin10.on()
+            if old == 5: gpio_pin11.on()
+            if old == 6: gpio_pin12.on()
 
 
 def activate_fil_gpio(stn, old, new):
     if stn == 1:
         if not old == 0:
-            LED(GPIO_STN1_FIL[old]).off()
+            if old == 1: gpio_pin13.off()
+            if old == 2: gpio_pin14.off()
+            if old == 3: gpio_pin15.off()
+            if old == 4: gpio_pin16.off()
+            if old == 5: gpio_pin17.off()
+            if old == 6: gpio_pin18.off()
         if not new == 0:
-            LED(GPIO_STN1_FIL[new]).on()
+            if old == 1: gpio_pin13.on()
+            if old == 2: gpio_pin14.on()
+            if old == 3: gpio_pin15.on()
+            if old == 4: gpio_pin16.on()
+            if old == 5: gpio_pin17.on()
+            if old == 6: gpio_pin18.on()
     if stn == 2:
         if not old == 0:
-            LED(GPIO_STN2_FIL[old]).off()
+            if old == 1: gpio_pin19.off()
+            if old == 2: gpio_pin20.off()
+            if old == 3: gpio_pin21.off()
+            if old == 4: gpio_pin22.off()
+            if old == 5: gpio_pin23.off()
+            if old == 6: gpio_pin24.off()
         if not new == 0:
-            LED(GPIO_STN2_FIL[new]).on()
+            if old == 1: gpio_pin19.on()
+            if old == 2: gpio_pin20.on()
+            if old == 3: gpio_pin21.on()
+            if old == 4: gpio_pin22.on()
+            if old == 5: gpio_pin23.on()
+            if old == 6: gpio_pin24.on()
 
 
 def assign_stn1(band):
@@ -200,7 +228,7 @@ def assign_filter_stn1(band):
         activate_fil_gpio(1, STN1['fil'], FIL[band])
         STN1['fil'] = FIL[band]
     else:
-        LED(GPIO_STN1_FIL[STN1['fil']]).off()
+        activate_fil_gpio(1, STN1['fil'], FIL[band])
         STN1['fil'] = 0
 
 
@@ -211,7 +239,7 @@ def assign_filter_stn2(band):
         activate_fil_gpio(2, STN2['fil'], FIL[band])
         STN2['fil'] = FIL[band]
     else:
-        LED(GPIO_STN2_FIL[STN2['fil']]).off()
+        activate_fil_gpio(2, STN2['fil'], FIL[band])
         STN2['fil'] = 0
 
 
