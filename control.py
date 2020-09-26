@@ -105,120 +105,119 @@ gpio_pin24 = LED(24)
 
 SO2R = "0"
 
+
 def activate_ant_gpio(stn, old, new):
     if stn == 1:
-        if not old == 0:
-            if old == 1: gpio_pin1.off()
-            if old == 2: gpio_pin2.off()
-            if old == 3: gpio_pin3.off()
-            if old == 4: gpio_pin4.off()
-            if old == 5: gpio_pin5.off()
-            if old == 6: gpio_pin6.off()
+        gpio_pin1.off()
+        gpio_pin2.off()
+        gpio_pin3.off()
+        gpio_pin4.off()
+        gpio_pin5.off()
+        gpio_pin6.off()
         if not new == 0:
-            if old == 1: gpio_pin1.on()
-            if old == 2: gpio_pin2.on()
-            if old == 3: gpio_pin3.on()
-            if old == 4: gpio_pin4.on()
-            if old == 5: gpio_pin5.on()
-            if old == 6: gpio_pin6.on()
+            if new == 1: gpio_pin1.on()
+            if new == 2: gpio_pin2.on()
+            if new == 3: gpio_pin3.on()
+            if new == 4: gpio_pin4.on()
+            if new == 5: gpio_pin5.on()
+            if new == 6: gpio_pin6.on()
     if stn == 2:
-        if not old == 0:
-            if old == 1: gpio_pin7.off()
-            if old == 2: gpio_pin8.off()
-            if old == 3: gpio_pin9.off()
-            if old == 4: gpio_pin10.off()
-            if old == 5: gpio_pin11.off()
-            if old == 6: gpio_pin12.off()
+        gpio_pin7.off()
+        gpio_pin8.off()
+        gpio_pin9.off()
+        gpio_pin10.off()
+        gpio_pin11.off()
+        gpio_pin12.off()
         if not new == 0:
-            if old == 1: gpio_pin7.on()
-            if old == 2: gpio_pin8.on()
-            if old == 3: gpio_pin9.on()
-            if old == 4: gpio_pin10.on()
-            if old == 5: gpio_pin11.on()
-            if old == 6: gpio_pin12.on()
+            if new == 1: gpio_pin7.on()
+            if new == 2: gpio_pin8.on()
+            if new == 3: gpio_pin9.on()
+            if new == 4: gpio_pin10.on()
+            if new == 5: gpio_pin11.on()
+            if new == 6: gpio_pin12.on()
 
 
 def activate_fil_gpio(stn, old, new):
     if stn == 1:
-        if not old == 0:
-            if old == 1: gpio_pin13.off()
-            if old == 2: gpio_pin14.off()
-            if old == 3: gpio_pin15.off()
-            if old == 4: gpio_pin16.off()
-            if old == 5: gpio_pin17.off()
-            if old == 6: gpio_pin18.off()
+        gpio_pin13.off()
+        gpio_pin14.off()
+        gpio_pin15.off()
+        gpio_pin16.off()
+        gpio_pin17.off()
+        gpio_pin18.off()
         if not new == 0:
-            if old == 1: gpio_pin13.on()
-            if old == 2: gpio_pin14.on()
-            if old == 3: gpio_pin15.on()
-            if old == 4: gpio_pin16.on()
-            if old == 5: gpio_pin17.on()
-            if old == 6: gpio_pin18.on()
+            if new == 1: gpio_pin13.on()
+            if new == 2: gpio_pin14.on()
+            if new == 3: gpio_pin15.on()
+            if new == 4: gpio_pin16.on()
+            if new == 5: gpio_pin17.on()
+            if new == 6: gpio_pin18.on()
     if stn == 2:
-        if not old == 0:
-            if old == 1: gpio_pin19.off()
-            if old == 2: gpio_pin20.off()
-            if old == 3: gpio_pin21.off()
-            if old == 4: gpio_pin22.off()
-            if old == 5: gpio_pin23.off()
-            if old == 6: gpio_pin24.off()
+        gpio_pin19.off()
+        gpio_pin20.off()
+        gpio_pin21.off()
+        gpio_pin22.off()
+        gpio_pin23.off()
+        gpio_pin24.off()
         if not new == 0:
-            if old == 1: gpio_pin19.on()
-            if old == 2: gpio_pin20.on()
-            if old == 3: gpio_pin21.on()
-            if old == 4: gpio_pin22.on()
-            if old == 5: gpio_pin23.on()
-            if old == 6: gpio_pin24.on()
+            if new == 1: gpio_pin19.on()
+            if new == 2: gpio_pin20.on()
+            if new == 3: gpio_pin21.on()
+            if new == 4: gpio_pin22.on()
+            if new == 5: gpio_pin23.on()
+            if new == 6: gpio_pin24.on()
 
 
 def assign_stn1(band):
     global STN1
     global OUTS
     global SP
-    if band in SP:
-        for e in SP[band]:
-            if OUTS[e] == "N":
-                activate_ant_gpio(1, STN1['ant'], e)
-                OUTS[e] = 1
-                OUTS[STN1['ant']] = "N"
-                STN1['ant'] = e
-                STN1['antname'] = ANT[e]
-                break
-            elif OUTS[e] == 1:
-                break
-            else:
-                pass
-    else:
-        OUTS[STN1['ant']] = "N"
-        STN1['ant'] = 0
+    if band != STN1['band']:
+        if band in SP:
+            for e in SP[band]:
+                if OUTS[e] == "N":
+                    activate_ant_gpio(1, STN1['ant'], e)
+                    OUTS[e] = "1"
+                    OUTS[STN1['ant']] = "N"
+                    STN1['ant'] = e
+                    STN1['antname'] = ANT[e]
+                    break
+                elif OUTS[e] == 1:
+                    break
+                else:
+                    pass
+        else:
+            OUTS[STN1['ant']] = "N"
+            STN1['ant'] = 0
 
-    if STN1['bpf']:
-        assign_filter_stn1(band)
+        if STN1['bpf']:
+            assign_filter_stn1(band)
 
 
 def assign_stn2(band):
     global STN2
     global OUTS
     global SP
-    if band in SP:
-        for e in SP[band]:
-            if OUTS[e] == "N":
-                activate_ant_gpio(2, STN2['ant'], e)
-                OUTS[e] = 2
-                OUTS[STN2['ant']] = "N"
-                STN2['ant'] = e
-                STN2['antname'] = ANT[e]
-                break
-            elif OUTS[e] == 2:
-                break
-            else:
-                pass
-    else:
-        OUTS[STN2['ant']] = "N"
-        STN2['ant'] = 0
+    if band != STN2[band]:
+        if band in SP:
+            for e in SP[band]:
+                if OUTS[e] == "N":
+                    activate_ant_gpio(2, STN2['ant'], e)
+                    OUTS[e] = "2"
+                    OUTS[STN2['ant']] = "N"
+                    STN2['ant'] = e
+                    STN2['antname'] = ANT[e]
+                    break
+                elif OUTS[e] == 2:
+                    break
+                else:
+                    pass
+        else:
+            OUTS[STN2['ant']] = "N"
+            STN2['ant'] = 0
 
-    if STN2['bpf']:
-        assign_filter_stn2(band)
+        if STN2['bpf']:
+            assign_filter_stn2(band)
 
 
 def assign_filter_stn1(band):
@@ -325,7 +324,7 @@ def on_message(client, userdata, msg):
         if OUTS[dato] == "N" or dato == 0:
             if not dato == 0:
                 activate_ant_gpio(1, STN1['ant'], dato)
-            OUTS[dato] = 1
+            OUTS[dato] = "1"
             OUTS[STN1['ant']] = "N"
             STN1['ant'] = dato
             STN1['antname'] = ANT[dato]
@@ -337,7 +336,7 @@ def on_message(client, userdata, msg):
         if OUTS[dato] == "N" or dato == 0:
             if not dato == 0:
                 activate_ant_gpio(2, STN2['ant'], dato)
-            OUTS[dato] = 2
+            OUTS[dato] = "2"
             OUTS[STN2['ant']] = "N"
             STN2['ant'] = dato
             STN2['antname'] = ANT[dato]
@@ -351,7 +350,7 @@ def on_message(client, userdata, msg):
 
     if not STN2['bpf'] and msg.topic == "set/stn2/fil":
         dato = int(dato)
-        activate_fil_gpio(1, STN1['fil'], dato)
+        activate_fil_gpio(2, STN2['fil'], dato)
         STN2['fil'] = dato
 
     if msg.topic == "set/stn1/film":
