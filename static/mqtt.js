@@ -74,6 +74,8 @@ function onMessageArrived(message) {
             astn2 = "#stn2-a"+json.stn2.ant
             fstn1 = "#stn1-f"+json.stn1.fil
             fstn2 = "#stn2-f"+json.stn2.fil
+            bstn1 = "#stn1-b"+json.stn1.band
+            bstn2 = "#stn2-b"+json.stn2.band
             asstn1 = json.stn1.auto
             asstn2 = json.stn2.auto
             so2r = json.so2r
@@ -93,6 +95,20 @@ function onMessageArrived(message) {
             $("#stn2-a4").removeClass("spanitemselected");
             $("#stn2-a5").removeClass("spanitemselected");
             $("#stn2-a6").removeClass("spanitemselected");
+            $("#stn1-b0").removeClass("spanitemselected");
+            $("#stn1-b160").removeClass("spanitemselected");
+            $("#stn1-b80").removeClass("spanitemselected");
+            $("#stn1-b40").removeClass("spanitemselected");
+            $("#stn1-b20").removeClass("spanitemselected");
+            $("#stn1-b15").removeClass("spanitemselected");
+            $("#stn1-b10").removeClass("spanitemselected");
+            $("#stn2-b0").removeClass("spanitemselected");
+            $("#stn2-b160").removeClass("spanitemselected");
+            $("#stn2-b80").removeClass("spanitemselected");
+            $("#stn2-b40").removeClass("spanitemselected");
+            $("#stn2-b20").removeClass("spanitemselected");
+            $("#stn2-b15").removeClass("spanitemselected");
+            $("#stn2-b10").removeClass("spanitemselected");
             $("#stn1-f0").removeClass("spanitemselected");
             $("#stn1-f1").removeClass("spanitemselected");
             $("#stn1-f2").removeClass("spanitemselected");
@@ -115,6 +131,8 @@ function onMessageArrived(message) {
             $("#stn2-so2r").removeClass("spanitemwselected");
             $(astn1).addClass("spanitemselected")
             $(astn2).addClass("spanitemselected")
+            $(bstn1).addClass("spanitemselected")
+            $(bstn2).addClass("spanitemselected")
             $(fstn1).addClass("spanitemselected")
             $(fstn2).addClass("spanitemselected")
             if (asstn1 == true) $("#stn1-as").addClass("spanitemwselected")

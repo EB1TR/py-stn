@@ -53,6 +53,7 @@ OUTS = {
 }
 
 FIL = {
+    0: 0,
     10: 6,
     15: 5,
     20: 4,
@@ -108,7 +109,7 @@ gpio_pin24 = LED(24)
 SO2R = "0"
 
 
-def activate_ant_gpio(stn, old, new):
+def activate_ant_gpio(stn, new):
     if stn == 1:
         gpio_pin1.off()
         gpio_pin2.off()
@@ -116,19 +117,18 @@ def activate_ant_gpio(stn, old, new):
         gpio_pin4.off()
         gpio_pin5.off()
         gpio_pin6.off()
-        if not new == 0:
-            if new == 1:
-                gpio_pin1.on()
-            if new == 2:
-                gpio_pin2.on()
-            if new == 3:
-                gpio_pin3.on()
-            if new == 4:
-                gpio_pin4.on()
-            if new == 5:
-                gpio_pin5.on()
-            if new == 6:
-                gpio_pin6.on()
+        if new == 1:
+            gpio_pin1.on()
+        if new == 2:
+            gpio_pin2.on()
+        if new == 3:
+            gpio_pin3.on()
+        if new == 4:
+            gpio_pin4.on()
+        if new == 5:
+            gpio_pin5.on()
+        if new == 6:
+            gpio_pin6.on()
     if stn == 2:
         gpio_pin7.off()
         gpio_pin8.off()
@@ -136,22 +136,21 @@ def activate_ant_gpio(stn, old, new):
         gpio_pin10.off()
         gpio_pin11.off()
         gpio_pin12.off()
-        if not new == 0:
-            if new == 1:
-                gpio_pin7.on()
-            if new == 2:
-                gpio_pin8.on()
-            if new == 3:
-                gpio_pin9.on()
-            if new == 4:
-                gpio_pin10.on()
-            if new == 5:
-                gpio_pin11.on()
-            if new == 6:
-                gpio_pin12.on()
+        if new == 1:
+            gpio_pin7.on()
+        if new == 2:
+            gpio_pin8.on()
+        if new == 3:
+            gpio_pin9.on()
+        if new == 4:
+            gpio_pin10.on()
+        if new == 5:
+            gpio_pin11.on()
+        if new == 6:
+            gpio_pin12.on()
 
 
-def activate_fil_gpio(stn, old, new):
+def activate_fil_gpio(stn, new):
     if stn == 1:
         gpio_pin13.off()
         gpio_pin14.off()
@@ -159,19 +158,18 @@ def activate_fil_gpio(stn, old, new):
         gpio_pin16.off()
         gpio_pin17.off()
         gpio_pin18.off()
-        if not new == 0:
-            if new == 1:
-                gpio_pin13.on()
-            if new == 2:
-                gpio_pin14.on()
-            if new == 3:
-                gpio_pin15.on()
-            if new == 4:
-                gpio_pin16.on()
-            if new == 5:
-                gpio_pin17.on()
-            if new == 6:
-                gpio_pin18.on()
+        if new == 1:
+            gpio_pin13.on()
+        if new == 2:
+            gpio_pin14.on()
+        if new == 3:
+            gpio_pin15.on()
+        if new == 4:
+            gpio_pin16.on()
+        if new == 5:
+            gpio_pin17.on()
+        if new == 6:
+            gpio_pin18.on()
     if stn == 2:
         gpio_pin19.off()
         gpio_pin20.off()
@@ -179,19 +177,18 @@ def activate_fil_gpio(stn, old, new):
         gpio_pin22.off()
         gpio_pin23.off()
         gpio_pin24.off()
-        if not new == 0:
-            if new == 1:
-                gpio_pin19.on()
-            if new == 2:
-                gpio_pin20.on()
-            if new == 3:
-                gpio_pin21.on()
-            if new == 4:
-                gpio_pin22.on()
-            if new == 5:
-                gpio_pin23.on()
-            if new == 6:
-                gpio_pin24.on()
+        if new == 1:
+            gpio_pin19.on()
+        if new == 2:
+            gpio_pin20.on()
+        if new == 3:
+            gpio_pin21.on()
+        if new == 4:
+            gpio_pin22.on()
+        if new == 5:
+            gpio_pin23.on()
+        if new == 6:
+            gpio_pin24.on()
 
 
 def assign_stn(stn, band):
@@ -206,7 +203,7 @@ def assign_stn(stn, band):
     if band in SP:
         for e in SP[band]:
             if OUTS[e] == "N":
-                activate_ant_gpio(1, STNX['ant'], e)
+                activate_ant_gpio(1, e)
                 OUTS[e] = str(stn)
                 OUTS[STNX['ant']] = "N"
                 STNX['ant'] = e
@@ -214,6 +211,7 @@ def assign_stn(stn, band):
                 STNX['band'] = band
                 break
             elif OUTS[e] == str(stn):
+                STNX['band'] = band
                 break
     else:
         OUTS[STNX['ant']] = "N"
@@ -238,10 +236,10 @@ def assign_filter(stn, band):
     if stn == 2:
         STNX = STN2
     if band in FIL:
-        activate_fil_gpio(stn, STNX['fil'], FIL[band])
+        activate_fil_gpio(stn, FIL[band])
         STNX['fil'] = FIL[band]
     else:
-        activate_fil_gpio(stn, STNX['fil'], FIL[band])
+        activate_fil_gpio(stn, FIL[band])
         STNX['fil'] = 0
     if stn == 1:
         STN1 = STNX
@@ -328,7 +326,7 @@ def on_message(client, userdata, msg):
     if not STN1['auto'] and msg.topic == "set/stn1/ant":
         dato = int(dato)
         if OUTS[dato] == "N" or dato == 0:
-            activate_ant_gpio(1, STN1['ant'], dato)
+            activate_ant_gpio(1, dato)
             OUTS[dato] = "1"
             OUTS[STN1['ant']] = "N"
             STN1['ant'] = dato
@@ -338,7 +336,7 @@ def on_message(client, userdata, msg):
     if not STN2['auto'] and msg.topic == "set/stn2/ant":
         dato = int(dato)
         if OUTS[dato] == "N" or dato == 0:
-            activate_ant_gpio(2, STN2['ant'], dato)
+            activate_ant_gpio(2, dato)
             OUTS[dato] = "2"
             OUTS[STN2['ant']] = "N"
             STN2['ant'] = dato
@@ -355,12 +353,12 @@ def on_message(client, userdata, msg):
 
     if not STN1['auto'] and msg.topic == "set/stn1/fil":
         dato = int(dato)
-        activate_fil_gpio(1, STN1['fil'], dato)
+        activate_fil_gpio(1, dato)
         STN1['fil'] = dato
 
     if not STN2['auto'] and msg.topic == "set/stn2/fil":
         dato = int(dato)
-        activate_fil_gpio(2, STN2['fil'], dato)
+        activate_fil_gpio(2, dato)
         STN2['fil'] = dato
 
     if msg.topic == "set/stn1/antm":
@@ -395,7 +393,7 @@ def on_message(client, userdata, msg):
 
     status()
 
-status()
+
 mqtt_client = mqtt.Client()
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 600)
 mqtt_client.on_connect = on_connect

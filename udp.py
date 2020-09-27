@@ -46,7 +46,7 @@ def define_band(qrg):
     elif qrg in range(2800000, 2970000):
         band = 10
     else:
-        band = 99
+        band = 0
     return band
 
 
