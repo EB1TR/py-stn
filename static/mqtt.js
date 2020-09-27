@@ -118,7 +118,7 @@ function onMessageArrived(message) {
             $(fstn1).addClass("spanitemselected")
             $(fstn2).addClass("spanitemselected")
             if (asstn1 == true) $("#stn1-as").addClass("spanitemwselected")
-            if (fsstn1 == true) $("#stn1-fs").addClass("spanitemwselected")
+            if (asstn2 == true) $("#stn2-as").addClass("spanitemwselected")
             if (so2r == "1") $("#stn1-so2r").addClass("spanitemwselected")
             if (so2r == "2") $("#stn2-so2r").addClass("spanitemwselected")
         }

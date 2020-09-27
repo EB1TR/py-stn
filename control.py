@@ -205,13 +205,15 @@ def assign_stn(stn, band):
         STNX = STN2
     if band in SP:
         for e in SP[band]:
-            if OUTS[e] == "N" and OUTS[e] != str(stn):
+            if OUTS[e] == "N":
                 activate_ant_gpio(1, STNX['ant'], e)
                 OUTS[e] = str(stn)
                 OUTS[STNX['ant']] = "N"
                 STNX['ant'] = e
                 STNX['antname'] = ANT[e]
                 STNX['band'] = band
+                break
+            elif OUTS[e] == STNX['ant']:
                 break
     else:
         OUTS[STNX['ant']] = "N"
@@ -241,6 +243,8 @@ def assign_stn1(band):
                 STN1['antname'] = ANT[e]
                 STN1['band'] = band
                 break
+            elif OUTS[e] == STN1['ant']:
+                break
     else:
         OUTS[STN1['ant']] = "N"
         STN1['ant'] = 0
@@ -263,6 +267,8 @@ def assign_stn2(band):
                 STN2['ant'] = e
                 STN2['antname'] = ANT[e]
                 STN2['band'] = band
+                break
+            elif OUTS[e] == STN2['ant']:
                 break
     else:
         OUTS[STN2['ant']] = "N"
@@ -344,6 +350,8 @@ def on_connect(client, userdata, flags, rc):
         ("set/stn2/antm", 0),
         ("set/stn1/so2r", 0),
         ("set/stn2/so2r", 0),
+        ("set/stn1/band", 0),
+        ("set/stn2/band", 0),
         ("refrescar", 0)
 
     ])
@@ -410,12 +418,20 @@ def on_message(client, userdata, msg):
             STN2['antname'] = ANT[dato]
             STN2['band'] = 0
 
-    if not STN1['bpf'] and msg.topic == "set/stn1/fil":
+    if not STN1['auto'] and msg.topic == "set/stn1/band":
+        dato = int(dato)
+        assign_stn(1, dato)
+
+    if not STN2['auto'] and msg.topic == "set/stn2/band":
+        dato = int(dato)
+        assign_stn(2, dato)
+
+    if not STN1['auto'] and msg.topic == "set/stn1/fil":
         dato = int(dato)
         activate_fil_gpio(1, STN1['fil'], dato)
         STN1['fil'] = dato
 
-    if not STN2['bpf'] and msg.topic == "set/stn2/fil":
+    if not STN2['auto'] and msg.topic == "set/stn2/fil":
         dato = int(dato)
         activate_fil_gpio(2, STN2['fil'], dato)
         STN2['fil'] = dato
