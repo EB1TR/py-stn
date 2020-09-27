@@ -213,7 +213,7 @@ def assign_stn(stn, band):
                 STNX['antname'] = ANT[e]
                 STNX['band'] = band
                 break
-            elif OUTS[e] == STNX['ant']:
+            elif OUTS[e] == str(stn):
                 break
     else:
         OUTS[STNX['ant']] = "N"
@@ -227,56 +227,6 @@ def assign_stn(stn, band):
         STN1 = STNX
     if stn == 2:
         STN2 = STNX
-
-
-def assign_stn1(band):
-    global STN1
-    global OUTS
-    global SP
-    if band in SP:
-        for e in SP[band]:
-            if OUTS[e] == "N" and OUTS[e] != "1":
-                activate_ant_gpio(1, STN1['ant'], e)
-                OUTS[e] = "1"
-                OUTS[STN1['ant']] = "N"
-                STN1['ant'] = e
-                STN1['antname'] = ANT[e]
-                STN1['band'] = band
-                break
-            elif OUTS[e] == STN1['ant']:
-                break
-    else:
-        OUTS[STN1['ant']] = "N"
-        STN1['ant'] = 0
-        STN1['antname'] = "--"
-        STN1['band'] = 0
-
-    assign_filter_stn1(band)
-
-
-def assign_stn2(band):
-    global STN2
-    global OUTS
-    global SP
-    if band in SP:
-        for e in SP[band]:
-            if OUTS[e] == "N" and OUTS[e] != "2":
-                activate_ant_gpio(2, STN2['ant'], e)
-                OUTS[e] = "2"
-                OUTS[STN2['ant']] = "N"
-                STN2['ant'] = e
-                STN2['antname'] = ANT[e]
-                STN2['band'] = band
-                break
-            elif OUTS[e] == STN2['ant']:
-                break
-    else:
-        OUTS[STN2['ant']] = "N"
-        STN2['ant'] = 0
-        STN2['antname'] = "--"
-        STN2['band'] = 0
-
-    assign_filter_stn2(band)
 
 
 def assign_filter(stn, band):
@@ -297,28 +247,6 @@ def assign_filter(stn, band):
         STN1 = STNX
     if stn == 2:
         STN2 = STNX
-
-
-def assign_filter_stn1(band):
-    global STN1
-    global FIL
-    if band in FIL:
-        activate_fil_gpio(1, STN1['fil'], FIL[band])
-        STN1['fil'] = FIL[band]
-    else:
-        activate_fil_gpio(1, STN1['fil'], FIL[band])
-        STN1['fil'] = 0
-
-
-def assign_filter_stn2(band):
-    global STN2
-    global FIL
-    if band in FIL:
-        activate_fil_gpio(2, STN2['fil'], FIL[band])    # Set ON and OFF GPIOs by STN and band
-        STN2['fil'] = FIL[band]                         # Set FIL output to STN
-    else:
-        activate_fil_gpio(2, STN2['fil'], FIL[band])    # Set ON and OFF GPIOs by STN and band
-        STN2['fil'] = 0                                 # Set FIL output to STN
 
 
 def status():
@@ -353,7 +281,6 @@ def on_connect(client, userdata, flags, rc):
         ("set/stn1/band", 0),
         ("set/stn2/band", 0),
         ("refrescar", 0)
-
     ])
 
 
@@ -372,31 +299,31 @@ def on_message(client, userdata, msg):
             pass
         else:
             if STN1['auto'] and STN1['band'] != int(dato):
-                assign_stn1(int(dato))
+                assign_stn(1, int(dato))
 
     if msg.topic == "stn1/radio2/banda":
         if SO2R in ["2", "0"]:
             pass
         else:
             if STN2['auto'] and STN2['band'] != int(dato):
-                assign_stn2(int(dato))
+                assign_stn(2, int(dato))
 
     if msg.topic == "stn2/radio1/banda":
         if SO2R == "1":
             pass
         elif SO2R == "0":
             if STN2['auto'] and STN2['band'] != int(dato):
-                assign_stn2(int(dato))
+                assign_stn(2, int(dato))
         else:
             if STN1['auto'] and STN1['band'] != int(dato):
-                assign_stn1(int(dato))
+                assign_stn(1, int(dato))
 
     if msg.topic == "stn2/radio2/banda":
         if SO2R in ["1", "0"]:
             pass
         else:
             if STN2['auto'] and STN2['band'] != int(dato):
-                assign_stn2(int(dato))
+                assign_stn(2, int(dato))
 
     if not STN1['auto'] and msg.topic == "set/stn1/ant":
         dato = int(dato)
@@ -468,7 +395,7 @@ def on_message(client, userdata, msg):
 
     status()
 
-
+status()
 mqtt_client = mqtt.Client()
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 600)
 mqtt_client.on_connect = on_connect
