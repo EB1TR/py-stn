@@ -76,8 +76,6 @@ function onMessageArrived(message) {
             fstn2 = "#stn2-f"+json.stn2.fil
             asstn1 = json.stn1.auto
             asstn2 = json.stn2.auto
-            fsstn1 = json.stn1.bpf
-            fsstn2 = json.stn2.bpf
             so2r = json.so2r
             $('#stn1-an').text(json.stn1.antname)
             $('#stn2-an').text(json.stn2.antname)
@@ -121,8 +119,6 @@ function onMessageArrived(message) {
             $(fstn2).addClass("spanitemselected")
             if (asstn1 == true) $("#stn1-as").addClass("spanitemwselected")
             if (fsstn1 == true) $("#stn1-fs").addClass("spanitemwselected")
-            if (asstn2 == true) $("#stn2-as").addClass("spanitemwselected")
-            if (fsstn2 == true) $("#stn2-fs").addClass("spanitemwselected")
             if (so2r == "1") $("#stn1-so2r").addClass("spanitemwselected")
             if (so2r == "2") $("#stn2-so2r").addClass("spanitemwselected")
         }
