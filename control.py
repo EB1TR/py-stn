@@ -264,10 +264,10 @@ def status():
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     client.subscribe([
-        ("stn1/radio1/banda", 0),
-        ("stn1/radio2/banda", 0),
-        ("stn2/radio1/banda", 0),
-        ("stn2/radio2/banda", 0),
+        ("stn1/radio1/band", 0),
+        ("stn1/radio2/band", 0),
+        ("stn2/radio1/band", 0),
+        ("stn2/radio2/band", 0),
         ("set/stn1/ant", 0),
         ("set/stn1/fil", 0),
         ("set/stn2/ant", 0),
@@ -278,7 +278,7 @@ def on_connect(client, userdata, flags, rc):
         ("set/stn2/so2r", 0),
         ("set/stn1/band", 0),
         ("set/stn2/band", 0),
-        ("refrescar", 0)
+        ("update", 0)
     ])
 
 
@@ -292,21 +292,21 @@ def on_message(client, userdata, msg):
 
     dato = msg.payload.decode('utf-8')
 
-    if msg.topic == "stn1/radio1/banda":
+    if msg.topic == "stn1/radio1/band":
         if SO2R == "2":
             pass
         else:
             if STN1['auto'] and STN1['band'] != int(dato):
                 assign_stn(1, int(dato))
 
-    if msg.topic == "stn1/radio2/banda":
+    if msg.topic == "stn1/radio2/band":
         if SO2R in ["2", "0"]:
             pass
         else:
             if STN2['auto'] and STN2['band'] != int(dato):
                 assign_stn(2, int(dato))
 
-    if msg.topic == "stn2/radio1/banda":
+    if msg.topic == "stn2/radio1/band":
         if SO2R == "1":
             pass
         elif SO2R == "0":
@@ -316,7 +316,7 @@ def on_message(client, userdata, msg):
             if STN1['auto'] and STN1['band'] != int(dato):
                 assign_stn(1, int(dato))
 
-    if msg.topic == "stn2/radio2/banda":
+    if msg.topic == "stn2/radio2/band":
         if SO2R in ["1", "0"]:
             pass
         else:
