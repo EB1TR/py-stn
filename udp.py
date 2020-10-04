@@ -11,9 +11,10 @@ __author__ = 'EB1TR'
 __date__ = "12/09/2020"
 
 import settings
-import paho.mqtt.client as mqtt
 import socket
+import paho.mqtt.client as mqtt
 import xmltodict
+
 
 try:
     MQTT_HOST = settings.Config.MQTT_HOST
@@ -27,9 +28,9 @@ except Exception as e:
 
 
 def mqtt_connect():
-    mqtt_client = mqtt.Client(transport='tcp')
-    mqtt_client.connect(MQTT_HOST, MQTT_PORT, 600)
-    return mqtt_client
+    mqtt_c = mqtt.Client(transport='tcp')
+    mqtt_c.connect(MQTT_HOST, MQTT_PORT, 600)
+    return mqtt_c
 
 
 def define_band(qrg):
@@ -50,60 +51,74 @@ def define_band(qrg):
     return band
 
 
+def publish_radio_info(mqtt_c, radio_i):
+    try:
+        if radio_i[0] == 1:
+            if radio_i[1] == 1:
+                mqtt_c.publish("stn1/radio1/qrg", radio_i[3])
+                mqtt_c.publish("stn1/radio1/band", radio_i[2])
+                mqtt_c.publish("stn1/radio1/mode", radio_i[4])
+                mqtt_c.publish("stn1/radio1/op", radio_i[5])
+            if radio_i[1] == 2:
+                mqtt_c.publish("stn1/radio2/qrg", radio_i[3])
+                mqtt_c.publish("stn1/radio2/band", radio_i[2])
+                mqtt_c.publish("stn1/radio2/mode", radio_i[4])
+                mqtt_c.publish("stn1/radio2/op", radio_i[5])
+        if radio_i[0] == 2:
+            if radio_i[1] == 1:
+                mqtt_c.publish("stn2/radio1/qrg", radio_i[3])
+                mqtt_c.publish("stn2/radio1/band", radio_i[2])
+                mqtt_c.publish("stn2/radio1/mode", radio_i[4])
+                mqtt_c.publish("stn2/radio1/op", radio_i[5])
+            if radio_i[1] == 2:
+                mqtt_c.publish("stn2/radio2/qrg", radio_i[3])
+                mqtt_c.publish("stn2/radio2/band", radio_i[2])
+                mqtt_c.publish("stn2/radio2/mode", radio_i[4])
+                mqtt_c.publish("stn2/radio2/op", radio_i[5])
+    except:
+        print("MQTT problem")
+
+
+def process_radio_info(xml_data, mqtt_c):
+    stn = 0
+    radio = int(xml_data["RadioInfo"]['RadioNr'])
+    qrg = int(xml_data["RadioInfo"]['Freq'])
+    band = define_band(qrg)
+    mode = str(xml_data["RadioInfo"]['Mode'])
+    op = str(xml_data["RadioInfo"]['OpCall'])
+    op = op.upper()
+    radio_i = [stn, radio, band, qrg, mode, op]
+    try:
+        if xml_data["RadioInfo"]['StationName'] == STN1:
+            radio_i[0] = 1
+        if xml_data["RadioInfo"]['StationName'] == STN2:
+            radio_i[0] = 2
+
+        print(radio_i)
+
+        publish_radio_info(mqtt_c, radio_i)
+    except:
+        print("STN no se ha encontrado: " + str(radio_i))
+
+
+def process_xml(xml_data, mqtt_c):
+    if xml_data["RadioInfo"]:
+        process_radio_info(xml_data, mqtt_c)
+    else:
+        pass
+
+
 def do_udp():
     global STN1
     global STN2
-    mqtt_client = mqtt_connect()
+    mqtt_c = mqtt_connect()
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("0.0.0.0", 12060))
     while True:
-        data, addr = sock.recvfrom(1024)
+        data, address = sock.recvfrom(1024)
         data = data.decode('utf-8')
-        doc = xmltodict.parse(data)
-        if doc["RadioInfo"]['StationName'] == STN1:
-            stn = 1
-        if doc["RadioInfo"]['StationName'] == STN2:
-            stn = 2
-
-        qrg = int(doc["RadioInfo"]['Freq'])
-        radio = int(doc["RadioInfo"]['RadioNr'])
-        mode = str(doc["RadioInfo"]['Mode'])
-        op = str(doc["RadioInfo"]['OpCall'])
-        op = op.upper()
-
-        band = define_band(qrg)
-        print("STN: " + str(stn) +
-              " | Radio: " + str(radio) +
-              " | QRG: " + str(qrg/100) +
-              " | Mode:" + str(mode) +
-              " | OP: " + str(op)
-              )
-
-        try:
-            if stn == 1:
-                if radio == 1:
-                    mqtt_client.publish("stn1/radio1/qrg", qrg)
-                    mqtt_client.publish("stn1/radio1/band", band)
-                    mqtt_client.publish("stn1/radio1/mode", mode)
-                    mqtt_client.publish("stn1/radio1/op", op)
-                if radio == 2:
-                    mqtt_client.publish("stn1/radio2/qrg", qrg)
-                    mqtt_client.publish("stn1/radio2/band", band)
-                    mqtt_client.publish("stn1/radio2/mode", mode)
-                    mqtt_client.publish("stn1/radio2/op", op)
-            if stn == 2:
-                if radio == 1:
-                    mqtt_client.publish("stn2/radio1/qrg", qrg)
-                    mqtt_client.publish("stn2/radio1/band", band)
-                    mqtt_client.publish("stn2/radio1/mode", mode)
-                    mqtt_client.publish("stn2/radio1/op", op)
-                if radio == 2:
-                    mqtt_client.publish("stn2/radio2/qrg", qrg)
-                    mqtt_client.publish("stn2/radio2/band", band)
-                    mqtt_client.publish("stn2/radio2/mode", mode)
-                    mqtt_client.publish("stn2/radio2/op", op)
-        except:
-            print("MQTT problem")
+        xml_data = xmltodict.parse(data)
+        process_xml(xml_data, mqtt_c)
 
 
 if __name__ == '__main__':
