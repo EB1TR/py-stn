@@ -88,17 +88,19 @@ def process_radio_info(xml_data, mqtt_c):
     op = str(xml_data["RadioInfo"]['OpCall'])
     op = op.upper()
     radio_i = [stn, radio, band, qrg, mode, op]
-    try:
-        if xml_data["RadioInfo"]['StationName'] == STN1:
-            radio_i[0] = 1
-        if xml_data["RadioInfo"]['StationName'] == STN2:
-            radio_i[0] = 2
+    if xml_data["RadioInfo"]['StationName'] == STN1:
+        radio_i[0] = 1
+    if xml_data["RadioInfo"]['StationName'] == STN2:
+        radio_i[0] = 2
 
-        print(radio_i)
+    print(radio_i)
 
-        publish_radio_info(mqtt_c, radio_i)
-    except:
+    publish_radio_info(mqtt_c, radio_i)
+
+    if radio_i[0] == 0:
         print("STN no se ha encontrado: " + str(radio_i))
+    else:
+        print(str(radio_i))
 
 
 def process_xml(xml_data, mqtt_c):
