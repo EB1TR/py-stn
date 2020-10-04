@@ -93,8 +93,6 @@ def process_radio_info(xml_data, mqtt_c):
     if xml_data["RadioInfo"]['StationName'] == STN2:
         radio_i[0] = 2
 
-    print(radio_i)
-
     publish_radio_info(mqtt_c, radio_i)
 
     if radio_i[0] == 0:
