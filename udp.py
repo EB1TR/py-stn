@@ -104,10 +104,10 @@ def process_radio_info(xml_data, mqtt_c):
 
 
 def process_xml(xml_data, mqtt_c):
-    if xml_data["RadioInfo"]:
+    try:
         process_radio_info(xml_data, mqtt_c)
-    else:
-        pass
+    except:
+        print("Paquete no válido")
 
 
 def do_udp():
