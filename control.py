@@ -80,31 +80,34 @@ SP = {
     80: [2],
     160: [1]
 }
-
-gpio_pin1 = LED(1)
-gpio_pin2 = LED(2)
-gpio_pin3 = LED(3)
-gpio_pin4 = LED(4)
-gpio_pin5 = LED(5)
-gpio_pin6 = LED(6)
-gpio_pin7 = LED(7)
-gpio_pin8 = LED(8)
-gpio_pin9 = LED(9)
-gpio_pin10 = LED(10)
-gpio_pin11 = LED(11)
-gpio_pin12 = LED(12)
-gpio_pin13 = LED(13)
-gpio_pin14 = LED(14)
-gpio_pin15 = LED(15)
-gpio_pin16 = LED(16)
-gpio_pin17 = LED(17)
-gpio_pin18 = LED(18)
-gpio_pin19 = LED(19)
-gpio_pin20 = LED(20)
-gpio_pin21 = LED(21)
-gpio_pin22 = LED(22)
-gpio_pin23 = LED(23)
-gpio_pin24 = LED(24)
+# GPIOs al SixPack A
+gpio_pin1 = LED(2)
+gpio_pin2 = LED(3)
+gpio_pin3 = LED(4)
+gpio_pin4 = LED(17)
+gpio_pin5 = LED(27)
+gpio_pin6 = LED(22)
+# GPIOs al SixPack B
+gpio_pin7 = LED(10)
+gpio_pin8 = LED(9)
+gpio_pin9 = LED(11)
+gpio_pin10 = LED(5)
+gpio_pin11 = LED(6)
+gpio_pin12 = LED(13)
+# GPIOs a Filtros A
+gpio_pin13 = LED(14)
+gpio_pin14 = LED(15)
+gpio_pin15 = LED(18)
+gpio_pin16 = LED(23)
+gpio_pin17 = LED(24)
+gpio_pin18 = LED(25)
+# GPIOs a Filtros B
+gpio_pin19 = LED(8)
+gpio_pin20 = LED(7)
+gpio_pin21 = LED(12)
+gpio_pin22 = LED(16)
+gpio_pin23 = LED(20)
+gpio_pin24 = LED(21)
 
 SO2R = "0"
 
@@ -198,12 +201,15 @@ def assign_stn(stn, band):
     global SP
     if stn == 1:
         STNX = STN1
+        STNY = STN2
     if stn == 2:
         STNX = STN2
-    if band in SP:
+        STNY = STN1
+    if band in SP and band != STNY['band']:
         for e in SP[band]:
             if OUTS[e] == "N":
-                activate_ant_gpio(1, e)
+                activate_ant_gpio(stn, e)
+                assign_filter(stn, band)
                 OUTS[e] = str(stn)
                 OUTS[STNX['ant']] = "N"
                 STNX['ant'] = e
@@ -211,15 +217,16 @@ def assign_stn(stn, band):
                 STNX['band'] = band
                 break
             elif OUTS[e] == str(stn):
+                assign_filter(stn, band)
                 STNX['band'] = band
                 break
     else:
+        activate_ant_gpio(stn, 0)
+        assign_filter(stn, 0)
         OUTS[STNX['ant']] = "N"
         STNX['ant'] = 0
         STNX['antname'] = "--"
         STNX['band'] = 0
-
-    assign_filter(stn, band)
 
     if stn == 1:
         STN1 = STNX
