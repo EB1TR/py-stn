@@ -3,51 +3,30 @@ body {
     font-size: 14px;
 }
 #contenor {
-    width: 1000px;
     margin: 0px auto 0px auto;
-    background-color: #ccc;
-    border: 5px solid black;
-    padding: 5px;
-    border-radius: 5px;
-}
-.colcentered {
-    text-align: center;
 }
 .tablestn {
-    
-}
-.tdstn {
-    width: 80px;
-    text-align: center;
+    margin: 0 auto;
+    background-color: #ccc;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 3px;
 }
 .spanitem {
-    border: 2px solid black;
+    border: 1px solid rgba(180,0,0,0.7);
     text-align: center;
-    line-height: 49px;
+    line-height: 27px;
     display: inline-block;
-    background-color: #ff0000;
-    color: white;
-    width: 49px;
-    padding: 3px;
-    height: 49px;
-    border-radius: 5px;
+    background-color: rgba(255,0,0,0.2);
+    color: rgba(180,0,0,0.7);
+    width: 50px;
+    height: 25px;
+    border-radius: 3px;
 }
 .spanitemselected {
-    background-color: #1daa00;
-}
-.spanitemw {
-    border: 2px solid black;
-    text-align: center;
-    line-height: 49px;
-    display: inline-block;
-    background-color: #ff0000;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    width: 88%;
-    padding: 3px;
-    height: 49px;
-    border-radius: 5px;
+    border: 2px solid rgba(0,110,0,0.7);
+    background-color: rgba(0,255,0,0.2);
+    color: rgba(0,110,0,0.7);
 }
 .spanitemwselected {
     background-color: #1daa00;
