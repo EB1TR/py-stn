@@ -1,7 +1,7 @@
 // Create a client instance
 clientID = "web"
 clientID += new Date().getUTCMilliseconds()
-client = new Paho.MQTT.Client("192.168.33.10", Number(9001), clientID);
+client = new Paho.MQTT.Client("192.168.1.110", Number(9001), clientID);
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
@@ -71,31 +71,19 @@ function onMessageArrived(message) {
         json = JSON.parse(message.payloadString)
         if (json.stn1 != undefined) {
             json = JSON.parse(message.payloadString)
-            astn1 = "#stn1-a"+json.stn1.ant
-            astn2 = "#stn2-a"+json.stn2.ant
-            fstn1 = "#stn1-f"+json.stn1.fil
-            fstn2 = "#stn2-f"+json.stn2.fil
             bstn1 = "#stn1-b"+json.stn1.band
             bstn2 = "#stn2-b"+json.stn2.band
             asstn1 = json.stn1.auto
             asstn2 = json.stn2.auto
+            ststn11 = json.stacks[json.stn1.band][1]
+            ststn12 = json.stacks[json.stn1.band][2]
+            ststn13 = json.stacks[json.stn1.band][3]
+            ststn21 = json.stacks[json.stn2.band][1]
+            ststn22 = json.stacks[json.stn2.band][2]
+            ststn23 = json.stacks[json.stn2.band][3]
             so2r = json.so2r
             $('#stn1-an').text(json.stn1.antname)
             $('#stn2-an').text(json.stn2.antname)
-            $("#stn1-a0").removeClass("spanitemselected");
-            $("#stn1-a1").removeClass("spanitemselected");
-            $("#stn1-a2").removeClass("spanitemselected");
-            $("#stn1-a3").removeClass("spanitemselected");
-            $("#stn1-a4").removeClass("spanitemselected");
-            $("#stn1-a5").removeClass("spanitemselected");
-            $("#stn1-a6").removeClass("spanitemselected");
-            $("#stn2-a0").removeClass("spanitemselected");
-            $("#stn2-a1").removeClass("spanitemselected");
-            $("#stn2-a2").removeClass("spanitemselected");
-            $("#stn2-a3").removeClass("spanitemselected");
-            $("#stn2-a4").removeClass("spanitemselected");
-            $("#stn2-a5").removeClass("spanitemselected");
-            $("#stn2-a6").removeClass("spanitemselected");
             $("#stn1-b0").removeClass("spanitemselected");
             $("#stn1-b160").removeClass("spanitemselected");
             $("#stn1-b80").removeClass("spanitemselected");
@@ -110,36 +98,25 @@ function onMessageArrived(message) {
             $("#stn2-b20").removeClass("spanitemselected");
             $("#stn2-b15").removeClass("spanitemselected");
             $("#stn2-b10").removeClass("spanitemselected");
-            $("#stn1-f0").removeClass("spanitemselected");
-            $("#stn1-f1").removeClass("spanitemselected");
-            $("#stn1-f2").removeClass("spanitemselected");
-            $("#stn1-f3").removeClass("spanitemselected");
-            $("#stn1-f4").removeClass("spanitemselected");
-            $("#stn1-f5").removeClass("spanitemselected");
-            $("#stn1-f6").removeClass("spanitemselected");
-            $("#stn2-f0").removeClass("spanitemselected");
-            $("#stn2-f1").removeClass("spanitemselected");
-            $("#stn2-f2").removeClass("spanitemselected");
-            $("#stn2-f3").removeClass("spanitemselected");
-            $("#stn2-f4").removeClass("spanitemselected");
-            $("#stn2-f5").removeClass("spanitemselected");
-            $("#stn2-f6").removeClass("spanitemselected");
-            $("#stn1-as").removeClass("spanitemwselected");
-            $("#stn1-fs").removeClass("spanitemwselected");
-            $("#stn2-as").removeClass("spanitemwselected");
-            $("#stn2-fs").removeClass("spanitemwselected");
-            $("#stn1-so2r").removeClass("spanitemwselected");
-            $("#stn2-so2r").removeClass("spanitemwselected");
-            $(astn1).addClass("spanitemselected")
-            $(astn2).addClass("spanitemselected")
+            $("#stn1-as").removeClass("spanitemselected");
+            $("#stn2-as").removeClass("spanitemselected");
+            $("#stn1-stack1").removeClass("spanitemselected");
+            $("#stn1-stack2").removeClass("spanitemselected");
+            $("#stn1-stack3").removeClass("spanitemselected");
+            $("#stn2-stack1").removeClass("spanitemselected");
+            $("#stn2-stack2").removeClass("spanitemselected");
+            $("#stn2-stack3").removeClass("spanitemselected");
             $(bstn1).addClass("spanitemselected")
             $(bstn2).addClass("spanitemselected")
-            $(fstn1).addClass("spanitemselected")
-            $(fstn2).addClass("spanitemselected")
-            if (asstn1 == true) $("#stn1-as").addClass("spanitemwselected")
-            if (asstn2 == true) $("#stn2-as").addClass("spanitemwselected")
-            if (so2r == "1") $("#stn1-so2r").addClass("spanitemwselected")
-            if (so2r == "2") $("#stn2-so2r").addClass("spanitemwselected")
+            if (asstn1 == true) $("#stn1-as").addClass("spanitemselected")
+            if (asstn2 == true) $("#stn2-as").addClass("spanitemselected")
+            if (ststn11 == true) $("#stn1-stack1").addClass("spanitemselected")
+            if (ststn12 == true) $("#stn1-stack2").addClass("spanitemselected")
+            if (ststn13 == true) $("#stn1-stack3").addClass("spanitemselected")
+            if (ststn21 == true) $("#stn2-stack1").addClass("spanitemselected")
+            if (ststn22 == true) $("#stn2-stack2").addClass("spanitemselected")
+            if (ststn23 == true) $("#stn2-stack3").addClass("spanitemselected")
+
         }
     }
 
