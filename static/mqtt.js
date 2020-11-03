@@ -10,6 +10,37 @@ client.onMessageArrived = onMessageArrived;
 // connect the client
 client.connect({onSuccess:onConnect});
 
+(function() {
+	function toJSONString( form ) {
+		var obj = {};
+		var elements = form.querySelectorAll( "input, select, textarea" );
+		for( var i = 0; i < elements.length; ++i ) {
+			var element = elements[i];
+			var name = element.name;
+			var value = element.value;
+
+			if( name ) {
+				obj[ name ] = value;
+			}
+		}
+
+		return JSON.stringify( obj );
+	}
+
+	document.addEventListener( "DOMContentLoaded", function() {
+		var form = document.getElementById( "test" );
+		var output = document.getElementById( "output" );
+		form.addEventListener( "submit", function( e ) {
+			e.preventDefault();
+			var json = toJSONString( this );
+			output.innerHTML = json;
+
+		}, false);
+
+	});
+
+})();
+
 
 // called when the client connects
 function onConnect() {
@@ -73,17 +104,20 @@ function onMessageArrived(message) {
             json = JSON.parse(message.payloadString)
             bstn1 = "#stn1-b"+json.stn1.band
             bstn2 = "#stn2-b"+json.stn2.band
+
             asstn1 = json.stn1.auto
             asstn2 = json.stn2.auto
-            ststn11 = json.stacks[json.stn1.band][1]
-            ststn12 = json.stacks[json.stn1.band][2]
-            ststn13 = json.stacks[json.stn1.band][3]
-            ststn21 = json.stacks[json.stn2.band][1]
-            ststn22 = json.stacks[json.stn2.band][2]
-            ststn23 = json.stacks[json.stn2.band][3]
-            so2r = json.so2r
-            $('#stn1-an').text(json.stn1.antname)
-            $('#stn2-an').text(json.stn2.antname)
+
+            ststn10 = json.stacks[json.stn1.band]['salidas']
+            ststn11 = json.stacks[json.stn1.band][1]['estado']
+            ststn12 = json.stacks[json.stn1.band][2]['estado']
+            ststn13 = json.stacks[json.stn1.band][3]['estado']
+
+            ststn20 = json.stacks[json.stn2.band]['salidas']
+            ststn21 = json.stacks[json.stn2.band][1]['estado']
+            ststn22 = json.stacks[json.stn2.band][2]['estado']
+            ststn23 = json.stacks[json.stn2.band][3]['estado']
+
             $("#stn1-b0").removeClass("spanitemselected");
             $("#stn1-b160").removeClass("spanitemselected");
             $("#stn1-b80").removeClass("spanitemselected");
@@ -92,6 +126,7 @@ function onMessageArrived(message) {
             $("#stn1-b15").removeClass("spanitemselected");
             $("#stn1-b10").removeClass("spanitemselected");
             $("#stn2-b0").removeClass("spanitemselected");
+
             $("#stn2-b160").removeClass("spanitemselected");
             $("#stn2-b80").removeClass("spanitemselected");
             $("#stn2-b40").removeClass("spanitemselected");
@@ -100,23 +135,60 @@ function onMessageArrived(message) {
             $("#stn2-b10").removeClass("spanitemselected");
             $("#stn1-as").removeClass("spanitemselected");
             $("#stn2-as").removeClass("spanitemselected");
-            $("#stn1-stack1").removeClass("spanitemselected");
-            $("#stn1-stack2").removeClass("spanitemselected");
-            $("#stn1-stack3").removeClass("spanitemselected");
-            $("#stn2-stack1").removeClass("spanitemselected");
-            $("#stn2-stack2").removeClass("spanitemselected");
-            $("#stn2-stack3").removeClass("spanitemselected");
+
+            $("#stn1-stack1").addClass("spanitemnd")
+            $("#stn1-stack2").addClass("spanitemnd")
+            $("#stn1-stack3").addClass("spanitemnd")
+            $("#stn2-stack1").addClass("spanitemnd")
+            $("#stn2-stack2").addClass("spanitemnd")
+            $("#stn2-stack3").addClass("spanitemnd")
+
             $(bstn1).addClass("spanitemselected")
             $(bstn2).addClass("spanitemselected")
+
             if (asstn1 == true) $("#stn1-as").addClass("spanitemselected")
             if (asstn2 == true) $("#stn2-as").addClass("spanitemselected")
-            if (ststn11 == true) $("#stn1-stack1").addClass("spanitemselected")
-            if (ststn12 == true) $("#stn1-stack2").addClass("spanitemselected")
-            if (ststn13 == true) $("#stn1-stack3").addClass("spanitemselected")
-            if (ststn21 == true) $("#stn2-stack1").addClass("spanitemselected")
-            if (ststn22 == true) $("#stn2-stack2").addClass("spanitemselected")
-            if (ststn23 == true) $("#stn2-stack3").addClass("spanitemselected")
 
+            $("#stn1-stack1").text(json.stacks[json.stn1.band][1]['nombre'])
+            $("#stn1-stack2").text(json.stacks[json.stn1.band][2]['nombre'])
+            $("#stn1-stack3").text(json.stacks[json.stn1.band][3]['nombre'])
+
+            if (ststn10 == 3) {
+                if (ststn11 == true) $("#stn1-stack1").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn1-stack1").removeClass("spanitemnd").removeClass("spanitemselected")
+                if (ststn12 == true) $("#stn1-stack2").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn1-stack2").removeClass("spanitemnd").removeClass("spanitemselected")
+                if (ststn13 == true) $("#stn1-stack3").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn1-stack3").removeClass("spanitemnd").removeClass("spanitemselected")
+            } else if (ststn10 == 2) {
+                if (ststn11 == true) $("#stn1-stack1").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn1-stack1").removeClass("spanitemnd").removeClass("spanitemselected")
+                if (ststn12 == true) $("#stn1-stack2").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn1-stack2").removeClass("spanitemnd").removeClass("spanitemselected")
+            } else if (ststn10 == 1) {
+                if (ststn11 == true) $("#stn1-stack1").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn1-stack1").removeClass("spanitemnd").removeClass("spanitemselected")
+            }
+
+            $("#stn2-stack1").text(json.stacks[json.stn2.band][1]['nombre'])
+            $("#stn2-stack2").text(json.stacks[json.stn2.band][2]['nombre'])
+            $("#stn2-stack3").text(json.stacks[json.stn2.band][3]['nombre'])
+            if (ststn20 == 3) {
+                if (ststn21 == true) $("#stn2-stack1").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn2-stack1").removeClass("spanitemnd").removeClass("spanitemselected")
+                if (ststn22 == true) $("#stn2-stack2").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn2-stack2").removeClass("spanitemnd").removeClass("spanitemselected")
+                if (ststn23 == true) $("#stn2-stack3").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn2-stack3").removeClass("spanitemnd").removeClass("spanitemselected")
+            } else if (ststn20 == 2) {
+                if (ststn21 == true) $("#stn2-stack1").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn2-stack1").removeClass("spanitemnd").removeClass("spanitemselected")
+                if (ststn22 == true) $("#stn2-stack2").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn2-stack2").removeClass("spanitemnd").removeClass("spanitemselected")
+            } else if (ststn20 == 1) {
+                if (ststn21 == true) $("#stn2-stack1").removeClass("spanitemnd").addClass("spanitemselected")
+                else $("#stn2-stack1").removeClass("spanitemnd").removeClass("spanitemselected")
+            }
         }
     }
 

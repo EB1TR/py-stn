@@ -27,18 +27,12 @@ except Exception as e:
 STN1 = {
     'auto': True,
     'ant': 0,
-    'antname': "--",
-    'fil': 0,
-    'bpf': True,
     'band': 0
 }
 
 STN2 = {
     'auto': True,
     'ant': 0,
-    'antname': "--",
-    'fil': 0,
-    'bpf': True,
     'band': 0
 }
 
@@ -54,50 +48,110 @@ OUTS = {
 
 STACKS = {
     0: {
-        1: False,
-        2: False,
-        3: False
+        'salidas': 0,
+        1: {
+            'estado': False,
+            'nombre': "N/A"
+        },
+        2: {
+            'estado': False,
+            'nombre': "N/A"
+        },
+        3: {
+            'estado': False,
+            'nombre': "N/A"
+        }
     },
     160: {
-        1: False,
-        2: False,
-        3: False
+        'salidas': 1,
+        1: {
+            'estado': True,
+            'nombre': "DIP"
+        },
+        2: {
+            'estado': False,
+            'nombre': "N/A"
+        },
+        3: {
+            'estado': False,
+            'nombre': "N/A"
+        }
     },
     80: {
-        1: False,
-        2: False,
-        3: False
+        'salidas': 1,
+        1: {
+            'estado': True,
+            'nombre': "DIP"
+        },
+        2: {
+            'estado': False,
+            'nombre': "N/A"
+        },
+        3: {
+            'estado': False,
+            'nombre': "N/A"
+        }
     },
     40: {
-        1: False,
-        2: False,
-        3: False
+        'salidas': 1,
+        1: {
+            'estado': True,
+            'nombre': "ROT"
+        },
+        2: {
+            'estado': False,
+            'nombre': "N/A"
+        },
+        3: {
+            'estado': False,
+            'nombre': "N/A"
+        }
     },
     20: {
-        1: False,
-        2: False,
-        3: False
+        'salidas': 2,
+        1: {
+            'estado': True,
+            'nombre': "MB6E"
+        },
+        2: {
+            'estado': False,
+            'nombre': "MB7N"
+        },
+        3: {
+            'estado': False,
+            'nombre': "N/A"
+        }
     },
     15: {
-        1: False,
-        2: False,
-        3: False
+        'salidas': 2,
+        1: {
+            'estado': True,
+            'nombre': "MB6E"
+        },
+        2: {
+            'estado': False,
+            'nombre': "MB7N"
+        },
+        3: {
+            'estado': False,
+            'nombre': "N/A"
+        }
     },
     10: {
-        1: False,
-        2: False,
-        3: False
+        'salidas': 2,
+        1: {
+            'estado': True,
+            'nombre': "MB6E"
+        },
+        2: {
+            'estado': False,
+            'nombre': "MB7N"
+        },
+        3: {
+            'estado': False,
+            'nombre': "N/A"
+        }
     }
-}
-
-ANT = {
-    10: "Monobanda 10",
-    15: "Monobanda 15",
-    20: "Monobanda 20",
-    40: "Dipolo 40",
-    80: "Dipolo 80",
-    160: "Dipolo 160",
-    0: "Sin antena"
 }
 
 
@@ -117,14 +171,11 @@ def assign_stn(stn, band):
             OUTS[band] = str(stn)
             OUTS[STNX['ant']] = "N"
             STNX['ant'] = band
-            STNX['antname'] = ANT[band]
             STNX['band'] = band
-
     else:
         #activate_ant_gpio(stn, 0)
         OUTS[int(STNX['ant'])] = "N"
         STNX['ant'] = 0
-        STNX['antname'] = "--"
         STNX['band'] = 0
 
     if stn == 1:
@@ -151,9 +202,7 @@ def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     client.subscribe([
         ("stn1/radio1/band", 0),
-        ("stn1/radio2/band", 0),
         ("stn2/radio1/band", 0),
-        ("stn2/radio2/band", 0),
         ("set/stn1/antm", 0),
         ("set/stn2/antm", 0),
         ("set/stn1/band", 0),
@@ -195,24 +244,34 @@ def on_message(client, userdata, msg):
             STN1['auto'] = False
         else:
             STN1['auto'] = True
+            assign_stn(1, 0)
 
     if msg.topic == "set/stn2/antm":
         if STN2['auto']:
             STN2['auto'] = False
         else:
             STN2['auto'] = True
+            assign_stn(2, 0)
 
     if msg.topic == "set/stn1/stack" and int(STN1['band']) != 0:
-        if STACKS[int(STN1['band'])][int(dato)]:
-            STACKS[int(STN1['band'])][int(dato)] = False
+        cc = 0
+        if STACKS[int(STN1['band'])][1]['estado']: cc = cc + 1
+        if STACKS[int(STN1['band'])][2]['estado']: cc = cc + 1
+        if STACKS[int(STN1['band'])][3]['estado']: cc = cc + 1
+        if STACKS[int(STN1['band'])][int(dato)]['estado'] and cc > 1:
+            STACKS[int(STN1['band'])][int(dato)]['estado'] = False
         else:
-            STACKS[int(STN1['band'])][int(dato)] = True
+            STACKS[int(STN1['band'])][int(dato)]['estado'] = True
 
     if msg.topic == "set/stn2/stack" and int(STN2['band']) != 0:
-        if STACKS[int(STN2['band'])][int(dato)]:
-            STACKS[int(STN2['band'])][int(dato)] = False
+        cc = 0
+        if STACKS[int(STN2['band'])][1]['estado']: cc = cc + 1
+        if STACKS[int(STN2['band'])][2]['estado']: cc = cc + 1
+        if STACKS[int(STN2['band'])][3]['estado']: cc = cc + 1
+        if STACKS[int(STN2['band'])][int(dato)]['estado'] and cc > 1:
+            STACKS[int(STN2['band'])][int(dato)]['estado'] = False
         else:
-            STACKS[int(STN2['band'])][int(dato)] = True
+            STACKS[int(STN2['band'])][int(dato)]['estado'] = True
 
     status()
 
