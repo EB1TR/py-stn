@@ -10,11 +10,11 @@ client.onMessageArrived = onMessageArrived;
 // connect the client
 client.connect({onSuccess:onConnect});
 
-
 // called when the client connects
 function onConnect() {
   // Once a connection has been made, make a subscription and send a message.
   console.log("Connected");
+  alert("Conexión establecida")
   client.subscribe("pytofront");
   client.subscribe("stn1/radio1/qrg");
   client.subscribe("stn1/radio2/qrg");
@@ -36,6 +36,8 @@ function onConnect() {
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
   if (responseObject.errorCode !== 0) {
+    $("#tablestn").addClass("blink");
+    alert("Conexión perdida")
     console.log("onConnectionLost:"+responseObject.errorMessage);
   }
 }
@@ -137,7 +139,4 @@ function onMessageArrived(message) {
             if (asstn2 == true) $("#stn2-as").addClass("spanitemselected")
         }
     }
-
-
-
 }
