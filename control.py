@@ -335,14 +335,12 @@ def on_message(client, userdata, msg):
     if msg.topic == "set/stn1/antm":
         if STN1['auto']:
             STN1['auto'] = False
-            SO2R = "0"
         else:
             STN1['auto'] = True
 
     if msg.topic == "set/stn2/antm":
         if STN2['auto']:
             STN2['auto'] = False
-            SO2R = "0"
         else:
             STN2['auto'] = True
 

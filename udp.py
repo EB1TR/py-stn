@@ -10,21 +10,12 @@
 __author__ = 'EB1TR'
 __date__ = "12/09/2020"
 
-import settings
 import socket
 import paho.mqtt.client as mqtt
 import xmltodict
 
-
-try:
-    MQTT_HOST = settings.Config.MQTT_HOST
-    MQTT_PORT = settings.Config.MQTT_PORT
-    STN1 = settings.Config.STN1
-    STN2 = settings.Config.STN2
-    pass
-except Exception as e:
-    print('Unexpected: %s' % e)
-    exit(1)
+MQTT_HOST = "127.0.0.1"
+MQTT_PORT = 1883
 
 
 def mqtt_connect():
