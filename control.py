@@ -10,19 +10,12 @@
 __author__ = 'EB1TR'
 __date__ = "12/09/2020"
 
-import settings
 import json
 import paho.mqtt.client as mqtt
 from gpiozero import LED
 
-try:
-    MQTT = settings.Config.MQTT
-    MQTT_HOST = settings.Config.MQTT_HOST
-    MQTT_PORT = settings.Config.MQTT_PORT
-    pass
-except Exception as e:
-    print('Unexpected: %s' % e)
-    exit(1)
+MQTT_HOST = "127.0.0.1"
+MQTT_PORT = 1883
 
 STN1 = {
     'auto': True,
@@ -108,8 +101,6 @@ gpio_pin21 = LED(12)
 gpio_pin22 = LED(16)
 gpio_pin23 = LED(20)
 gpio_pin24 = LED(21)
-
-SO2R = "0"
 
 
 def activate_ant_gpio(stn, new):
@@ -257,7 +248,6 @@ def assign_filter(stn, band):
 def status():
     data_json = json.dumps(
         {
-            'so2r': SO2R,
             'stn1': STN1,
             'stn2': STN2
         }, sort_keys=False
@@ -281,8 +271,6 @@ def on_connect(client, userdata, flags, rc):
         ("set/stn2/fil", 0),
         ("set/stn1/antm", 0),
         ("set/stn2/antm", 0),
-        ("set/stn1/so2r", 0),
-        ("set/stn2/so2r", 0),
         ("set/stn1/band", 0),
         ("set/stn2/band", 0),
         ("update", 0)
@@ -295,40 +283,16 @@ def on_message(client, userdata, msg):
     global OUTS
     global FIL
     global SP
-    global SO2R
 
     dato = msg.payload.decode('utf-8')
 
     if msg.topic == "stn1/radio1/band":
-        if SO2R == "2":
-            pass
-        else:
-            if STN1['auto'] and STN1['band'] != int(dato):
-                assign_stn(1, int(dato))
-
-    if msg.topic == "stn1/radio2/band":
-        if SO2R in ["2", "0"]:
-            pass
-        else:
-            if STN2['auto'] and STN2['band'] != int(dato):
-                assign_stn(2, int(dato))
+        if STN1['auto'] and STN1['band'] != int(dato):
+            assign_stn(1, int(dato))
 
     if msg.topic == "stn2/radio1/band":
-        if SO2R == "1":
-            pass
-        elif SO2R == "0":
-            if STN2['auto'] and STN2['band'] != int(dato):
-                assign_stn(2, int(dato))
-        else:
-            if STN1['auto'] and STN1['band'] != int(dato):
-                assign_stn(1, int(dato))
-
-    if msg.topic == "stn2/radio2/band":
-        if SO2R in ["1", "0"]:
-            pass
-        else:
-            if STN2['auto'] and STN2['band'] != int(dato):
-                assign_stn(2, int(dato))
+        if STN1['auto'] and STN1['band'] != int(dato):
+            assign_stn(1, int(dato))
 
     if not STN1['auto'] and msg.topic == "set/stn1/ant":
         dato = int(dato)
@@ -380,22 +344,6 @@ def on_message(client, userdata, msg):
             STN2['auto'] = False
             SO2R = "0"
         else:
-            STN2['auto'] = True
-
-    if msg.topic == "set/stn1/so2r":
-        if SO2R == "1":
-            SO2R = "0"
-        else:
-            SO2R = "1"
-            STN1['auto'] = True
-            STN2['auto'] = True
-
-    if msg.topic == "set/stn2/so2r":
-        if SO2R == "2":
-            SO2R = "0"
-        else:
-            SO2R = "2"
-            STN1['auto'] = True
             STN2['auto'] = True
 
     status()

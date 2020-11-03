@@ -1,7 +1,7 @@
 // Create a client instance
 clientID = "web"
 clientID += new Date().getUTCMilliseconds()
-client = new Paho.MQTT.Client("192.168.33.10", Number(9001), clientID);
+client = new Paho.MQTT.Client("192.168.43.6", Number(9001), clientID);
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
@@ -79,7 +79,6 @@ function onMessageArrived(message) {
             bstn2 = "#stn2-b"+json.stn2.band
             asstn1 = json.stn1.auto
             asstn2 = json.stn2.auto
-            so2r = json.so2r
             $('#stn1-an').text(json.stn1.antname)
             $('#stn2-an').text(json.stn2.antname)
             $("#stn1-a0").removeClass("spanitemselected");
@@ -124,22 +123,18 @@ function onMessageArrived(message) {
             $("#stn2-f4").removeClass("spanitemselected");
             $("#stn2-f5").removeClass("spanitemselected");
             $("#stn2-f6").removeClass("spanitemselected");
-            $("#stn1-as").removeClass("spanitemwselected");
-            $("#stn1-fs").removeClass("spanitemwselected");
-            $("#stn2-as").removeClass("spanitemwselected");
-            $("#stn2-fs").removeClass("spanitemwselected");
-            $("#stn1-so2r").removeClass("spanitemwselected");
-            $("#stn2-so2r").removeClass("spanitemwselected");
+            $("#stn1-as").removeClass("spanitemselected");
+            $("#stn1-fs").removeClass("spanitemselected");
+            $("#stn2-as").removeClass("spanitemselected");
+            $("#stn2-fs").removeClass("spanitemselected");
             $(astn1).addClass("spanitemselected")
             $(astn2).addClass("spanitemselected")
             $(bstn1).addClass("spanitemselected")
             $(bstn2).addClass("spanitemselected")
             $(fstn1).addClass("spanitemselected")
             $(fstn2).addClass("spanitemselected")
-            if (asstn1 == true) $("#stn1-as").addClass("spanitemwselected")
-            if (asstn2 == true) $("#stn2-as").addClass("spanitemwselected")
-            if (so2r == "1") $("#stn1-so2r").addClass("spanitemwselected")
-            if (so2r == "2") $("#stn2-so2r").addClass("spanitemwselected")
+            if (asstn1 == true) $("#stn1-as").addClass("spanitemselected")
+            if (asstn2 == true) $("#stn2-as").addClass("spanitemselected")
         }
     }
 
