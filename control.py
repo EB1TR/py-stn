@@ -56,13 +56,13 @@ FIL = {
 }
 
 ANT = {
-    6: "MomoBeam MB-6",
-    5: "MomoBeam MB-7",
+    6: "MB6",
+    5: "MB7",
     4: "ND",
-    3: "Dipolo 40",
-    2: "Dipolo 80",
-    1: "Dipolo 160",
-    0: "Sin antena"
+    3: "ROT",
+    2: "DIP",
+    1: "DIP",
+    0: "N/A"
 }
 
 SP = {
