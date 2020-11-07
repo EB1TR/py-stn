@@ -15,14 +15,14 @@
         }
     }, 
     "160": {
-        "salidas": 1, 
+        "salidas": 2, 
         "1": {
             "estado": true, 
             "nombre": "DIP"
         }, 
         "2": {
             "estado": false, 
-            "nombre": ""
+            "nombre": "BVG"
         }, 
         "3": {
             "estado": false, 

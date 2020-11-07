@@ -358,6 +358,7 @@ def on_message(client, userdata, msg):
         status("pytoconfig")
 
     status("pytofront")
+    status("pytoconfig")
 
 
 mqtt_client = mqtt.Client()
