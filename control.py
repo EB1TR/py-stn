@@ -310,6 +310,8 @@ def on_message(client, userdata, msg):
         else:
             STACKS[str(STN2['band'])][str(dato)]['estado'] = True
 
+    # Mensajes recibidos desde CONFIGURACION
+
     if msg.topic == "configtopy":
         dato = json.loads(dato)
         STACKS['160']['salidas'] = int(dato['a1600'])
