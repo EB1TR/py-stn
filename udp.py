@@ -10,21 +10,47 @@
 __author__ = 'EB1TR'
 __date__ = "12/09/2020"
 
-import settings
 import socket
 import paho.mqtt.client as mqtt
 import xmltodict
+import os
+import json
+
+MQTT_HOST = "192.168.1.110"
+MQTT_PORT = 1883
 
 
 try:
-    MQTT_HOST = settings.Config.MQTT_HOST
-    MQTT_PORT = settings.Config.MQTT_PORT
-    STN1 = settings.Config.STN1
-    STN2 = settings.Config.STN2
-    pass
-except Exception as e:
-    print('Unexpected: %s' % e)
-    exit(1)
+    with open('cfg/stn1.json') as json_file:
+        data = json.load(json_file)
+        STN1 = dict(data)
+except:
+    if os.path.exists('cfg/stn1.json'):
+        os.remove('cfg/stn1.json')
+    STN1 = {
+        'netbios': "STN1",
+        'auto': True,
+        'ant': 0,
+        'band': 0
+    }
+    with open('cfg/stn1.json', 'w') as fp:
+        json.dump(STN1, fp)
+
+try:
+    with open('cfg/stn2.json') as json_file:
+        data = json.load(json_file)
+        STN2 = dict(data)
+except:
+    if os.path.exists('cfg/stn2.json'):
+        os.remove('cfg/stn2.json')
+    STN2 = {
+        'netbios': "STN2",
+        'auto': True,
+        'ant': 0,
+        'band': 0
+    }
+    with open('cfg/stn2.json', 'w') as fp:
+        json.dump(STN2, fp)
 
 
 def mqtt_connect():
@@ -59,22 +85,12 @@ def publish_radio_info(mqtt_c, radio_i):
                 mqtt_c.publish("stn1/radio1/band", radio_i[2])
                 mqtt_c.publish("stn1/radio1/mode", radio_i[4])
                 mqtt_c.publish("stn1/radio1/op", radio_i[5])
-            if radio_i[1] == 2:
-                mqtt_c.publish("stn1/radio2/qrg", radio_i[3])
-                mqtt_c.publish("stn1/radio2/band", radio_i[2])
-                mqtt_c.publish("stn1/radio2/mode", radio_i[4])
-                mqtt_c.publish("stn1/radio2/op", radio_i[5])
         if radio_i[0] == 2:
             if radio_i[1] == 1:
                 mqtt_c.publish("stn2/radio1/qrg", radio_i[3])
                 mqtt_c.publish("stn2/radio1/band", radio_i[2])
                 mqtt_c.publish("stn2/radio1/mode", radio_i[4])
                 mqtt_c.publish("stn2/radio1/op", radio_i[5])
-            if radio_i[1] == 2:
-                mqtt_c.publish("stn2/radio2/qrg", radio_i[3])
-                mqtt_c.publish("stn2/radio2/band", radio_i[2])
-                mqtt_c.publish("stn2/radio2/mode", radio_i[4])
-                mqtt_c.publish("stn2/radio2/op", radio_i[5])
     except:
         print("MQTT problem")
 
@@ -111,6 +127,8 @@ def process_xml(xml_data, mqtt_c):
 def do_udp():
     global STN1
     global STN2
+    print("Netbios STN1: " + STN1['netbios'])
+    print("Netbios STN2: " + STN2['netbios'])
     mqtt_c = mqtt_connect()
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("0.0.0.0", 12060))

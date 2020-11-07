@@ -37,3 +37,13 @@ body {
 .spanitemwselected {
     background-color: #1daa00;
 }
+.labelconfig {
+    width: 100px;
+    display: inline-block;
+    text-align: left
+}
+.inputconfig {
+    width: 100px;
+    display: inline-block;
+    text-align: right
+}

@@ -10,27 +10,16 @@
 __author__ = 'EB1TR'
 __date__ = "12/09/2020"
 
-import settings
 import json
 import paho.mqtt.client as mqtt
+import os
 #from gpiozero import LED
 
-try:
-    MQTT = settings.Config.MQTT
-    MQTT_HOST = settings.Config.MQTT_HOST
-    MQTT_PORT = settings.Config.MQTT_PORT
-    pass
-except Exception as e:
-    print('Unexpected: %s' % e)
-    exit(1)
-
-STN1 = {
-    'auto': True,
-    'ant': 0,
-    'band': 0
-}
+MQTT_HOST = "192.168.1.110"
+MQTT_PORT = 1883
 
 STN2 = {
+    'netbios': "",
     'auto': True,
     'ant': 0,
     'band': 0
@@ -46,113 +35,158 @@ OUTS = {
     10: "N"
 }
 
-STACKS = {
-    0: {
-        'salidas': 0,
-        1: {
-            'estado': False,
-            'nombre': "N/A"
+STACKS = {}
+STN1 = {}
+STN2 = {}
+
+try:
+    with open('cfg/stacks.json') as json_file:
+        data = json.load(json_file)
+        STACKS = dict(data)
+except:
+    if os.path.exists('cfg/stacks.json'):
+        os.remove('cfg/stacks.json')
+    STACKS = {
+        '0': {
+            'salidas': 0,
+            '1': {
+                'estado': False,
+                'nombre': "N/A"
+            },
+            '2': {
+                'estado': False,
+                'nombre': "N/A"
+            },
+            '3': {
+                'estado': False,
+                'nombre': "N/A"
+            }
         },
-        2: {
-            'estado': False,
-            'nombre': "N/A"
+        '160': {
+            'salidas': 3,
+            '1': {
+                'estado': True,
+                'nombre': "ANT1"
+            },
+            '2': {
+                'estado': False,
+                'nombre': "ANT2"
+            },
+            '3': {
+                'estado': False,
+                'nombre': "ANT3"
+            }
         },
-        3: {
-            'estado': False,
-            'nombre': "N/A"
-        }
-    },
-    160: {
-        'salidas': 1,
-        1: {
-            'estado': True,
-            'nombre': "DIP"
+        '80': {
+            'salidas': 3,
+            '1': {
+                'estado': True,
+                'nombre': "ANT1"
+            },
+            '2': {
+                'estado': False,
+                'nombre': "ANT2"
+            },
+            '3': {
+                'estado': False,
+                'nombre': "ANT3"
+            }
         },
-        2: {
-            'estado': False,
-            'nombre': "N/A"
+        '40': {
+            'salidas': 3,
+            '1': {
+                'estado': True,
+                'nombre': "ANT1"
+            },
+            '2': {
+                'estado': False,
+                'nombre': "ANT2"
+            },
+            '3': {
+                'estado': False,
+                'nombre': "ANT3"
+            }
         },
-        3: {
-            'estado': False,
-            'nombre': "N/A"
-        }
-    },
-    80: {
-        'salidas': 1,
-        1: {
-            'estado': True,
-            'nombre': "DIP"
+        '20': {
+            'salidas': 3,
+            '1': {
+                'estado': True,
+                'nombre': "ANT1"
+            },
+            '2': {
+                'estado': False,
+                'nombre': "ANT2"
+            },
+            '3': {
+                'estado': False,
+                'nombre': "ANT3"
+            }
         },
-        2: {
-            'estado': False,
-            'nombre': "N/A"
+        '15': {
+            'salidas': 3,
+            '1': {
+                'estado': True,
+                'nombre': "ANT1"
+            },
+            '2': {
+                'estado': False,
+                'nombre': "ANT2"
+            },
+            '3': {
+                'estado': False,
+                'nombre': "ANT3"
+            }
         },
-        3: {
-            'estado': False,
-            'nombre': "N/A"
-        }
-    },
-    40: {
-        'salidas': 1,
-        1: {
-            'estado': True,
-            'nombre': "ROT"
-        },
-        2: {
-            'estado': False,
-            'nombre': "N/A"
-        },
-        3: {
-            'estado': False,
-            'nombre': "N/A"
-        }
-    },
-    20: {
-        'salidas': 2,
-        1: {
-            'estado': True,
-            'nombre': "MB6E"
-        },
-        2: {
-            'estado': False,
-            'nombre': "MB7N"
-        },
-        3: {
-            'estado': False,
-            'nombre': "N/A"
-        }
-    },
-    15: {
-        'salidas': 2,
-        1: {
-            'estado': True,
-            'nombre': "MB6E"
-        },
-        2: {
-            'estado': False,
-            'nombre': "MB7N"
-        },
-        3: {
-            'estado': False,
-            'nombre': "N/A"
-        }
-    },
-    10: {
-        'salidas': 2,
-        1: {
-            'estado': True,
-            'nombre': "MB6E"
-        },
-        2: {
-            'estado': False,
-            'nombre': "MB7N"
-        },
-        3: {
-            'estado': False,
-            'nombre': "N/A"
+        '10': {
+            'salidas': 3,
+            '1': {
+                'estado': True,
+                'nombre': "ANT1"
+            },
+            '2': {
+                'estado': False,
+                'nombre': "ANT2"
+            },
+            '3': {
+                'estado': False,
+                'nombre': "ANT3"
+            }
         }
     }
-}
+    with open('cfg/stacks.json', 'w') as fp:
+        json.dump(STACKS, fp)
+
+try:
+    with open('cfg/stn1.json') as json_file:
+        data = json.load(json_file)
+        STN1 = dict(data)
+except:
+    if os.path.exists('cfg/stn1.json'):
+        os.remove('cfg/stn1.json')
+    STN1 = {
+        'netbios': "",
+        'auto': True,
+        'ant': 0,
+        'band': 0
+    }
+    with open('cfg/stn1.json', 'w') as fp:
+        json.dump(STN1, fp)
+
+try:
+    with open('cfg/stn2.json') as json_file:
+        data = json.load(json_file)
+        STN2 = dict(data)
+except:
+    if os.path.exists('cfg/stn2.json'):
+        os.remove('cfg/stn2.json')
+    STN2 = {
+        'netbios': "",
+        'auto': True,
+        'ant': 0,
+        'band': 0
+    }
+    with open('cfg/stn2.json', 'w') as fp:
+        json.dump(STN2, fp)
 
 
 def assign_stn(stn, band):
@@ -184,7 +218,7 @@ def assign_stn(stn, band):
         STN2 = STNX
 
 
-def status():
+def status(topic):
     data_json = json.dumps(
         {
             'stn1': STN1,
@@ -195,7 +229,7 @@ def status():
     print(data_json)
     #  MQTT broker -------------------------------------------------------------------------------------
     #
-    mqtt_client.publish("pytofront", data_json)
+    mqtt_client.publish(topic, str(data_json))
 
 
 def on_connect(client, userdata, flags, rc):
@@ -209,13 +243,15 @@ def on_connect(client, userdata, flags, rc):
         ("set/stn2/band", 0),
         ("set/stn1/stack", 0),
         ("set/stn2/stack", 0),
-        ("update", 0)
+        ("update", 0),
+        ("configtopy", 0)
     ])
 
 
 def on_message(client, userdata, msg):
     global STN1
     global STN2
+    global STACKS
 
     dato = msg.payload.decode('utf-8')
 
@@ -273,11 +309,58 @@ def on_message(client, userdata, msg):
         else:
             STACKS[int(STN2['band'])][int(dato)]['estado'] = True
 
-    status()
+    if msg.topic == "configtopy":
+        dato = json.loads(dato)
+        STACKS['160']['salidas'] = int(dato['a1600'])
+        STACKS['160']['1']['nombre'] = dato['a1601']
+        STACKS['160']['2']['nombre'] = dato['a1602']
+        STACKS['160']['3']['nombre'] = dato['a1603']
+
+        STACKS['80']['salidas'] = int(dato['a800'])
+        STACKS['80']['1']['nombre'] = dato['a801']
+        STACKS['80']['2']['nombre'] = dato['a802']
+        STACKS['80']['3']['nombre'] = dato['a803']
+
+        STACKS['40']['salidas'] = int(dato['a400'])
+        STACKS['40']['1']['nombre'] = dato['a401']
+        STACKS['40']['2']['nombre'] = dato['a402']
+        STACKS['40']['3']['nombre'] = dato['a403']
+
+        STACKS['20']['salidas'] = int(dato['a200'])
+        STACKS['20']['1']['nombre'] = dato['a201']
+        STACKS['20']['2']['nombre'] = dato['a202']
+        STACKS['20']['3']['nombre'] = dato['a203']
+
+        STACKS['15']['salidas'] = int(dato['a150'])
+        STACKS['15']['1']['nombre'] = dato['a151']
+        STACKS['15']['2']['nombre'] = dato['a152']
+        STACKS['15']['3']['nombre'] = dato['a153']
+
+        STACKS['10']['salidas'] = int(dato['a100'])
+        STACKS['10']['1']['nombre'] = dato['a101']
+        STACKS['10']['2']['nombre'] = dato['a102']
+        STACKS['10']['3']['nombre'] = dato['a103']
+
+        STN1['netbios'] = str(dato['stn1-n'])
+        STN2['netbios'] = str(dato['stn2-n'])
+
+        with open('cfg/stacks.json', 'w') as fp:
+            json.dump(STACKS, fp, indent=4, separators=(", ", ": "))
+        with open('cfg/stn1.json', 'w') as fp:
+            json.dump(STN1, fp, indent=4, separators=(", ", ": "))
+        with open('cfg/stn2.json', 'w') as fp:
+            json.dump(STN2, fp, indent=4, separators=(", ", ": "))
+
+
+        status("pytoconfig")
+
+    status("pytofront")
 
 
 mqtt_client = mqtt.Client()
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 600)
+status("pytofront")
+status("pytoconfig")
 mqtt_client.on_connect = on_connect
 mqtt_client.on_message = on_message
 mqtt_client.loop_forever()

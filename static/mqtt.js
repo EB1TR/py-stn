@@ -1,76 +1,31 @@
-// Create a client instance
 clientID = "web"
 clientID += new Date().getUTCMilliseconds()
 client = new Paho.MQTT.Client("192.168.1.110", Number(9001), clientID);
 
-// set callback handlers
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
 
-// connect the client
 client.connect({onSuccess:onConnect});
 
-(function() {
-	function toJSONString( form ) {
-		var obj = {};
-		var elements = form.querySelectorAll( "input, select, textarea" );
-		for( var i = 0; i < elements.length; ++i ) {
-			var element = elements[i];
-			var name = element.name;
-			var value = element.value;
-
-			if( name ) {
-				obj[ name ] = value;
-			}
-		}
-
-		return JSON.stringify( obj );
-	}
-
-	document.addEventListener( "DOMContentLoaded", function() {
-		var form = document.getElementById( "test" );
-		var output = document.getElementById( "output" );
-		form.addEventListener( "submit", function( e ) {
-			e.preventDefault();
-			var json = toJSONString( this );
-			output.innerHTML = json;
-
-		}, false);
-
-	});
-
-})();
-
-
-// called when the client connects
 function onConnect() {
-  // Once a connection has been made, make a subscription and send a message.
   console.log("Connected");
   client.subscribe("pytofront");
   client.subscribe("stn1/radio1/qrg");
-  client.subscribe("stn1/radio2/qrg");
   client.subscribe("stn2/radio1/qrg");
-  client.subscribe("stn2/radio2/qrg");
   client.subscribe("stn1/radio1/mode");
-  client.subscribe("stn1/radio2/mode");
   client.subscribe("stn2/radio1/mode");
-  client.subscribe("stn2/radio2/mode");
   client.subscribe("stn1/radio1/op");
-  client.subscribe("stn1/radio2/op");
   client.subscribe("stn2/radio1/op");
-  client.subscribe("stn2/radio2/op");
   message = new Paho.MQTT.Message('0');
   message.destinationName = "update";
   client.send(message);
 }
 
-// called when the client loses its connection
 function onConnectionLost(responseObject) {
   if (responseObject.errorCode !== 0) {
     console.log("onConnectionLost:"+responseObject.errorMessage);
   }
 }
-
 
 function send_command(comm, dato){
   message = new Paho.MQTT.Message(String(dato));
@@ -78,10 +33,7 @@ function send_command(comm, dato){
   client.send(message);
 }
 
-
-// called when a message arrives
 function onMessageArrived(message) {
-    console.log(message.payloadString)
     if (message.destinationName == "stn1/radio1/qrg") {
         $('#stn1-r1-qrg').text((message.payloadString/100).toFixed(2))
     } else if (message.destinationName == "stn2/radio1/qrg") {
