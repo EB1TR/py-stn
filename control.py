@@ -262,9 +262,7 @@ def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     client.subscribe([
         ("stn1/radio1/band", 0),
-        ("stn1/radio2/band", 0),
         ("stn2/radio1/band", 0),
-        ("stn2/radio2/band", 0),
         ("set/stn1/ant", 0),
         ("set/stn1/fil", 0),
         ("set/stn2/ant", 0),
@@ -289,10 +287,12 @@ def on_message(client, userdata, msg):
     if msg.topic == "stn1/radio1/band":
         if STN1['auto'] and STN1['band'] != int(dato):
             assign_stn(1, int(dato))
+        STN1['band'] = int(dato)
 
     if msg.topic == "stn2/radio1/band":
-        if STN1['auto'] and STN1['band'] != int(dato):
-            assign_stn(1, int(dato))
+        if STN2['auto'] and STN2['band'] != int(dato):
+            assign_stn(2, int(dato))
+        STN2['band'] = int(dato)
 
     if not STN1['auto'] and msg.topic == "set/stn1/ant":
         dato = int(dato)
