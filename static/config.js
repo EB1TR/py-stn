@@ -28,7 +28,7 @@ client.connect({onSuccess:onConnect});
 	}
 
 	document.addEventListener( "DOMContentLoaded", function() {
-		var form = document.getElementById( "test" );
+		var form = document.getElementById( "configuracion" );
 		var output = document.getElementById( "output" );
 		form.addEventListener( "submit", function( e ) {
 			e.preventDefault();

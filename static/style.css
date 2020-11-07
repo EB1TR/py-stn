@@ -37,13 +37,17 @@ body {
 .spanitemwselected {
     background-color: #1daa00;
 }
+.fieldsetconfig {
+    width: 240px;
+}
 .labelconfig {
-    width: 100px;
+    width: 50%;
     display: inline-block;
     text-align: left
 }
 .inputconfig {
-    width: 100px;
+    width: 40%;
     display: inline-block;
     text-align: right
 }
+

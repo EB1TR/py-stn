@@ -291,23 +291,24 @@ def on_message(client, userdata, msg):
 
     if msg.topic == "set/stn1/stack" and int(STN1['band']) != 0:
         cc = 0
-        if STACKS[int(STN1['band'])][1]['estado']: cc = cc + 1
-        if STACKS[int(STN1['band'])][2]['estado']: cc = cc + 1
-        if STACKS[int(STN1['band'])][3]['estado']: cc = cc + 1
-        if STACKS[int(STN1['band'])][int(dato)]['estado'] and cc > 1:
-            STACKS[int(STN1['band'])][int(dato)]['estado'] = False
+        print(dato)
+        if STACKS[str(STN1['band'])]['1']['estado']: cc = cc + 1
+        if STACKS[str(STN1['band'])]['2']['estado']: cc = cc + 1
+        if STACKS[str(STN1['band'])]['3']['estado']: cc = cc + 1
+        if STACKS[str(STN1['band'])][str(dato)]['estado'] and cc > 1:
+            STACKS[str(STN1['band'])][str(dato)]['estado'] = False
         else:
-            STACKS[int(STN1['band'])][int(dato)]['estado'] = True
+            STACKS[str(STN1['band'])][str(dato)]['estado'] = True
 
     if msg.topic == "set/stn2/stack" and int(STN2['band']) != 0:
         cc = 0
-        if STACKS[int(STN2['band'])][1]['estado']: cc = cc + 1
-        if STACKS[int(STN2['band'])][2]['estado']: cc = cc + 1
-        if STACKS[int(STN2['band'])][3]['estado']: cc = cc + 1
-        if STACKS[int(STN2['band'])][int(dato)]['estado'] and cc > 1:
-            STACKS[int(STN2['band'])][int(dato)]['estado'] = False
+        if STACKS[str(STN2['band'])]['1']['estado']: cc = cc + 1
+        if STACKS[str(STN2['band'])]['2']['estado']: cc = cc + 1
+        if STACKS[str(STN2['band'])]['3']['estado']: cc = cc + 1
+        if STACKS[str(STN2['band'])][str(dato)]['estado'] and cc > 1:
+            STACKS[str(STN2['band'])][str(dato)]['estado'] = False
         else:
-            STACKS[int(STN2['band'])][int(dato)]['estado'] = True
+            STACKS[str(STN2['band'])][str(dato)]['estado'] = True
 
     if msg.topic == "configtopy":
         dato = json.loads(dato)

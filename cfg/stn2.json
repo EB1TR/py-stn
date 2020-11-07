@@ -1,6 +1,6 @@
 {
     "netbios": "ED1B-STN2", 
     "auto": false, 
-    "ant": 160, 
-    "band": 160
+    "ant": 10, 
+    "band": 10
 }

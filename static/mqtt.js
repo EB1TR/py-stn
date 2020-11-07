@@ -104,6 +104,9 @@ function onMessageArrived(message) {
             $("#stn1-stack1").text(json.stacks[json.stn1.band][1]['nombre'])
             $("#stn1-stack2").text(json.stacks[json.stn1.band][2]['nombre'])
             $("#stn1-stack3").text(json.stacks[json.stn1.band][3]['nombre'])
+            
+            $('#stn1-n').text(json.stn1.netbios)
+            $('#stn2-n').text(json.stn2.netbios)
 
             if (ststn10 == 3) {
                 if (ststn11 == true) $("#stn1-stack1").removeClass("spanitemnd").addClass("spanitemselected")

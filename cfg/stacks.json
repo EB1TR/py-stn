@@ -18,90 +18,90 @@
         "salidas": 1, 
         "1": {
             "estado": true, 
-            "nombre": "ANT1"
+            "nombre": "DIP"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "ANT2"
+            "nombre": ""
         }, 
         "3": {
             "estado": false, 
-            "nombre": "ANT3"
+            "nombre": ""
         }
     }, 
     "80": {
-        "salidas": 3, 
+        "salidas": 2, 
         "1": {
             "estado": true, 
-            "nombre": "ANT1"
+            "nombre": "ROT"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "ANT2"
+            "nombre": "DIP"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "ANT3"
+            "nombre": ""
         }
     }, 
     "40": {
-        "salidas": 3, 
+        "salidas": 2, 
         "1": {
             "estado": true, 
-            "nombre": "ANT1"
+            "nombre": "MB40"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "ANT2"
+            "nombre": "DIP"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "ANT3"
+            "nombre": ""
         }
     }, 
     "20": {
         "salidas": 3, 
         "1": {
             "estado": true, 
-            "nombre": "ANT1"
+            "nombre": "EU"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "ANT2"
+            "nombre": "NA"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "ANT3"
+            "nombre": "ROT"
         }
     }, 
     "15": {
         "salidas": 3, 
         "1": {
             "estado": true, 
-            "nombre": "ANT1"
+            "nombre": "EU"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "ANT2"
+            "nombre": "NA"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "ANT3"
+            "nombre": "ROT"
         }
     }, 
     "10": {
         "salidas": 3, 
         "1": {
             "estado": true, 
-            "nombre": "ANT1"
+            "nombre": "EU"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "ANT2"
+            "nombre": "NA"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "DF"
+            "nombre": "ROT"
         }
     }
 }
