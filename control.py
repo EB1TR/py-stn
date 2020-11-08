@@ -199,8 +199,9 @@ def assign_stn(stn, band):
     if band in SP and band != STNY['band']:
         for e in SP[band]:
             if OUTS[e] == "N":
-                activate_ant_gpio(stn, e)
-                assign_filter(stn, band)
+                if STNX['band'] != band:
+                    activate_ant_gpio(stn, e)
+                    assign_filter(stn, band)
                 OUTS[e] = str(stn)
                 OUTS[STNX['ant']] = "N"
                 STNX['ant'] = e
@@ -285,14 +286,12 @@ def on_message(client, userdata, msg):
     dato = msg.payload.decode('utf-8')
 
     if msg.topic == "stn1/radio1/band":
-        if STN1['auto'] and STN1['band'] != int(dato):
+        if STN1['auto']:
             assign_stn(1, int(dato))
-        STN1['band'] = int(dato)
 
     if msg.topic == "stn2/radio1/band":
-        if STN2['auto'] and STN2['band'] != int(dato):
+        if STN2['auto']:
             assign_stn(2, int(dato))
-        STN2['band'] = int(dato)
 
     if not STN1['auto'] and msg.topic == "set/stn1/ant":
         dato = int(dato)

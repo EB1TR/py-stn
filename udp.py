@@ -17,6 +17,8 @@ import xmltodict
 MQTT_HOST = "127.0.0.1"
 MQTT_PORT = 1883
 
+STN1 = "ED1B-STN1"
+STN2 = "ED1B-STN2"
 
 def mqtt_connect():
     mqtt_c = mqtt.Client(transport='tcp')
@@ -100,8 +102,6 @@ def process_xml(xml_data, mqtt_c):
 
 
 def do_udp():
-    global STN1
-    global STN2
     mqtt_c = mqtt_connect()
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("0.0.0.0", 12060))

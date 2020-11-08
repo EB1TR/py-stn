@@ -16,6 +16,7 @@ function onConnect() {
   console.log("Connected");
   client.subscribe("pytofront");
   client.subscribe("stn1/radio1/qrg");
+  client.subscribe("stn1/radio2/qrg");
   client.subscribe("stn2/radio1/qrg");
   client.subscribe("stn1/radio1/mode");
   client.subscribe("stn2/radio1/mode");
