@@ -1,7 +1,7 @@
 // Create a client instance
 clientID = "web"
 clientID += new Date().getUTCMilliseconds()
-client = new Paho.MQTT.Client("192.168.1.110", Number(9001), clientID);
+client = new Paho.MQTT.Client("127.0.0.1", Number(9001), clientID);
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
@@ -45,7 +45,7 @@ function onConnect() {
   console.log("Connected");
   client.subscribe("pytoconfig");
   message = new Paho.MQTT.Message('0');
-  message.destinationName = "update";
+  message.destinationName = "configtopy";
   client.send(message);
 }
 
@@ -63,6 +63,7 @@ function send_config(dato){
 
 function onMessageArrived(message) {
   json = JSON.parse(message.payloadString)
+  console.log(json)
   
   $('input[name="stn1-n"]').val(json.stn1['netbios'])
   $('input[name="stn2-n"]').val(json.stn2['netbios'])

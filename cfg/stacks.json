@@ -1,6 +1,7 @@
 {
     "0": {
         "salidas": 0, 
+        "balun": false, 
         "1": {
             "estado": false, 
             "nombre": "N/A"
@@ -16,13 +17,14 @@
     }, 
     "160": {
         "salidas": 2, 
+        "balun": false, 
         "1": {
             "estado": true, 
             "nombre": "DIP"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "BVG"
+            "nombre": "BOG"
         }, 
         "3": {
             "estado": false, 
@@ -31,6 +33,7 @@
     }, 
     "80": {
         "salidas": 2, 
+        "balun": false, 
         "1": {
             "estado": true, 
             "nombre": "ROT"
@@ -41,11 +44,12 @@
         }, 
         "3": {
             "estado": false, 
-            "nombre": ""
+            "nombre": "BVG"
         }
     }, 
     "40": {
-        "salidas": 2, 
+        "salidas": 3, 
+        "balun": false, 
         "1": {
             "estado": true, 
             "nombre": "MB40"
@@ -56,52 +60,55 @@
         }, 
         "3": {
             "estado": false, 
-            "nombre": ""
+            "nombre": "ANT3"
         }
     }, 
     "20": {
-        "salidas": 3, 
+        "salidas": 2, 
+        "balun": false, 
         "1": {
             "estado": true, 
-            "nombre": "EU"
+            "nombre": "MB6"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "NA"
+            "nombre": "MB7"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "ROT"
+            "nombre": ""
         }
     }, 
     "15": {
         "salidas": 3, 
+        "balun": false, 
         "1": {
             "estado": true, 
-            "nombre": "EU"
+            "nombre": "MB6"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "NA"
+            "nombre": "MB7"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "ROT"
+            "nombre": "--"
         }
     }, 
     "10": {
-        "salidas": 3, 
+        "salidas": 2, 
+        "balun": false, 
         "1": {
             "estado": true, 
-            "nombre": "EU"
+            "nombre": "MB6"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "NA"
+            "nombre": "MB7"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "ROT"
+            "nombre": ""
         }
     }
 }

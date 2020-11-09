@@ -85,12 +85,22 @@ def publish_radio_info(mqtt_c, radio_i):
                 mqtt_c.publish("stn1/radio1/band", radio_i[2])
                 mqtt_c.publish("stn1/radio1/mode", radio_i[4])
                 mqtt_c.publish("stn1/radio1/op", radio_i[5])
+            if radio_i[1] == 2:
+                mqtt_c.publish("stn1/radio2/qrg", radio_i[3])
+                mqtt_c.publish("stn1/radio2/band", radio_i[2])
+                mqtt_c.publish("stn1/radio2/mode", radio_i[4])
+                mqtt_c.publish("stn1/radio2/op", radio_i[5])
         if radio_i[0] == 2:
             if radio_i[1] == 1:
                 mqtt_c.publish("stn2/radio1/qrg", radio_i[3])
                 mqtt_c.publish("stn2/radio1/band", radio_i[2])
                 mqtt_c.publish("stn2/radio1/mode", radio_i[4])
                 mqtt_c.publish("stn2/radio1/op", radio_i[5])
+            if radio_i[1] == 2:
+                mqtt_c.publish("stn2/radio2/qrg", radio_i[3])
+                mqtt_c.publish("stn2/radio2/band", radio_i[2])
+                mqtt_c.publish("stn2/radio2/mode", radio_i[4])
+                mqtt_c.publish("stn2/radio2/op", radio_i[5])
     except:
         print("MQTT problem")
 
@@ -133,10 +143,13 @@ def do_udp():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("0.0.0.0", 12060))
     while True:
-        data, address = sock.recvfrom(1024)
-        data = data.decode('utf-8')
-        xml_data = xmltodict.parse(data)
-        process_xml(xml_data, mqtt_c)
+        try:
+            data, address = sock.recvfrom(1024)
+            data = data.decode('utf-8')
+            xml_data = xmltodict.parse(data)
+            process_xml(xml_data, mqtt_c)
+        except:
+            pass
 
 
 if __name__ == '__main__':
