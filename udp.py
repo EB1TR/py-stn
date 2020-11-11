@@ -53,10 +53,10 @@ def publish_radio_info(mqtt_c, radio_i):
                 mqtt_c.publish("stn1/radio1/mode", radio_i[4])
                 mqtt_c.publish("stn1/radio1/op", radio_i[5])
             if radio_i[1] == 2:
-                mqtt_c.publish("stn1/radio2/qrg", radio_i[3])
-                mqtt_c.publish("stn1/radio2/band", radio_i[2])
-                mqtt_c.publish("stn1/radio2/mode", radio_i[4])
-                mqtt_c.publish("stn1/radio2/op", radio_i[5])
+                mqtt_c.publish("stn2/radio1/qrg", radio_i[3])
+                mqtt_c.publish("stn2/radio1/band", radio_i[2])
+                mqtt_c.publish("stn2/radio1/mode", radio_i[4])
+                mqtt_c.publish("stn2/radio1/op", radio_i[5])
         if radio_i[0] == 2:
             if radio_i[1] == 1:
                 mqtt_c.publish("stn2/radio1/qrg", radio_i[3])

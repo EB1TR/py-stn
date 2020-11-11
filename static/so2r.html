@@ -11,7 +11,7 @@
 
 	<body style="text-align: center">
     	<div id="contenor">
-            <table class="tablestn" id="tablestn">
+    		<table class="tablestn" id="tablestn" style="display: inline-block;">
                 <tr>
                     <td>
                         <a href="#"><span onclick="send_command('set/stn1/antm', 0)" class="spanitem" id="stn1-as">ANT</span></a>
@@ -67,9 +67,9 @@
                     <td class="tdstn"><a href="#"><span onclick="send_command('set/stn1/fil', 5)" class="spanitem" id="stn1-f5">FIL 5</span></td>
                     <td class="tdstn"><a href="#"><span onclick="send_command('set/stn1/fil', 6)" class="spanitem" id="stn1-f6">FIL 6</span></td>
                 </tr>
-            </table>
-            <br>
-            <table class="tablestn" id="tablestn">
+    		</table>
+
+			<table class="tablestn" id="tablestn" style="display: inline-block;">
                 <tr>
                     <td class="colcentered" style="font-size: 16px; font-weight: bold; text-align: center" rowspan="2" colspan="6">STATION 2 | <span id="stn2-op">---</span> | <span id="stn2-r1-qrg">----.--</span> |  <span id="stn2-r1-mode">---</span> | <span id="stn2-an">---</span></td>
                     <td>
@@ -125,7 +125,7 @@
                     <td class="tdstn"><a href="#"><span onclick="send_command('set/stn2/fil', 5)" class="spanitem" id="stn2-f5">FIL 5</span></td>
                     <td class="tdstn"><a href="#"><span onclick="send_command('set/stn2/fil', 6)" class="spanitem" id="stn2-f6">FIL 6</span></td>
                 </tr>
-            </table>
+    		</table>
     	</div>
 	</body>
 </html>

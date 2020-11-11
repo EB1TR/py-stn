@@ -1,7 +1,7 @@
 // Create a client instance
 clientID = "web"
 clientID += new Date().getUTCMilliseconds()
-client = new Paho.MQTT.Client("192.168.43.6", Number(9001), clientID);
+client = new Paho.MQTT.Client("127.0.0.1", Number(9001), clientID);
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
@@ -74,6 +74,8 @@ function onMessageArrived(message) {
             bstn2 = "#stn2-b"+json.stn2.band
             asstn1 = json.stn1.auto
             asstn2 = json.stn2.auto
+            fsstn1 = json.stn1.bpf
+            fsstn2 = json.stn2.bpf
             $('#stn1-an').text(json.stn1.antname)
             $('#stn2-an').text(json.stn2.antname)
             $("#stn1-a0").removeClass("spanitemselected");
@@ -130,6 +132,8 @@ function onMessageArrived(message) {
             $(fstn2).addClass("spanitemselected")
             if (asstn1 == true) $("#stn1-as").addClass("spanitemselected")
             if (asstn2 == true) $("#stn2-as").addClass("spanitemselected")
+            if (fsstn1 == true) $("#stn1-fs").addClass("spanitemselected")
+            if (fsstn2 == true) $("#stn2-fs").addClass("spanitemselected")
         }
     }
 }

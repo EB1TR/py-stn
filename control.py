@@ -201,7 +201,8 @@ def assign_stn(stn, band):
             if OUTS[e] == "N":
                 if STNX['band'] != band:
                     activate_ant_gpio(stn, e)
-                    assign_filter(stn, band)
+                    if STNX['bpf']:
+                        assign_filter(stn, band)
                 OUTS[e] = str(stn)
                 OUTS[STNX['ant']] = "N"
                 STNX['ant'] = e
@@ -209,7 +210,8 @@ def assign_stn(stn, band):
                 STNX['band'] = band
                 break
             elif OUTS[e] == str(stn):
-                assign_filter(stn, band)
+                if STNX['bpf']:
+                    assign_filter(stn, band)
                 STNX['band'] = band
                 break
     else:
@@ -270,6 +272,8 @@ def on_connect(client, userdata, flags, rc):
         ("set/stn2/fil", 0),
         ("set/stn1/antm", 0),
         ("set/stn2/antm", 0),
+        ("set/stn1/film", 0),
+        ("set/stn2/film", 0),
         ("set/stn1/band", 0),
         ("set/stn2/band", 0),
         ("update", 0)
@@ -342,6 +346,18 @@ def on_message(client, userdata, msg):
             STN2['auto'] = False
         else:
             STN2['auto'] = True
+
+    if msg.topic == "set/stn1/film":
+        if STN1['bpf']:
+            STN1['bpf'] = False
+        else:
+            STN1['bpf'] = True
+
+    if msg.topic == "set/stn2/film":
+        if STN2['bpf']:
+            STN2['bpf'] = False
+        else:
+            STN2['bpf'] = True
 
     status()
 
