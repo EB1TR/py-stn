@@ -210,7 +210,7 @@ def assign_stn(stn, band):
                 STNX['band'] = band
                 break
             elif OUTS[e] == str(stn):
-                if STNX['bpf']:
+                if STNX['bpf'] and STNX['fil'] != FIL[band]:
                     assign_filter(stn, band)
                 STNX['band'] = band
                 break
@@ -293,13 +293,13 @@ def on_message(client, userdata, msg):
         if STN1['auto']:
             assign_stn(1, int(dato))
         elif STN1['bpf']:
-            activate_fil_gpio(1, dato)
+            assign_filter(1, int(dato))
 
     if msg.topic == "stn2/radio1/band":
         if STN2['auto']:
             assign_stn(2, int(dato))
         elif STN2['bpf']:
-            activate_fil_gpio(2, dato)
+            activate_fil_gpio(2, int(dato))
 
     if not STN1['auto'] and msg.topic == "set/stn1/ant":
         dato = int(dato)
@@ -322,22 +322,16 @@ def on_message(client, userdata, msg):
             STN2['band'] = 0
 
     if not STN1['auto'] and msg.topic == "set/stn1/band":
-        dato = int(dato)
-        assign_stn(1, dato)
+        assign_stn(1, int(dato))
 
     if not STN2['auto'] and msg.topic == "set/stn2/band":
-        dato = int(dato)
-        assign_stn(2, dato)
+        assign_stn(2, int(dato))
 
     if not STN1['bpf'] and msg.topic == "set/stn1/fil":
-        dato = int(dato)
-        activate_fil_gpio(1, dato)
-        STN1['fil'] = dato
+        assign_filter(1, int(dato))
 
     if not STN2['bpf'] and msg.topic == "set/stn2/fil":
-        dato = int(dato)
-        activate_fil_gpio(2, dato)
-        STN2['fil'] = dato
+        assign_filter(2, int(dato))
 
     if msg.topic == "set/stn1/antm":
         if STN1['auto']:
