@@ -185,31 +185,22 @@ def activate_fil_gpio(stn, new):
             gpio_pin24.on()
 
 
-def swap(stn):
+def swap():
     global STN1
     global STN2
     global OUTS
     global SP
-    if stn == 1:
-        STNX = STN1
-        STNY = STN2
-    if stn == 2:
-        STNX = STN2
-        STNY = STN1
 
-    stnx_pre_swap = STNX['ant']
-    stny_pre_swap = STNY['ant']
+    stn1_pre_swap = STN1['ant']
+    stn2_pre_swap = STN2['ant']
 
-    if STNX['ant'] in SP[STNY['band']] and STNY['ant'] in SP[STNX['band']]:
-        STNX['ant'] = stny_pre_swap
-        STNY['ant'] = stnx_pre_swap
-
-    if stn == 1:
-        STN1 = STNX
-        STN2 = STNY
-    if stn == 2:
-        STN2 = STNX
-        STN1 = STNY
+    if STN1['ant'] in SP[STN2['band']] and STN2['ant'] in SP[STN1['band']]:
+        STN1['ant'] = stn2_pre_swap
+        activate_ant_gpio(1, stn2_pre_swap)
+        OUTS[stn2_pre_swap] = "1"
+        STN2['ant'] = stn1_pre_swap
+        OUTS[stn1_pre_swap] = "2"
+        activate_ant_gpio(2, stn1_pre_swap)
 
 
 def assign_stn(stn, band):
@@ -386,10 +377,10 @@ def on_message(client, userdata, msg):
             STN2['bpf'] = True
 
     if msg.topic == "set/stn1/swap":
-        swap(1)
+        swap()
 
     if msg.topic == "set/stn2/swap":
-        swap(2)
+        swap()
 
     status()
 
