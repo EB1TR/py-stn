@@ -30,7 +30,8 @@ function onConnect() {
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
   if (responseObject.errorCode !== 0) {
-    $("#tablestn").addClass("blink");
+    $("#tablestn1").addClass("blink");
+    $("#tablestn2").addClass("blink");
     console.log("onConnectionLost:"+responseObject.errorMessage);
   }
 }

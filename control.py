@@ -185,6 +185,33 @@ def activate_fil_gpio(stn, new):
             gpio_pin24.on()
 
 
+def swap(stn):
+    global STN1
+    global STN2
+    global OUTS
+    global SP
+    if stn == 1:
+        STNX = STN1
+        STNY = STN2
+    if stn == 2:
+        STNX = STN2
+        STNY = STN1
+
+    stnx_pre_swap = STNX['ant']
+    stny_pre_swap = STNY['ant']
+
+    if STNX['ant'] in SP[STNY['band']] and STNY['ant'] in SP[STNX['band']]:
+        STNX['ant'] = stny_pre_swap
+        STNY['ant'] = stnx_pre_swap
+
+    if stn == 1:
+        STN1 = STNX
+        STN2 = STNY
+    if stn == 2:
+        STN2 = STNX
+        STN1 = STNY
+
+
 def assign_stn(stn, band):
     global STN1
     global STN2
@@ -212,7 +239,6 @@ def assign_stn(stn, band):
                 break
     else:
         activate_ant_gpio(stn, 0)
-        assign_filter(stn, 0)
         OUTS[STNX['ant']] = "N"
         STNX['ant'] = 0
         STNX['antname'] = "--"
@@ -273,6 +299,8 @@ def on_connect(client, userdata, flags, rc):
         ("set/stn2/film", 0),
         ("set/stn1/band", 0),
         ("set/stn2/band", 0),
+        ("set/stn1/swap", 0),
+        ("set/stn2/swap", 0),
         ("update", 0)
     ])
 
@@ -356,6 +384,12 @@ def on_message(client, userdata, msg):
             STN2['bpf'] = False
         else:
             STN2['bpf'] = True
+
+    if msg.topic == "set/stn1/swap":
+        swap(1)
+
+    if msg.topic == "set/stn2/swap":
+        swap(2)
 
     status()
 
