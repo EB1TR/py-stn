@@ -292,10 +292,14 @@ def on_message(client, userdata, msg):
     if msg.topic == "stn1/radio1/band":
         if STN1['auto']:
             assign_stn(1, int(dato))
+        elif STN1['bpf']:
+            activate_fil_gpio(1, dato)
 
     if msg.topic == "stn2/radio1/band":
         if STN2['auto']:
             assign_stn(2, int(dato))
+        elif STN2['bpf']:
+            activate_fil_gpio(2, dato)
 
     if not STN1['auto'] and msg.topic == "set/stn1/ant":
         dato = int(dato)
