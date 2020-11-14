@@ -325,12 +325,12 @@ def on_message(client, userdata, msg):
         dato = int(dato)
         assign_stn(2, dato)
 
-    if not STN1['auto'] and msg.topic == "set/stn1/fil":
+    if not STN1['bpf'] and msg.topic == "set/stn1/fil":
         dato = int(dato)
         activate_fil_gpio(1, dato)
         STN1['fil'] = dato
 
-    if not STN2['auto'] and msg.topic == "set/stn2/fil":
+    if not STN2['bpf'] and msg.topic == "set/stn2/fil":
         dato = int(dato)
         activate_fil_gpio(2, dato)
         STN2['fil'] = dato
