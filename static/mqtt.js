@@ -45,15 +45,10 @@ function send_command(comm, dato){
 
 // called when a message arrives
 function onMessageArrived(message) {
-    console.log(message.payloadString)
     if (message.destinationName == "stn1/radio1/qrg") {
         $('#stn1-r1-qrg').text((message.payloadString/100).toFixed(2))
     } else if (message.destinationName == "stn2/radio1/qrg") {
         $('#stn2-r1-qrg').text((message.payloadString/100).toFixed(2))
-    } else if (message.destinationName == "stn1/radio2/qrg") {
-        console.log("cc")
-    } else if (message.destinationName == "stn2/radio2/qrg") {
-        console.log("cc")
     } else if (message.destinationName == "stn1/radio1/mode") {
         $('#stn1-r1-mode').text(message.payloadString)
     } else if (message.destinationName == "stn2/radio1/mode") {
