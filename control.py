@@ -71,7 +71,8 @@ SP = {
     20: [5, 6],
     40: [3],
     80: [2],
-    160: [1]
+    160: [1],
+    0: [0]
 }
 # GPIOs al SixPack A
 gpio_pin1 = LED(2)
@@ -185,7 +186,7 @@ def activate_fil_gpio(stn, new):
             gpio_pin24.on()
 
 
-def swap():
+def swap(stn):
     global STN1
     global STN2
     global OUTS
@@ -201,6 +202,30 @@ def swap():
         STN2['ant'] = stn1_pre_swap
         OUTS[stn1_pre_swap] = "2"
         activate_ant_gpio(2, stn1_pre_swap)
+
+    elif int(stn) == 1 and len(SP[STN1['band']]) == 2 and int(STN2['ant']) not in SP[STN1['band']]:
+        if STN1['ant'] == SP[STN1['band']][0]:
+            STN1['ant'] = SP[STN1['band']][1]
+            OUTS[SP[STN1['band']][0]] = "N"
+            OUTS[SP[STN1['band']][1]] = "1"
+            activate_ant_gpio(stn, SP[STN1['band']][1])
+        if STN1['ant'] == SP[STN1['band']][1]:
+            STN1['ant'] = SP[STN1['band']][0]
+            OUTS[SP[STN1['band']][1]] = "N"
+            OUTS[SP[STN1['band']][0]] = "1"
+            activate_ant_gpio(stn, SP[STN1['band']][0])
+
+    elif int(stn) == 21 and len(SP[STN2['band']]) > 1 and int(STN1['ant']) not in SP[STN2['band']]:
+        if STN2['ant'] == SP[STN2['band']][0]:
+            STN2['ant'] = SP[STN2['band']][1]
+            OUTS[SP[STN2['band']][0]] = "N"
+            OUTS[SP[STN2['band']][1]] = "2"
+            activate_ant_gpio(stn, SP[STN2['band']][1])
+        if STN2['ant'] == SP[STN2['band']][1]:
+            STN2['ant'] = SP[STN2['band']][0]
+            OUTS[SP[STN2['band']][1]] = "N"
+            OUTS[SP[STN2['band']][0]] = "2"
+            activate_ant_gpio(stn, SP[STN2['band']][0])
 
 
 def assign_stn(stn, band):
@@ -377,10 +402,10 @@ def on_message(client, userdata, msg):
             STN2['bpf'] = True
 
     if msg.topic == "set/stn1/swap":
-        swap()
+        swap(1)
 
     if msg.topic == "set/stn2/swap":
-        swap()
+        swap(2)
 
     status()
 
