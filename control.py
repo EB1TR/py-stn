@@ -242,7 +242,7 @@ def assign_stn(stn, band):
     if band in SP and band != STNY['band']:
         if not STNX['ant'] in SP[band] or STNX['band'] != band:
             for e in SP[band]:
-                if OUTS[e] == "N" and :
+                if OUTS[e] == "N":
                     if STNX['band'] != band:
                         activate_ant_gpio(stn, e)
                     OUTS[e] = str(stn)
