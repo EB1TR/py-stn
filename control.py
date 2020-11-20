@@ -209,7 +209,7 @@ def swap(stn):
             OUTS[SP[STN1['band']][0]] = "N"
             OUTS[SP[STN1['band']][1]] = "1"
             activate_ant_gpio(stn, SP[STN1['band']][1])
-        if STN1['ant'] == SP[STN1['band']][1]:
+        elif STN1['ant'] == SP[STN1['band']][1]:
             STN1['ant'] = SP[STN1['band']][0]
             OUTS[SP[STN1['band']][1]] = "N"
             OUTS[SP[STN1['band']][0]] = "1"
@@ -221,7 +221,7 @@ def swap(stn):
             OUTS[SP[STN2['band']][0]] = "N"
             OUTS[SP[STN2['band']][1]] = "2"
             activate_ant_gpio(stn, SP[STN2['band']][1])
-        if STN2['ant'] == SP[STN2['band']][1]:
+        elif STN2['ant'] == SP[STN2['band']][1]:
             STN2['ant'] = SP[STN2['band']][0]
             OUTS[SP[STN2['band']][1]] = "N"
             OUTS[SP[STN2['band']][0]] = "2"
