@@ -215,7 +215,7 @@ def swap(stn):
             OUTS[SP[STN1['band']][0]] = "1"
             activate_ant_gpio(stn, SP[STN1['band']][0])
 
-    elif int(stn) == 21 and len(SP[STN2['band']]) > 1 and int(STN1['ant']) not in SP[STN2['band']]:
+    elif int(stn) == 2 and len(SP[STN2['band']]) == 2 and int(STN1['ant']) not in SP[STN2['band']]:
         if STN2['ant'] == SP[STN2['band']][0]:
             STN2['ant'] = SP[STN2['band']][1]
             OUTS[SP[STN2['band']][0]] = "N"
@@ -240,19 +240,20 @@ def assign_stn(stn, band):
         STNX = STN2
         STNY = STN1
     if band in SP and band != STNY['band']:
-        for e in SP[band]:
-            if OUTS[e] == "N":
-                if STNX['band'] != band:
-                    activate_ant_gpio(stn, e)
-                OUTS[e] = str(stn)
-                OUTS[STNX['ant']] = "N"
-                STNX['ant'] = e
-                STNX['antname'] = ANT[e]
-                STNX['band'] = band
-                break
-            elif OUTS[e] == str(stn):
-                STNX['band'] = band
-                break
+        if not STNX['ant'] in SP[band] or STNX['band'] != band:
+            for e in SP[band]:
+                if OUTS[e] == "N" and :
+                    if STNX['band'] != band:
+                        activate_ant_gpio(stn, e)
+                    OUTS[e] = str(stn)
+                    OUTS[STNX['ant']] = "N"
+                    STNX['ant'] = e
+                    STNX['antname'] = ANT[e]
+                    STNX['band'] = band
+                    break
+                elif OUTS[e] == str(stn):
+                    STNX['band'] = band
+                    break
     else:
         activate_ant_gpio(stn, 0)
         OUTS[STNX['ant']] = "N"
