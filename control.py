@@ -75,19 +75,19 @@ SP = {
     0: [0]
 }
 # GPIOs al SixPack A
-gpio_pin1 = LED(2)
-gpio_pin2 = LED(3)
-gpio_pin3 = LED(4)
-gpio_pin4 = LED(17)
-gpio_pin5 = LED(27)
-gpio_pin6 = LED(22)
+gpio_pin1 = LED(4)
+gpio_pin2 = LED(17)
+gpio_pin3 = LED(27)
+gpio_pin4 = LED(22)
+gpio_pin5 = LED(10)
+gpio_pin6 = LED(9)
 # GPIOs al SixPack B
-gpio_pin7 = LED(10)
-gpio_pin8 = LED(9)
-gpio_pin9 = LED(11)
-gpio_pin10 = LED(5)
-gpio_pin11 = LED(6)
-gpio_pin12 = LED(13)
+gpio_pin7 = LED(11)
+gpio_pin8 = LED(5)
+gpio_pin9 = LED(6)
+gpio_pin10 = LED(13)
+gpio_pin11 = LED(19)
+gpio_pin12 = LED(26)
 # GPIOs a Filtros A
 gpio_pin13 = LED(14)
 gpio_pin14 = LED(15)
