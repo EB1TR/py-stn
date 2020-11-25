@@ -210,6 +210,14 @@ def assign_stn(stn, band):
         STN2 = STNX
 
 
+def restart():
+    command = "/usr/bin/sudo /sbin/shutdown -r now"
+    import subprocess
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    print(output)
+
+
 def status(topic):
     data_json = json.dumps(
         {

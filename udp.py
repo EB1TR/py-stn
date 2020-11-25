@@ -60,17 +60,17 @@ def mqtt_connect():
 
 
 def define_band(qrg):
-    if qrg in range(180000, 200000):
+    if qrg in range(175000, 205000):
         band = 160
-    elif qrg in range(350000, 400000):
+    elif qrg in range(3450000, 400000):
         band = 80
-    elif qrg in range(700000, 720000):
+    elif qrg in range(695000, 735000):
         band = 40
-    elif qrg in range(1400000, 1435000):
+    elif qrg in range(1395000, 1440000):
         band = 20
-    elif qrg in range(2100000, 2145000):
+    elif qrg in range(2095000, 2150000):
         band = 15
-    elif qrg in range(2800000, 2970000):
+    elif qrg in range(2795000, 2970000):
         band = 10
     else:
         band = 0
@@ -114,9 +114,9 @@ def process_radio_info(xml_data, mqtt_c):
     op = str(xml_data["RadioInfo"]['OpCall'])
     op = op.upper()
     radio_i = [stn, radio, band, qrg, mode, op]
-    if xml_data["RadioInfo"]['StationName'] == STN1:
+    if xml_data["RadioInfo"]['StationName'] == STN1['netbios']:
         radio_i[0] = 1
-    if xml_data["RadioInfo"]['StationName'] == STN2:
+    if xml_data["RadioInfo"]['StationName'] == STN2['netbios']:
         radio_i[0] = 2
 
     publish_radio_info(mqtt_c, radio_i)
