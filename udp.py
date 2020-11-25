@@ -16,7 +16,7 @@ import xmltodict
 import os
 import json
 
-MQTT_HOST = "192.168.1.110"
+MQTT_HOST = "127.0.0.1"
 MQTT_PORT = 1883
 
 
