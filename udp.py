@@ -24,6 +24,7 @@ try:
     with open('cfg/stn1.json') as json_file:
         data = json.load(json_file)
         STN1 = dict(data)
+        print("Datos de STN1 cargados desde fichero...")
 except:
     if os.path.exists('cfg/stn1.json'):
         os.remove('cfg/stn1.json')
@@ -35,11 +36,13 @@ except:
     }
     with open('cfg/stn1.json', 'w') as fp:
         json.dump(STN1, fp)
+    print("Datos de STN1 autogenerados...")
 
 try:
     with open('cfg/stn2.json') as json_file:
         data = json.load(json_file)
         STN2 = dict(data)
+        print("Datos de STN2 cargados desde fichero...")
 except:
     if os.path.exists('cfg/stn2.json'):
         os.remove('cfg/stn2.json')
@@ -51,6 +54,7 @@ except:
     }
     with open('cfg/stn2.json', 'w') as fp:
         json.dump(STN2, fp)
+    print("Datos de STN2 autogenerados...")
 
 
 def mqtt_connect():
