@@ -158,25 +158,31 @@ try:
     with open('cfg/stacks.json') as json_file:
         data = json.load(json_file)
         STACKS = dict(data)
+        print("Datos de STACKS cargados desde fichero...")
 except:
     if os.path.exists('cfg/stacks.json'):
         os.remove('cfg/stacks.json')
+        print("Datos de STACKS autogenerados...")
 
 try:
     with open('cfg/stn1.json') as json_file:
         data = json.load(json_file)
         STN1 = dict(data)
+        print("Datos de STN1 cargados desde fichero...")
 except:
     if os.path.exists('cfg/stn1.json'):
         os.remove('cfg/stn1.json')
+        print("Datos de STN1 autogenerados...")
 
 try:
     with open('cfg/stn2.json') as json_file:
         data = json.load(json_file)
         STN2 = dict(data)
+        print("Datos de STN2 cargados desde fichero...")
 except:
     if os.path.exists('cfg/stn2.json'):
         os.remove('cfg/stn2.json')
+        print("Datos de STN1 autogenerados...")
 
 
 def assign_stn(stn, band):
