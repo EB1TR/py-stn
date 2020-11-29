@@ -254,6 +254,8 @@ def assign_stn(stn, band):
                 elif OUTS[e] == str(stn):
                     STNX['band'] = band
                     break
+        else:
+            STNX['band'] = band
     else:
         activate_ant_gpio(stn, 0)
         OUTS[STNX['ant']] = "N"
