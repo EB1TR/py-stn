@@ -22,6 +22,8 @@ function onConnect() {
   client.subscribe("stn2/radio1/mode");
   client.subscribe("stn1/radio1/op");
   client.subscribe("stn2/radio1/op");
+  client.subscribe("spots/rbn/cw");
+  client.subscribe("spots/spider/spots");
   message = new Paho.MQTT.Message('0');
   message.destinationName = "update";
   client.send(message);
@@ -44,6 +46,68 @@ function send_command(comm, dato){
 }
 
 
+function checkBand(qrg) {
+  qrg = parseFloat(qrg)
+  bandcheck = 0
+  if (qrg != NaN) {
+    qrg = (qrg * 100)/100
+    if (qrg <= 2000) bandcheck = 160
+    else if (qrg <= 4000) bandcheck = 80
+    else if (qrg <= 7300) bandcheck = 40
+    else if (qrg <= 14350) bandcheck = 20
+    else if (qrg <= 21450) bandcheck = 15
+    else bandcheck = 10
+  }
+  return bandcheck
+}
+
+
+function isSpot(rawspot, fromrbn) {
+  var jsonspot = JSON.parse(rawspot)
+  var dxcall = jsonspot.dx
+  if (dxcall !== "ED1B") {
+    var spottime = jsonspot.tstamp
+    var srccall = jsonspot.src
+    var qrg = jsonspot.qrg
+    var band = jsonspot.band
+    var cmt = jsonspot.cmt
+    
+    var date = new Date(spottime * 1000);
+    
+    var hours = date.getHours();
+    var minutes = "0" + date.getMinutes();
+    var seconds = "0" + date.getSeconds();
+    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    var bandstn1 = checkBand($("#stn1-r1-qrg").text())
+    var bandstn2 = checkBand($("#stn2-r1-qrg").text())
+    
+    if (fromrbn) srccall = srccall.substr(0, (srccall.length - 3))
+
+    if (band == bandstn1) {
+      spotline = '<tr class="spotstn1"><td width="15%" align="left">' + formattedTime
+       + '</td><td width="25%" align="left">' + srccall
+       + '</td><td width="15%" align="left">' + qrg
+       + '</td><td align="left">' + cmt + '</td></tr>'
+      $("#tablestn1spot").prepend(spotline);
+      while ($(".spotstn1").length > 35){
+        $(".spotstn1").last().remove();
+      }
+    }
+    if (band == bandstn2) {
+      spotline = '<tr class="spotstn2"><td width="15%" align="left">' + formattedTime
+       + '</td><td width="25%" align="left">' + srccall
+       + '</td><td width="15%" align="left">' + qrg
+       + '</td><td align="left">' + cmt + '</td></tr>'
+      $("#tablestn2spot").prepend(spotline);
+      while ($(".spotstn2").length > 35){
+        $(".spotstn2").last().remove();
+      }
+    }
+  }
+}
+
+
 // called when a message arrives
 function onMessageArrived(message) {
     if (message.destinationName == "stn1/radio1/qrg") {
@@ -58,6 +122,10 @@ function onMessageArrived(message) {
         $('#stn1-op').text(message.payloadString)
     } else if (message.destinationName == "stn2/radio1/op") {
         $('#stn2-op').text(message.payloadString)
+    } else if (message.destinationName == "spots/rbn/cw") {
+      isSpot(message.payloadString, true)
+    } else if (message.destinationName == "spots/spider/spots") {
+      isSpot(message.payloadString, false)
     } else {
         json = JSON.parse(message.payloadString)
         if (json.stn1 != undefined) {
