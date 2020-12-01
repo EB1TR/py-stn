@@ -13,9 +13,20 @@ __date__ = "12/09/2020"
 import json
 import paho.mqtt.client as mqtt
 from gpiozero import LED
+import os
 
 MQTT_HOST = "127.0.0.1"
 MQTT_PORT = 1883
+
+try:
+    with open('config.json') as json_file:
+        data = json.load(json_file)
+        CONFIG = dict(data)
+        print("Datos de configuración cargados desde fichero...")
+except:
+    if os.path.exists('cfg/stacks.json'):
+        os.remove('cfg/stacks.json')
+        print("Fallo en la carga de fichero de configuración...")
 
 STN1 = {
     'auto': True,
@@ -56,22 +67,22 @@ FIL = {
 }
 
 ANT = {
-    6: "MB7",
-    5: "MB6",
-    4: "ND",
-    3: "ROT",
-    2: "DIP",
-    1: "DIP",
+    6: CONFIG['nombre-antena6'],
+    5: CONFIG['nombre-antena5'],
+    4: CONFIG['nombre-antena4'],
+    3: CONFIG['nombre-antena3'],
+    2: CONFIG['nombre-antena2'],
+    1: CONFIG['nombre-antena1'],
     0: "N/A"
 }
 
 SP = {
-    10: [5, 6],
-    15: [5, 6],
-    20: [5, 6],
-    40: [3],
-    80: [2],
-    160: [1],
+    10: CONFIG['sp-10'],
+    15: CONFIG['sp-20'],
+    20: CONFIG['sp-20'],
+    40: CONFIG['sp-40'],
+    80: CONFIG['sp-80'],
+    160: CONFIG['sp-160'],
     0: [0]
 }
 # GPIOs al SixPack A
