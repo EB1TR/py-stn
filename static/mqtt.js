@@ -23,6 +23,7 @@ function onConnect() {
   client.subscribe("stn1/radio1/op");
   client.subscribe("stn2/radio1/op");
   client.subscribe("spots/rbn/cw");
+  client.subscribe("spots/rbn/mgm");
   client.subscribe("spots/spider/spots");
   message = new Paho.MQTT.Message('0');
   message.destinationName = "update";
@@ -67,13 +68,13 @@ function checkBand(qrg) {
 }
 
 
-function isSpot(rawspot, fromrbn) {
+function isSpot(rawspot, fromrbn, rbncw) {
   var jsonspot = JSON.parse(rawspot)
   var dxcall = jsonspot.dx
   if (dxcall !== "ED1B" || dxcall == "EC1A" || dxcall == "EB1TR" || dxcall == "EA1QL") {
     var spottime = jsonspot.tstamp
     var srccall = jsonspot.src
-    var qrg = jsonspot.qrg
+    var qrg = jsonspot.qrg.toFixed(1)
     var band = jsonspot.band
     var cmt = jsonspot.cmt
     
@@ -82,33 +83,70 @@ function isSpot(rawspot, fromrbn) {
     var hours = date.getHours();
     var minutes = "0" + date.getMinutes();
     var seconds = "0" + date.getSeconds();
-    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    var formattedTime = hours + ':' + minutes.substr(-2)
     var bandstn1 = checkBand($("#stn1-r1-qrg").text())
     var bandstn2 = checkBand($("#stn2-r1-qrg").text())
     
-    if (fromrbn) srccall = srccall.substr(0, (srccall.length - 3))
+    
+    if (fromrbn && rbncw) {
+      if (jsonspot.db > 40) var sigcolor = "dbsig4"
+      else if (jsonspot.db > 35) var sigcolor = "dbsig3"
+      else if (jsonspot.db > 25) var sigcolor = "dbsig2"
+      else if (jsonspot.db > 15) var sigcolor = "dbsig1"
+      else if (jsonspot.db > 5) var sigcolor = ""
+      else var sigcolor = "dbsig0"
+    } else if (fromrbn && !rbncw) {
+      if (jsonspot.db > 5) var sigcolor = "dbsig4"
+      else if (jsonspot.db > 0) var sigcolor = "dbsig3"
+      else if (jsonspot.db > -5) var sigcolor = "dbsig2"
+      else if (jsonspot.db > -10) var sigcolor = "dbsig1"
+      else if (jsonspot.db > -18) var sigcolor = ""
+      else var sigcolor = "dbsig0"
+    } else {
+      var sigcolor = ""
+    }
 
-    if (band == bandstn1) {
-      spotline = '<tr class="spotstn1"><td width="15%" align="left">' + formattedTime
+    
+    if (band == bandstn1 && fromrbn) {
+      spotline = '<tr class="spotstn1rbn ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
+       + '</td><td width="25%" align="left">' + srccall
+       + '</td><td width="25%" align="left">' + qrg
+       + '</td><td align="left" width="35%">' + cmt + '</td></tr>'
+      $("#tablestn1spotrbn").prepend(spotline);
+      while ($(".spotstn1rbn").length > 20){
+        $(".spotstn1rbn").last().remove();
+      }
+    }
+    if (band == bandstn1 && !fromrbn) {
+      spotline = '<tr class="spotstn1 ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
        + '</td><td width="25%" align="left">' + srccall
        + '</td><td width="15%" align="left">' + qrg
        + '</td><td align="left">' + cmt + '</td></tr>'
       $("#tablestn1spot").prepend(spotline);
-      while ($(".spotstn1").length > 35){
+      while ($(".spotstn1").length > 10){
         $(".spotstn1").last().remove();
       }
     }
-    if (band == bandstn2) {
-      spotline = '<tr class="spotstn2"><td width="15%" align="left">' + formattedTime
+    if (band == bandstn2 && fromrbn) {
+      spotline = '<tr class="spotstn2rbn ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
+       + '</td><td width="25%" align="left">' + srccall
+       + '</td><td width="25%" align="left">' + qrg
+       + '</td><td align="left" width="35%">' + cmt + '</td></tr>'
+      $("#tablestn2spotrbn").prepend(spotline);
+      while ($(".spotstn2rbn").length > 20){
+        $(".spotstn2rbn").last().remove();
+      }
+    }
+    if (band == bandstn2 && !fromrbn) {
+      spotline = '<tr class="spotstn2 ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
        + '</td><td width="25%" align="left">' + srccall
        + '</td><td width="15%" align="left">' + qrg
        + '</td><td align="left">' + cmt + '</td></tr>'
       $("#tablestn2spot").prepend(spotline);
-      while ($(".spotstn2").length > 35){
+      while ($(".spotstn2").length > 10){
         $(".spotstn2").last().remove();
-      }
     }
+  }
   }
 }
 
@@ -128,9 +166,11 @@ function onMessageArrived(message) {
     } else if (message.destinationName == "stn2/radio1/op") {
         $('#stn2-op').text(message.payloadString)
     } else if (message.destinationName == "spots/rbn/cw") {
-      isSpot(message.payloadString, true)
+      isSpot(message.payloadString, true, true)
+    } else if (message.destinationName == "spots/rbn/mgm") {
+      isSpot(message.payloadString, true, false)
     } else if (message.destinationName == "spots/spider/spots") {
-      isSpot(message.payloadString, false)
+      isSpot(message.payloadString, false, false)
     } else {
         json = JSON.parse(message.payloadString)
         if (json.stn1 != undefined) {

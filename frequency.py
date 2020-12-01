@@ -15,7 +15,7 @@ def qrgband(freq):
             band = 20
         elif freq <= 18200:
             band = 17
-        elif freq <= 215000:
+        elif freq <= 21500:
             band = 15
         elif freq <= 25000:
             band = 12

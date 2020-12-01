@@ -35,6 +35,26 @@ body {
   animation: blink-animation 1s steps(5, start) infinite;        
   -webkit-animation: blink-animation 1s steps(5, start) infinite;
 }
+.dbsig4 {
+  font-weight: bold;
+  color: red;
+}
+.dbsig3 {
+  font-weight: bold;
+  color: orange;
+}
+.dbsig2 {
+  font-weight: bold;
+  color: yellow;
+}
+.dbsig1 {
+  font-weight: bold;
+  color: green;
+}
+.dbsig0 {
+  font-weight: bold;
+  color: violet;
+}
 @keyframes blink-animation {
   to {
     visibility: hidden;
