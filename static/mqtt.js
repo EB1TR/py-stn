@@ -1,5 +1,5 @@
 // Create a client instance
-clientID = "web"
+clientID = "stn"
 clientID += new Date().getUTCMilliseconds()
 client = new Paho.MQTT.Client("127.0.0.1", Number(9001), clientID);
 
@@ -53,10 +53,15 @@ function checkBand(qrg) {
     qrg = (qrg * 100)/100
     if (qrg <= 2000) bandcheck = 160
     else if (qrg <= 4000) bandcheck = 80
+    else if (qrg <= 5500) bandcheck = 60
     else if (qrg <= 7300) bandcheck = 40
+    else if (qrg <= 10200) bandcheck = 30
     else if (qrg <= 14350) bandcheck = 20
+    else if (qrg <= 18200) bandcheck = 17
     else if (qrg <= 21450) bandcheck = 15
-    else bandcheck = 10
+    else if (qrg <= 25000) bandcheck = 12
+    else if (qrg <= 30000) bandcheck = 10
+    else bandcheck = 6
   }
   return bandcheck
 }
@@ -65,7 +70,7 @@ function checkBand(qrg) {
 function isSpot(rawspot, fromrbn) {
   var jsonspot = JSON.parse(rawspot)
   var dxcall = jsonspot.dx
-  if (dxcall !== "ED1B") {
+  if (dxcall !== "ED1B" || dxcall == "EC1A" || dxcall == "EB1TR" || dxcall == "EA1QL") {
     var spottime = jsonspot.tstamp
     var srccall = jsonspot.src
     var qrg = jsonspot.qrg

@@ -13,12 +13,24 @@ __date__ = "12/09/2020"
 import socket
 import paho.mqtt.client as mqtt
 import xmltodict
+import json
+import os
+print("Configurando UDP")
+try:
+    with open('config.json') as json_file:
+        data = json.load(json_file)
+        CONFIG = dict(data)
+        print("Datos de configuración cargados desde fichero...")
+except:
+    if os.path.exists('cfg/stacks.json'):
+        os.remove('cfg/stacks.json')
+        print("Fallo en la carga de fichero de configuración...")
 
 MQTT_HOST = "127.0.0.1"
 MQTT_PORT = 1883
 
-STN1 = "ED1B-STN1"
-STN2 = "ED1B-STN2"
+STN1 = CONFIG['netbios-stn1']
+STN2 = CONFIG['netbios-stn2']
 
 def mqtt_connect():
     mqtt_c = mqtt.Client(transport='tcp')
@@ -102,6 +114,7 @@ def process_xml(xml_data, mqtt_c):
 
 
 def do_udp():
+    print("UDP a la escucha para %s y %s en puerto 12060" % (STN1, STN2))
     mqtt_c = mqtt_connect()
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("0.0.0.0", 12060))

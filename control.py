@@ -395,12 +395,14 @@ def on_message(client, userdata, msg):
     if msg.topic == "set/stn1/film":
         if STN1['bpf']:
             STN1['bpf'] = False
+            assign_filter(1, 0)
         else:
             STN1['bpf'] = True
 
     if msg.topic == "set/stn2/film":
         if STN2['bpf']:
             STN2['bpf'] = False
+            assign_filter(2, 0)
         else:
             STN2['bpf'] = True
 

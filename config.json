@@ -1,0 +1,13 @@
+{
+  "spider-call": "ed1b-1",
+  "spider-host": "ea4ure.com",
+  "spider-port": 7300,
+  "rbncw-call": "ed1b-2",
+  "rbncw-host": "telnet.reversebeacon.net",
+  "rbncw-port": 7000,
+  "rbnmgm-call": "ed1b-3",
+  "rbnmgm-host": "telnet.reversebeacon.net",
+  "rbnmgm-port": 7001,
+  "netbios-stn1": "ED1B-STN1",
+  "netbios-stn2": "ED1B-STN2"
+}
