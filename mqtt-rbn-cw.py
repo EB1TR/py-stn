@@ -27,7 +27,7 @@ MQTT_PORT = 1883
 MQTT_TOPIC = "spots/rbn/cw"
 
 
-def isSpot(data, mqtt_client):
+def is_spot(data, mqtt_client):
     comment = ""
     for e in range(6, (len(data) - 1)):
         comment = comment + data[e] + " "
@@ -54,7 +54,7 @@ def isSpot(data, mqtt_client):
 
 def do_telnet():
     try:
-        print('+ Conectando a RBN CW...')
+        print('+ Conectando a RBN CW %s:%s' % (HOST, PORT))
         print('|-> Usando CALL: ' + CALL)
         t = telnetlib.Telnet(HOST, PORT, 10)
         # t.set_debuglevel(100)
@@ -81,7 +81,7 @@ def do_telnet():
             else:
                 if data[0] == 'DX':
                     try:
-                        isSpot(data, mqtt_client)
+                        is_spot(data, mqtt_client)
                     except:
                         print("############## NO MANEJADO ##############")
                         print(data)

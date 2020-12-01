@@ -7,7 +7,6 @@ import time
 import paho.mqtt.client as mqtt
 import frequency
 from time import sleep
-from datetime import datetime
 import os
 print("Configurando SPIDER")
 try:
@@ -31,13 +30,10 @@ except Exception as e:
     print('Unexpected: %s' % e)
     exit(1)
 
-# PROGAM STARTS HERE --------------------------------------------------------------------------------------------------
-#
-
 
 def telnet_connect():
     try:
-        print('+ Conectando a SPIDER...')
+        print('+ Conectando a SPIDER %s:%s' % (HOST, PORT))
         print('|-> Usando CALL: ' + CALL)
         t = telnetlib.Telnet(HOST, PORT, 10)
     except Exception as e:
@@ -96,6 +92,33 @@ def mqtt_connect():
     return mqtt_client
 
 
+def is_wcy(data, mqtt_client):
+    k = data[5][2:]
+    ek = data[6][5:]
+    a = data[7][2:]
+    ssn = data[8][2:]
+    sfi = data[9][4:]
+    sa = data[10][3:]
+    gmf = data[11][4:]
+    au = data[12][3:]
+    processed_data = json.dumps(
+        {
+            'tstamp': int(time.time()),
+            'k': k,
+            'ek': ek,
+            'a': a,
+            'ssn': ssn,
+            'sfi': sfi,
+            'sa': sa,
+            'gmf': gmf,
+            'au': au
+        }, sort_keys=False
+
+    )
+    mqtt_client.publish('solar/wcy', str(processed_data))
+    print(processed_data)
+
+
 def is_spot(data, mqtt_client):
     qrg = '%.1f' % float(data[1])
     qrg_info = frequency.qrgband(float(qrg))
@@ -127,6 +150,13 @@ def do_telnet():
                 if data[0] == 'CC11':
                     try:
                         is_spot(data, mqtt_client)
+                    except:
+                        print("############## NO MANEJADO ##############")
+                        print(data)
+                        print("#########################################")
+                if data[0] == 'WCY':
+                    try:
+                        is_wcy(data, mqtt_client)
                     except:
                         print("############## NO MANEJADO ##############")
                         print(data)
