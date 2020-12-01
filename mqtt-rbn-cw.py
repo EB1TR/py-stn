@@ -29,7 +29,7 @@ MQTT_TOPIC = "spots/rbn/cw"
 
 def is_spot(data, mqtt_client):
     comment = ""
-    for e in range(6, (len(data) - 1)):
+    for e in range(5, (len(data) - 1)):
         comment = comment + data[e] + " "
     comment = comment[:-1]
     src = data[2].split("-")
