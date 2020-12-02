@@ -15,6 +15,7 @@ import paho.mqtt.client as mqtt
 import xmltodict
 import json
 import os
+import sys
 print("Configurando UDP")
 try:
     with open('config.json') as json_file:
@@ -114,15 +115,32 @@ def process_xml(xml_data, mqtt_c):
 
 
 def do_udp():
-    print("UDP a la escucha para %s y %s en puerto 12060" % (STN1, STN2))
-    mqtt_c = mqtt_connect()
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(("0.0.0.0", 12060))
-    while True:
-        data, address = sock.recvfrom(1024)
-        data = data.decode('utf-8')
-        xml_data = xmltodict.parse(data)
-        process_xml(xml_data, mqtt_c)
+    try:
+        print("UDP a la escucha para %s y %s en puerto 12060" % (STN1, STN2))
+        mqtt_c = mqtt_connect()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.bind(("0.0.0.0", 12060))
+        while True:
+            data, address = sock.recvfrom(1024)
+            data = data.decode('utf-8')
+            xml_data = xmltodict.parse(data)
+            process_xml(xml_data, mqtt_c)
+    except KeyboardInterrupt:
+        print('\n** User exited.')
+        mqtt_c.disconnect()
+        sys.exit(0)
+    except EOFError:
+        print('\n** Closing connection due to EOFError: %s' % EOFError)
+        mqtt_c.disconnect()
+        sys.exit(1)
+    except OSError:
+        print('\n** Closing connection due to OSError: %s' % OSError)
+        mqtt_c.disconnect()
+        sys.exit(1)
+    except Exception as e:
+        print('\n** Closing connection due to an exception: %s' % str(e))
+        mqtt_c.disconnect()
+        sys.exit()
 
 
 if __name__ == '__main__':
