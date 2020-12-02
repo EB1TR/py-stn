@@ -45,7 +45,7 @@ function onConnect() {
   console.log("Connected");
   client.subscribe("pytoconfig");
   message = new Paho.MQTT.Message('0');
-  message.destinationName = "configtopy";
+  message.destinationName = "update";
   client.send(message);
 }
 

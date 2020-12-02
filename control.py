@@ -267,7 +267,7 @@ def on_message(client, userdata, msg):
             if STN1['auto']:
                 assign_stn(1, int(dato))
 
-        if msg.topic == "stn1/radio2/band":
+        if msg.topic == "stn2/radio1/band":
             if STN2['auto']:
                 assign_stn(2, int(dato))
 
@@ -369,6 +369,9 @@ def on_message(client, userdata, msg):
             with open('cfg/stn2.json', 'w') as fp:
                 json.dump(STN2, fp, indent=4, separators=(", ", ": "))
 
+            status("pytoconfig")
+
+        if msg.topic == "update":
             status("pytoconfig")
     except:
         pass
