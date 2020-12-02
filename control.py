@@ -77,12 +77,12 @@ ANT = {
 }
 
 SP = {
-    10: CONFIG['sp-10'],
-    15: CONFIG['sp-20'],
-    20: CONFIG['sp-20'],
-    40: CONFIG['sp-40'],
-    80: CONFIG['sp-80'],
-    160: CONFIG['sp-160'],
+    10: list(CONFIG['sp-10']),
+    15: list(CONFIG['sp-20']),
+    20: list(CONFIG['sp-20']),
+    40: list(CONFIG['sp-40']),
+    80: list(CONFIG['sp-80']),
+    160: list(CONFIG['sp-160']),
     0: [0]
 }
 # GPIOs al SixPack A
