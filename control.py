@@ -22,7 +22,6 @@ try:
     with open('config.json') as json_file:
         data = json.load(json_file)
         CONFIG = dict(data)
-        print(CONFIG)
         print("Datos de configuración cargados desde fichero...")
 except:
     if os.path.exists('cfg/stacks.json'):
@@ -77,15 +76,34 @@ ANT = {
     0: "N/A"
 }
 
+ants10 = []
+ants15 = []
+ants20 = []
+ants40 = []
+ants80 = []
+ants160 = []
+for e in CONFIG["sp-10"]:
+    ants10.append(e)
+for e in CONFIG["sp-15"]:
+    ants15.append(e)
+for e in CONFIG["sp-20"]:
+    ants20.append(e)
+for e in CONFIG["sp-40"]:
+    ants40.append(e)
+for e in CONFIG["sp-80"]:
+    ants80.append(e)
+for e in CONFIG["sp-160"]:
+    ants160.append(e)
 SP = {
-    10: list(CONFIG["sp-10"]),
-    15: list(CONFIG["sp-20"]),
-    20: list(CONFIG["sp-20"]),
-    40: list(CONFIG["sp-40"]),
-    80: list(CONFIG["sp-80"]),
-    160: list(CONFIG["sp-160"]),
+    10: ants10,
+    15: ants15,
+    20: ants20,
+    40: ants40,
+    80: ants80,
+    160: ants160,
     0: [0]
 }
+
 # GPIOs al SixPack A
 gpio_pin1 = LED(4)
 gpio_pin2 = LED(17)
