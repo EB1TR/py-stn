@@ -65,7 +65,7 @@ function checkBand(qrg) {
 function isSpot(rawspot, fromrbn, rbncw) {
   var jsonspot = JSON.parse(rawspot)
   var dxcall = jsonspot.dx
-  if (dxcall !== "ED1B" || dxcall == "EC1A" || dxcall == "EB1TR" || dxcall == "EA1QL") {
+  if (dxcall == "ED1B" || dxcall == "EC1A" || dxcall == "EB1TR" || dxcall == "EA1QL") {
     var spottime = jsonspot.tstamp
     var srccall = jsonspot.src
     var qrg = jsonspot.qrg.toFixed(1)
@@ -83,19 +83,19 @@ function isSpot(rawspot, fromrbn, rbncw) {
     
     
     if (fromrbn && rbncw) {
-      if (jsonspot.db > 40) var sigcolor = "dbsig4"
-      else if (jsonspot.db > 35) var sigcolor = "dbsig3"
-      else if (jsonspot.db > 25) var sigcolor = "dbsig2"
-      else if (jsonspot.db > 15) var sigcolor = "dbsig1"
-      else if (jsonspot.db > 5) var sigcolor = ""
-      else var sigcolor = "dbsig0"
+      if (jsonspot.db > 30) var sigcolor = "dbsig4"
+      //else if (jsonspot.db > 35) var sigcolor = "dbsig3"
+      //else if (jsonspot.db > 25) var sigcolor = "dbsig2"
+      else if (jsonspot.db > 12) var sigcolor = "dbsig1"
+      else if (jsonspot.db > 0) var sigcolor = ""
+      //else var sigcolor = "dbsig0"
     } else if (fromrbn && !rbncw) {
-      if (jsonspot.db > 5) var sigcolor = "dbsig4"
-      else if (jsonspot.db > 0) var sigcolor = "dbsig3"
-      else if (jsonspot.db > -5) var sigcolor = "dbsig2"
-      else if (jsonspot.db > -10) var sigcolor = "dbsig1"
-      else if (jsonspot.db > -18) var sigcolor = ""
-      else var sigcolor = "dbsig0"
+      if (jsonspot.db > 0) var sigcolor = "dbsig4"
+      //else if (jsonspot.db > 0) var sigcolor = "dbsig3"
+      //else if (jsonspot.db > -5) var sigcolor = "dbsig2"
+      else if (jsonspot.db > -15) var sigcolor = "dbsig1"
+      else if (jsonspot.db > -30) var sigcolor = ""
+      //else var sigcolor = "dbsig0"
     } else {
       var sigcolor = ""
     }

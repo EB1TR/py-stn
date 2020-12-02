@@ -22,6 +22,7 @@ try:
     with open('config.json') as json_file:
         data = json.load(json_file)
         CONFIG = dict(data)
+        print(CONFIG)
         print("Datos de configuración cargados desde fichero...")
 except:
     if os.path.exists('cfg/stacks.json'):
@@ -67,22 +68,22 @@ FIL = {
 }
 
 ANT = {
-    6: CONFIG['nombre-antena6'],
-    5: CONFIG['nombre-antena5'],
-    4: CONFIG['nombre-antena4'],
-    3: CONFIG['nombre-antena3'],
-    2: CONFIG['nombre-antena2'],
-    1: CONFIG['nombre-antena1'],
+    6: CONFIG["nombre-antena6"],
+    5: CONFIG["nombre-antena5"],
+    4: CONFIG["nombre-antena4"],
+    3: CONFIG["nombre-antena3"],
+    2: CONFIG["nombre-antena2"],
+    1: CONFIG["nombre-antena1"],
     0: "N/A"
 }
 
 SP = {
-    10: list(CONFIG['sp-10']),
-    15: list(CONFIG['sp-20']),
-    20: list(CONFIG['sp-20']),
-    40: list(CONFIG['sp-40']),
-    80: list(CONFIG['sp-80']),
-    160: list(CONFIG['sp-160']),
+    10: list(CONFIG["sp-10"]),
+    15: list(CONFIG["sp-20"]),
+    20: list(CONFIG["sp-20"]),
+    40: list(CONFIG["sp-40"]),
+    80: list(CONFIG["sp-80"]),
+    160: list(CONFIG["sp-160"]),
     0: [0]
 }
 # GPIOs al SixPack A
