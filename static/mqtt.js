@@ -1,18 +1,13 @@
-// Create a client instance
 clientID = "stn"
 clientID += new Date().getUTCMilliseconds()
 client = new Paho.MQTT.Client("127.0.0.1", Number(9001), clientID);
 
-// set callback handlers
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
 
-// connect the client
 client.connect({onSuccess:onConnect});
 
-// called when the client connects
 function onConnect() {
-  // Once a connection has been made, make a subscription and send a message.
   console.log("Connected");
   client.subscribe("pytofront");
   client.subscribe("stn1/radio1/qrg");
@@ -30,7 +25,6 @@ function onConnect() {
   client.send(message);
 }
 
-// called when the client loses its connection
 function onConnectionLost(responseObject) {
   if (responseObject.errorCode !== 0) {
     $("#tablestn1").addClass("blink");
@@ -106,7 +100,6 @@ function isSpot(rawspot, fromrbn, rbncw) {
       var sigcolor = ""
     }
 
-    
     if (band == bandstn1 && fromrbn) {
       spotline = '<tr class="spotstn1rbn ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
        + '</td><td width="25%" align="left">' + srccall
@@ -117,6 +110,7 @@ function isSpot(rawspot, fromrbn, rbncw) {
         $(".spotstn1rbn").last().remove();
       }
     }
+    
     if (band == bandstn1 && !fromrbn) {
       spotline = '<tr class="spotstn1 ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
        + '</td><td width="25%" align="left">' + srccall
@@ -127,6 +121,7 @@ function isSpot(rawspot, fromrbn, rbncw) {
         $(".spotstn1").last().remove();
       }
     }
+    
     if (band == bandstn2 && fromrbn) {
       spotline = '<tr class="spotstn2rbn ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
        + '</td><td width="25%" align="left">' + srccall
@@ -137,6 +132,7 @@ function isSpot(rawspot, fromrbn, rbncw) {
         $(".spotstn2rbn").last().remove();
       }
     }
+    
     if (band == bandstn2 && !fromrbn) {
       spotline = '<tr class="spotstn2 ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
        + '</td><td width="25%" align="left">' + srccall
@@ -145,13 +141,11 @@ function isSpot(rawspot, fromrbn, rbncw) {
       $("#tablestn2spot").prepend(spotline);
       while ($(".spotstn2").length > 10){
         $(".spotstn2").last().remove();
+      }
     }
-  }
   }
 }
 
-
-// called when a message arrives
 function onMessageArrived(message) {
     if (message.destinationName == "stn1/radio1/qrg") {
         $('#stn1-r1-qrg').text((message.payloadString/100).toFixed(2))
@@ -187,52 +181,24 @@ function onMessageArrived(message) {
             fsstn2 = json.stn2.bpf
             $('#stn1-an').text(json.stn1.antname)
             $('#stn2-an').text(json.stn2.antname)
-            $("#stn1-a0").removeClass("spanitemselected");
-            $("#stn1-a1").removeClass("spanitemselected");
-            $("#stn1-a2").removeClass("spanitemselected");
-            $("#stn1-a3").removeClass("spanitemselected");
-            $("#stn1-a4").removeClass("spanitemselected");
-            $("#stn1-a5").removeClass("spanitemselected");
-            $("#stn1-a6").removeClass("spanitemselected");
-            $("#stn2-a0").removeClass("spanitemselected");
-            $("#stn2-a1").removeClass("spanitemselected");
-            $("#stn2-a2").removeClass("spanitemselected");
-            $("#stn2-a3").removeClass("spanitemselected");
-            $("#stn2-a4").removeClass("spanitemselected");
-            $("#stn2-a5").removeClass("spanitemselected");
-            $("#stn2-a6").removeClass("spanitemselected");
-            $("#stn1-b0").removeClass("spanitemselected");
-            $("#stn1-b160").removeClass("spanitemselected");
-            $("#stn1-b80").removeClass("spanitemselected");
-            $("#stn1-b40").removeClass("spanitemselected");
-            $("#stn1-b20").removeClass("spanitemselected");
-            $("#stn1-b15").removeClass("spanitemselected");
-            $("#stn1-b10").removeClass("spanitemselected");
-            $("#stn2-b0").removeClass("spanitemselected");
-            $("#stn2-b160").removeClass("spanitemselected");
-            $("#stn2-b80").removeClass("spanitemselected");
-            $("#stn2-b40").removeClass("spanitemselected");
-            $("#stn2-b20").removeClass("spanitemselected");
-            $("#stn2-b15").removeClass("spanitemselected");
-            $("#stn2-b10").removeClass("spanitemselected");
-            $("#stn1-f0").removeClass("spanitemselected");
-            $("#stn1-f1").removeClass("spanitemselected");
-            $("#stn1-f2").removeClass("spanitemselected");
-            $("#stn1-f3").removeClass("spanitemselected");
-            $("#stn1-f4").removeClass("spanitemselected");
-            $("#stn1-f5").removeClass("spanitemselected");
-            $("#stn1-f6").removeClass("spanitemselected");
-            $("#stn2-f0").removeClass("spanitemselected");
-            $("#stn2-f1").removeClass("spanitemselected");
-            $("#stn2-f2").removeClass("spanitemselected");
-            $("#stn2-f3").removeClass("spanitemselected");
-            $("#stn2-f4").removeClass("spanitemselected");
-            $("#stn2-f5").removeClass("spanitemselected");
-            $("#stn2-f6").removeClass("spanitemselected");
-            $("#stn1-as").removeClass("spanitemselected");
-            $("#stn1-fs").removeClass("spanitemselected");
-            $("#stn2-as").removeClass("spanitemselected");
-            $("#stn2-fs").removeClass("spanitemselected");
+            for (i = 0; i <= 6; i++) {
+              $("#stn1-a"+i).removeClass("spanitemselected");
+              $("#stn1-f"+i).removeClass("spanitemselected");
+              $("#stn2-a"+i).removeClass("spanitemselected");
+              $("#stn2-f"+i).removeClass("spanitemselected");
+            }
+            for (i = 1; i <= 2; i++) {
+              $("#stn"+i+"-b0").removeClass("spanitemselected");
+              $("#stn"+i+"-b160").removeClass("spanitemselected");
+              $("#stn"+i+"-b80").removeClass("spanitemselected");
+              $("#stn"+i+"-b40").removeClass("spanitemselected");
+              $("#stn"+i+"-b20").removeClass("spanitemselected");
+              $("#stn"+i+"-b15").removeClass("spanitemselected");
+              $("#stn"+i+"-b10").removeClass("spanitemselected");
+              $("#stn"+i+"-as").removeClass("spanitemselected");
+              $("#stn"+i+"-fs").removeClass("spanitemselected");
+              
+            }
             $(astn1).addClass("spanitemselected")
             $(astn2).addClass("spanitemselected")
             $(bstn1).addClass("spanitemselected")

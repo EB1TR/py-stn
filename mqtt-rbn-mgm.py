@@ -88,9 +88,7 @@ def do_telnet():
                         print(data)
                         print("#########################################")
         except KeyboardInterrupt:
-            print(
-                '\n** User exited.'
-            )
+            print('\n** User exited.')
             mqtt_client.disconnect()
             sys.exit(0)
         except EOFError:
