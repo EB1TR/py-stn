@@ -154,13 +154,15 @@ def do_telnet():
                         print("############## NO MANEJADO ##############")
                         print(data)
                         print("#########################################")
-                if data[0] == 'WCY':
-                    try:
-                        is_wcy(data, mqtt_client)
-                    except:
-                        print("############## NO MANEJADO ##############")
-                        print(data)
-                        print("#########################################")
+                else:
+                    data = rawdata.split()
+                    if data[0] == 'WCY':
+                        try:
+                            is_wcy(data, mqtt_client)
+                        except:
+                            print("############## NO MANEJADO ##############")
+                            print(data)
+                            print("#########################################")
         except KeyboardInterrupt:
             print('\n** User exited.')
             mqtt_client.disconnect()
