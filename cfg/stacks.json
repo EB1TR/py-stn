@@ -64,7 +64,7 @@
         }
     }, 
     "20": {
-        "salidas": 2, 
+        "salidas": 3, 
         "balun": false, 
         "1": {
             "estado": true, 
@@ -76,7 +76,7 @@
         }, 
         "3": {
             "estado": false, 
-            "nombre": ""
+            "nombre": "MB8"
         }
     }, 
     "15": {

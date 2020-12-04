@@ -145,13 +145,147 @@ STN1 = {
     'netbios': "",
     'auto': True,
     'ant': 0,
-    'band': 0
+    'band': 0,
+    'rx': {
+        '0': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '160': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '80': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '40': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '20': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '15': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '10': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        }
+    }
 }
 STN2 = {
     'netbios': "",
     'auto': True,
     'ant': 0,
-    'band': 0
+    'band': 0,
+    'rx': {
+        '0': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '160': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '80': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '40': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '20': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '15': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        },
+        '10': {
+            '1': False,
+            '2': False,
+            '3': False,
+            '4': False,
+            '5': False,
+            '6': False
+        }
+    }
+}
+
+RX1 = {
+    '1': "RX11",
+    '2': "RX12",
+    '3': "RX13",
+    '4': "RX14",
+    '5': "RX15",
+    '6': "RX16",
+}
+
+RX2 = {
+    '1': "RX21",
+    '2': "RX22",
+    '3': "RX23",
+    '4': "RX24",
+    '5': "RX25",
+    '6': "RX26",
 }
 
 try:
@@ -229,7 +363,9 @@ def status(topic):
         {
             'stn1': STN1,
             'stn2': STN2,
-            'stacks': STACKS
+            'stacks': STACKS,
+            'rx1': RX1,
+            'rx2': RX2
         }, sort_keys=False
     )
     print(data_json)
@@ -249,132 +385,164 @@ def on_connect(client, userdata, flags, rc):
         ("set/stn2/band", 0),
         ("set/stn1/stack", 0),
         ("set/stn2/stack", 0),
+        ("set/rx1", 0),
+        ("set/rx2", 0),
         ("update", 0),
         ("configtopy", 0)
     ])
 
 
 def on_message(client, userdata, msg):
-    try:
-        global STN1
-        global STN2
-        global STACKS
+    global STN1
+    global STN2
+    global STACKS
+    global RX1
+    global RX2
 
-        dato = msg.payload.decode('utf-8')
+    dato = msg.payload.decode('utf-8')
 
-        # Mensajes recibidos desde UDP
-        if msg.topic == "stn1/radio1/band":
-            if STN1['auto']:
-                assign_stn(1, int(dato))
+    # Mensajes recibidos desde UDP
+    if msg.topic == "stn1/radio1/band":
+        if STN1['auto']:
+            assign_stn(1, int(dato))
 
-        if msg.topic == "stn2/radio1/band":
-            if STN2['auto']:
-                assign_stn(2, int(dato))
+    if msg.topic == "stn2/radio1/band":
+        if STN2['auto']:
+            assign_stn(2, int(dato))
 
-        # Mensajes recibidos desde FRONT
-        if not STN1['auto'] and msg.topic == "set/stn1/band":
-            dato = int(dato)
-            assign_stn(1, dato)
+    # Mensajes recibidos desde FRONT
+    if not STN1['auto'] and msg.topic == "set/stn1/band":
+        dato = int(dato)
+        assign_stn(1, dato)
 
-        if not STN2['auto'] and msg.topic == "set/stn2/band":
-            dato = int(dato)
-            assign_stn(2, dato)
+    if not STN2['auto'] and msg.topic == "set/stn2/band":
+        dato = int(dato)
+        assign_stn(2, dato)
 
-        if msg.topic == "set/stn1/antm":
-            if STN1['auto']:
-                STN1['auto'] = False
-            else:
-                STN1['auto'] = True
-                assign_stn(1, 0)
+    if msg.topic == "set/stn1/antm":
+        if STN1['auto']:
+            STN1['auto'] = False
+        else:
+            STN1['auto'] = True
+            assign_stn(1, 0)
 
-        if msg.topic == "set/stn2/antm":
-            if STN2['auto']:
-                STN2['auto'] = False
-            else:
-                STN2['auto'] = True
-                assign_stn(2, 0)
+    if msg.topic == "set/stn2/antm":
+        if STN2['auto']:
+            STN2['auto'] = False
+        else:
+            STN2['auto'] = True
+            assign_stn(2, 0)
 
-        if msg.topic == "set/stn1/stack" and int(STN1['band']) != 0:
-            cc = 0
-            if STACKS[str(STN1['band'])]['1']['estado']: cc = cc + 1
-            if STACKS[str(STN1['band'])]['2']['estado']: cc = cc + 1
-            if STACKS[str(STN1['band'])]['3']['estado']: cc = cc + 1
-            if STACKS[str(STN1['band'])][str(dato)]['estado'] and cc > 1:
-                STACKS[str(STN1['band'])][str(dato)]['estado'] = False
-                cc = cc - 1
-            else:
-                STACKS[str(STN1['band'])][str(dato)]['estado'] = True
-                cc = cc + 1
-            if cc > 1:
-                STACKS[str(STN1['band'])]['balun'] = False
-            else:
-                STACKS[str(STN1['band'])]['balun'] = True
+    if msg.topic == "set/rx1" and not STN1['band'] == 0:
+        if STN1['rx'][str(STN1['band'])][str(dato)]:
+            STN1['rx'][str(STN1['band'])][str(dato)] = False
+        else:
+            STN1['rx'][str(STN1['band'])][str(dato)] = True
 
-        if msg.topic == "set/stn2/stack" and int(STN2['band']) != 0:
-            cc = 0
-            if STACKS[str(STN2['band'])]['1']['estado']: cc = cc + 1
-            if STACKS[str(STN2['band'])]['2']['estado']: cc = cc + 1
-            if STACKS[str(STN2['band'])]['3']['estado']: cc = cc + 1
-            if STACKS[str(STN2['band'])][str(dato)]['estado'] and cc > 1:
-                STACKS[str(STN2['band'])][str(dato)]['estado'] = False
-                cc = cc - 1
-            else:
-                STACKS[str(STN2['band'])][str(dato)]['estado'] = True
-                cc = cc + 1
-            if cc > 1:
-                STACKS[str(STN2['band'])]['balun'] = False
-            else:
-                STACKS[str(STN2['band'])]['balun'] = True
+    if msg.topic == "set/rx2" and not STN2['band'] == 0:
+        if STN2['rx'][str(STN2['band'])][str(dato)]:
+            STN2['rx'][str(STN2['band'])][str(dato)] = False
+        else:
+            STN2['rx'][str(STN2['band'])][str(dato)] = True
 
-        # Mensajes recibidos desde CONFIGURACION
-        if msg.topic == "configtopy":
-            dato = json.loads(dato)
-            STACKS['160']['salidas'] = int(dato['a1600'])
-            STACKS['160']['1']['nombre'] = dato['a1601']
-            STACKS['160']['2']['nombre'] = dato['a1602']
-            STACKS['160']['3']['nombre'] = dato['a1603']
+    if msg.topic == "set/stn1/stack" and int(STN1['band']) != 0:
+        cc = 0
+        if STACKS[str(STN1['band'])]['1']['estado']: cc = cc + 1
+        if STACKS[str(STN1['band'])]['2']['estado']: cc = cc + 1
+        if STACKS[str(STN1['band'])]['3']['estado']: cc = cc + 1
+        if STACKS[str(STN1['band'])][str(dato)]['estado'] and cc > 1:
+            STACKS[str(STN1['band'])][str(dato)]['estado'] = False
+            cc = cc - 1
+        else:
+            STACKS[str(STN1['band'])][str(dato)]['estado'] = True
+            cc = cc + 1
+        if cc > 1:
+            STACKS[str(STN1['band'])]['balun'] = False
+        else:
+            STACKS[str(STN1['band'])]['balun'] = True
 
-            STACKS['80']['salidas'] = int(dato['a800'])
-            STACKS['80']['1']['nombre'] = dato['a801']
-            STACKS['80']['2']['nombre'] = dato['a802']
-            STACKS['80']['3']['nombre'] = dato['a803']
+    if msg.topic == "set/stn2/stack" and int(STN2['band']) != 0:
+        cc = 0
+        if STACKS[str(STN2['band'])]['1']['estado']: cc = cc + 1
+        if STACKS[str(STN2['band'])]['2']['estado']: cc = cc + 1
+        if STACKS[str(STN2['band'])]['3']['estado']: cc = cc + 1
+        if STACKS[str(STN2['band'])][str(dato)]['estado'] and cc > 1:
+            STACKS[str(STN2['band'])][str(dato)]['estado'] = False
+            cc = cc - 1
+        else:
+            STACKS[str(STN2['band'])][str(dato)]['estado'] = True
+            cc = cc + 1
+        if cc > 1:
+            STACKS[str(STN2['band'])]['balun'] = False
+        else:
+            STACKS[str(STN2['band'])]['balun'] = True
 
-            STACKS['40']['salidas'] = int(dato['a400'])
-            STACKS['40']['1']['nombre'] = dato['a401']
-            STACKS['40']['2']['nombre'] = dato['a402']
-            STACKS['40']['3']['nombre'] = dato['a403']
+    # Mensajes recibidos desde CONFIGURACION
+    if msg.topic == "configtopy":
+        dato = json.loads(dato)
+        print(STN1)
+        STACKS['160']['salidas'] = int(dato['a1600'])
+        STACKS['160']['1']['nombre'] = dato['a1601']
+        STACKS['160']['2']['nombre'] = dato['a1602']
+        STACKS['160']['3']['nombre'] = dato['a1603']
 
-            STACKS['20']['salidas'] = int(dato['a200'])
-            STACKS['20']['1']['nombre'] = dato['a201']
-            STACKS['20']['2']['nombre'] = dato['a202']
-            STACKS['20']['3']['nombre'] = dato['a203']
+        STACKS['80']['salidas'] = int(dato['a800'])
+        STACKS['80']['1']['nombre'] = dato['a801']
+        STACKS['80']['2']['nombre'] = dato['a802']
+        STACKS['80']['3']['nombre'] = dato['a803']
 
-            STACKS['15']['salidas'] = int(dato['a150'])
-            STACKS['15']['1']['nombre'] = dato['a151']
-            STACKS['15']['2']['nombre'] = dato['a152']
-            STACKS['15']['3']['nombre'] = dato['a153']
+        STACKS['40']['salidas'] = int(dato['a400'])
+        STACKS['40']['1']['nombre'] = dato['a401']
+        STACKS['40']['2']['nombre'] = dato['a402']
+        STACKS['40']['3']['nombre'] = dato['a403']
 
-            STACKS['10']['salidas'] = int(dato['a100'])
-            STACKS['10']['1']['nombre'] = dato['a101']
-            STACKS['10']['2']['nombre'] = dato['a102']
-            STACKS['10']['3']['nombre'] = dato['a103']
+        STACKS['20']['salidas'] = int(dato['a200'])
+        STACKS['20']['1']['nombre'] = dato['a201']
+        STACKS['20']['2']['nombre'] = dato['a202']
+        STACKS['20']['3']['nombre'] = dato['a203']
 
-            STN1['netbios'] = str(dato['stn1-n'])
-            STN2['netbios'] = str(dato['stn2-n'])
+        STACKS['15']['salidas'] = int(dato['a150'])
+        STACKS['15']['1']['nombre'] = dato['a151']
+        STACKS['15']['2']['nombre'] = dato['a152']
+        STACKS['15']['3']['nombre'] = dato['a153']
 
-            with open('cfg/stacks.json', 'w') as fp:
-                json.dump(STACKS, fp, indent=4, separators=(", ", ": "))
-            with open('cfg/stn1.json', 'w') as fp:
-                json.dump(STN1, fp, indent=4, separators=(", ", ": "))
-            with open('cfg/stn2.json', 'w') as fp:
-                json.dump(STN2, fp, indent=4, separators=(", ", ": "))
+        STACKS['10']['salidas'] = int(dato['a100'])
+        STACKS['10']['1']['nombre'] = dato['a101']
+        STACKS['10']['2']['nombre'] = dato['a102']
+        STACKS['10']['3']['nombre'] = dato['a103']
 
-            status("pytoconfig")
+        STN1['netbios'] = str(dato['stn1-n'])
+        STN2['netbios'] = str(dato['stn2-n'])
 
-        if msg.topic == "update":
-            status("pytoconfig")
-    except:
-        pass
+        RX1['1'] = str(dato['r101'])
+        RX1['2'] = str(dato['r102'])
+        RX1['3'] = str(dato['r103'])
+        RX1['4'] = str(dato['r104'])
+        RX1['5'] = str(dato['r105'])
+        RX1['6'] = str(dato['r106'])
+
+        RX2['1'] = str(dato['r201'])
+        RX2['2'] = str(dato['r202'])
+        RX2['3'] = str(dato['r203'])
+        RX2['4'] = str(dato['r204'])
+        RX2['5'] = str(dato['r205'])
+        RX2['6'] = str(dato['r206'])
+
+        with open('cfg/stacks.json', 'w') as fp:
+            json.dump(STACKS, fp, indent=4, separators=(", ", ": "))
+        with open('cfg/stn1.json', 'w') as fp:
+            json.dump(STN1, fp, indent=4, separators=(", ", ": "))
+        with open('cfg/stn2.json', 'w') as fp:
+            json.dump(STN2, fp, indent=4, separators=(", ", ": "))
+        with open('cfg/rx1.json', 'w') as fp:
+            json.dump(RX1, fp, indent=4, separators=(", ", ": "))
+        with open('cfg/rx2.json', 'w') as fp:
+            json.dump(RX2, fp, indent=4, separators=(", ", ": "))
+
+        status("pytoconfig")
+
+    if msg.topic == "update":
+        status("pytoconfig")
 
     status("pytofront")
 

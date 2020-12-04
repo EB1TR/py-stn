@@ -1,7 +1,7 @@
 // Create a client instance
 clientID = "web"
 clientID += new Date().getUTCMilliseconds()
-client = new Paho.MQTT.Client("192.168.16.113", Number(9001), clientID);
+client = new Paho.MQTT.Client("127.0.0.1", Number(9001), clientID);
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
@@ -97,6 +97,20 @@ function onMessageArrived(message) {
   $('input[name="a101"]').val(json.stacks[10][1]['nombre'])
   $('input[name="a102"]').val(json.stacks[10][2]['nombre'])
   $('input[name="a103"]').val(json.stacks[10][3]['nombre'])
+
+  $('input[name="r101"]').val(json.rx1['1'])
+  $('input[name="r102"]').val(json.rx1['2'])
+  $('input[name="r103"]').val(json.rx1['3'])
+  $('input[name="r104"]').val(json.rx1['4'])
+  $('input[name="r105"]').val(json.rx1['5'])
+  $('input[name="r106"]').val(json.rx1['6'])
+
+  $('input[name="r201"]').val(json.rx2['1'])
+  $('input[name="r202"]').val(json.rx2['2'])
+  $('input[name="r203"]').val(json.rx2['3'])
+  $('input[name="r204"]').val(json.rx2['4'])
+  $('input[name="r205"]').val(json.rx2['5'])
+  $('input[name="r206"]').val(json.rx2['6'])
 
 
 }

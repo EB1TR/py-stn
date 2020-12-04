@@ -1,6 +1,6 @@
 clientID = "web"
 clientID += new Date().getUTCMilliseconds()
-client = new Paho.MQTT.Client("192.168.16.113", Number(9001), clientID);
+client = new Paho.MQTT.Client("127.0.0.1", Number(9001), clientID);
 
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
@@ -57,6 +57,8 @@ function onMessageArrived(message) {
             bstn1 = "#stn1-b"+json.stn1.band
             bstn2 = "#stn2-b"+json.stn2.band
 
+            bandstn1 = json.stn1.band
+
             asstn1 = json.stn1.auto
             asstn2 = json.stn2.auto
 
@@ -85,6 +87,36 @@ function onMessageArrived(message) {
             $("#stn2-b20").removeClass("spanitemselected");
             $("#stn2-b15").removeClass("spanitemselected");
             $("#stn2-b10").removeClass("spanitemselected");
+
+            $("#rx101").removeClass("spanitemselected");
+            $("#rx102").removeClass("spanitemselected");
+            $("#rx103").removeClass("spanitemselected");
+            $("#rx104").removeClass("spanitemselected");
+            $("#rx105").removeClass("spanitemselected");
+            $("#rx106").removeClass("spanitemselected");
+
+            $("#rx201").removeClass("spanitemselected");
+            $("#rx202").removeClass("spanitemselected");
+            $("#rx203").removeClass("spanitemselected");
+            $("#rx204").removeClass("spanitemselected");
+            $("#rx205").removeClass("spanitemselected");
+            $("#rx206").removeClass("spanitemselected");
+
+            $("#rx101").text(json.rx1[1])
+            $("#rx102").text(json.rx1[2])
+            $("#rx103").text(json.rx1[3])
+            $("#rx104").text(json.rx1[4])
+            $("#rx105").text(json.rx1[5])
+            $("#rx106").text(json.rx1[6])
+
+            $("#rx201").text(json.rx2[1])
+            $("#rx202").text(json.rx2[2])
+            $("#rx203").text(json.rx2[3])
+            $("#rx204").text(json.rx2[4])
+            $("#rx205").text(json.rx2[5])
+            $("#rx206").text(json.rx2[6])
+
+
             $("#stn1-as").removeClass("spanitemselected");
             $("#stn2-as").removeClass("spanitemselected");
 
@@ -104,6 +136,20 @@ function onMessageArrived(message) {
             $("#stn1-stack1").text(json.stacks[json.stn1.band][1]['nombre'])
             $("#stn1-stack2").text(json.stacks[json.stn1.band][2]['nombre'])
             $("#stn1-stack3").text(json.stacks[json.stn1.band][3]['nombre'])
+
+            if (json.stn1["rx"][json.stn1.band][1] == true) $("#rx101").addClass("spanitemselected")
+            if (json.stn1["rx"][json.stn1.band][2] == true) $("#rx102").addClass("spanitemselected")
+            if (json.stn1["rx"][json.stn1.band][3] == true) $("#rx103").addClass("spanitemselected")
+            if (json.stn1["rx"][json.stn1.band][4] == true) $("#rx104").addClass("spanitemselected")
+            if (json.stn1["rx"][json.stn1.band][5] == true) $("#rx105").addClass("spanitemselected")
+            if (json.stn1["rx"][json.stn1.band][6] == true) $("#rx106").addClass("spanitemselected")
+
+            if (json.stn2["rx"][json.stn2.band][1] == true) $("#rx201").addClass("spanitemselected")
+            if (json.stn2["rx"][json.stn2.band][2] == true) $("#rx202").addClass("spanitemselected")
+            if (json.stn2["rx"][json.stn2.band][3] == true) $("#rx203").addClass("spanitemselected")
+            if (json.stn2["rx"][json.stn2.band][4] == true) $("#rx204").addClass("spanitemselected")
+            if (json.stn2["rx"][json.stn2.band][5] == true) $("#rx205").addClass("spanitemselected")
+            if (json.stn2["rx"][json.stn2.band][6] == true) $("#rx206").addClass("spanitemselected")
             
             $('#stn1-n').text(json.stn1.netbios)
             $('#stn2-n').text(json.stn2.netbios)

@@ -1,6 +1,64 @@
 {
-    "netbios": "ED1B-STN2", 
+    "netbios": "ED7O-STN2", 
     "auto": false, 
-    "ant": 15, 
-    "band": 15
+    "ant": 80, 
+    "band": 80, 
+    "rx": {
+        "0": {
+            "1": false, 
+            "2": false, 
+            "3": false, 
+            "4": false, 
+            "5": false, 
+            "6": false
+        }, 
+        "160": {
+            "1": false, 
+            "2": false, 
+            "3": false, 
+            "4": false, 
+            "5": false, 
+            "6": true
+        }, 
+        "80": {
+            "1": false, 
+            "2": false, 
+            "3": false, 
+            "4": false, 
+            "5": true, 
+            "6": false
+        }, 
+        "40": {
+            "1": false, 
+            "2": false, 
+            "3": false, 
+            "4": true, 
+            "5": false, 
+            "6": false
+        }, 
+        "20": {
+            "1": false, 
+            "2": false, 
+            "3": true, 
+            "4": false, 
+            "5": false, 
+            "6": false
+        }, 
+        "15": {
+            "1": false, 
+            "2": true, 
+            "3": false, 
+            "4": false, 
+            "5": false, 
+            "6": false
+        }, 
+        "10": {
+            "1": true, 
+            "2": false, 
+            "3": false, 
+            "4": false, 
+            "5": false, 
+            "6": false
+        }
+    }
 }

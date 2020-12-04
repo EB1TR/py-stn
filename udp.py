@@ -66,7 +66,7 @@ def mqtt_connect():
 def define_band(qrg):
     if qrg in range(175000, 205000):
         band = 160
-    elif qrg in range(345000, 40000):
+    elif qrg in range(345000, 400000):
         band = 80
     elif qrg in range(695000, 735000):
         band = 40
