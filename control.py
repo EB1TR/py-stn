@@ -142,131 +142,33 @@ STACKS = {
     }
 }
 STN1 = {
-    'netbios': "",
+    'netbios': "NETBIOS-STN1",
     'auto': True,
     'ant': 0,
     'band': 0,
     'rx': {
-        '0': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '160': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '80': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '40': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '20': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '15': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '10': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        }
+        '0': 0,
+        '160': 0,
+        '80': 0,
+        '40': 0,
+        '20': 0,
+        '15': 0,
+        '10': 0,
     }
 }
 STN2 = {
-    'netbios': "",
+    'netbios': "NETBIOS-STN2",
     'auto': True,
     'ant': 0,
     'band': 0,
     'rx': {
-        '0': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '160': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '80': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '40': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '20': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '15': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        },
-        '10': {
-            '1': False,
-            '2': False,
-            '3': False,
-            '4': False,
-            '5': False,
-            '6': False
-        }
+        '0': 0,
+        '160': 0,
+        '80': 0,
+        '40': 0,
+        '20': 0,
+        '15': 0,
+        '10': 0,
     }
 }
 
@@ -316,6 +218,27 @@ try:
 except:
     if os.path.exists('cfg/stn2.json'):
         os.remove('cfg/stn2.json')
+        print("Datos de STN1 autogenerados...")
+
+
+try:
+    with open('cfg/rx1.json') as json_file:
+        data = json.load(json_file)
+        RX1 = dict(data)
+        print("Datos de STN1 cargados desde fichero...")
+except:
+    if os.path.exists('cfg/rx1.json'):
+        os.remove('cfg/rx1.json')
+        print("Datos de STN1 autogenerados...")
+
+try:
+    with open('cfg/rx2.json') as json_file:
+        data = json.load(json_file)
+        RX2 = dict(data)
+        print("Datos de STN2 cargados desde fichero...")
+except:
+    if os.path.exists('cfg/stn2.json'):
+        os.remove('cfg/rx2.json')
         print("Datos de STN1 autogenerados...")
 
 
@@ -434,16 +357,10 @@ def on_message(client, userdata, msg):
             assign_stn(2, 0)
 
     if msg.topic == "set/rx1" and not STN1['band'] == 0:
-        if STN1['rx'][str(STN1['band'])][str(dato)]:
-            STN1['rx'][str(STN1['band'])][str(dato)] = False
-        else:
-            STN1['rx'][str(STN1['band'])][str(dato)] = True
+        STN1['rx'][str(STN1['band'])] = dato
 
     if msg.topic == "set/rx2" and not STN2['band'] == 0:
-        if STN2['rx'][str(STN2['band'])][str(dato)]:
-            STN2['rx'][str(STN2['band'])][str(dato)] = False
-        else:
-            STN2['rx'][str(STN2['band'])][str(dato)] = True
+        STN2['rx'][str(STN2['band'])] = dato
 
     if msg.topic == "set/stn1/stack" and int(STN1['band']) != 0:
         cc = 0
@@ -480,7 +397,6 @@ def on_message(client, userdata, msg):
     # Mensajes recibidos desde CONFIGURACION
     if msg.topic == "configtopy":
         dato = json.loads(dato)
-        print(STN1)
         STACKS['160']['salidas'] = int(dato['a1600'])
         STACKS['160']['1']['nombre'] = dato['a1601']
         STACKS['160']['2']['nombre'] = dato['a1602']

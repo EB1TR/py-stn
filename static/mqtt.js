@@ -88,6 +88,7 @@ function onMessageArrived(message) {
             $("#stn2-b15").removeClass("spanitemselected");
             $("#stn2-b10").removeClass("spanitemselected");
 
+            $("#rx100").removeClass("spanitemselected");
             $("#rx101").removeClass("spanitemselected");
             $("#rx102").removeClass("spanitemselected");
             $("#rx103").removeClass("spanitemselected");
@@ -95,6 +96,7 @@ function onMessageArrived(message) {
             $("#rx105").removeClass("spanitemselected");
             $("#rx106").removeClass("spanitemselected");
 
+            $("#rx200").removeClass("spanitemselected");
             $("#rx201").removeClass("spanitemselected");
             $("#rx202").removeClass("spanitemselected");
             $("#rx203").removeClass("spanitemselected");
@@ -137,19 +139,8 @@ function onMessageArrived(message) {
             $("#stn1-stack2").text(json.stacks[json.stn1.band][2]['nombre'])
             $("#stn1-stack3").text(json.stacks[json.stn1.band][3]['nombre'])
 
-            if (json.stn1["rx"][json.stn1.band][1] == true) $("#rx101").addClass("spanitemselected")
-            if (json.stn1["rx"][json.stn1.band][2] == true) $("#rx102").addClass("spanitemselected")
-            if (json.stn1["rx"][json.stn1.band][3] == true) $("#rx103").addClass("spanitemselected")
-            if (json.stn1["rx"][json.stn1.band][4] == true) $("#rx104").addClass("spanitemselected")
-            if (json.stn1["rx"][json.stn1.band][5] == true) $("#rx105").addClass("spanitemselected")
-            if (json.stn1["rx"][json.stn1.band][6] == true) $("#rx106").addClass("spanitemselected")
-
-            if (json.stn2["rx"][json.stn2.band][1] == true) $("#rx201").addClass("spanitemselected")
-            if (json.stn2["rx"][json.stn2.band][2] == true) $("#rx202").addClass("spanitemselected")
-            if (json.stn2["rx"][json.stn2.band][3] == true) $("#rx203").addClass("spanitemselected")
-            if (json.stn2["rx"][json.stn2.band][4] == true) $("#rx204").addClass("spanitemselected")
-            if (json.stn2["rx"][json.stn2.band][5] == true) $("#rx205").addClass("spanitemselected")
-            if (json.stn2["rx"][json.stn2.band][6] == true) $("#rx206").addClass("spanitemselected")
+            $("#rx10" + json.stn1.rx[json.stn1.band]).addClass("spanitemselected")
+            $("#rx20" + json.stn2.rx[json.stn2.band]).addClass("spanitemselected")
             
             $('#stn1-n').text(json.stn1.netbios)
             $('#stn2-n').text(json.stn2.netbios)

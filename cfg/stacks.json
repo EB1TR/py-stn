@@ -16,35 +16,35 @@
         }
     }, 
     "160": {
-        "salidas": 2, 
+        "salidas": 3, 
         "balun": false, 
         "1": {
             "estado": true, 
-            "nombre": "DIP"
+            "nombre": "ANT1"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "BOG"
+            "nombre": "ANT2"
         }, 
         "3": {
             "estado": false, 
-            "nombre": ""
+            "nombre": "ANT3"
         }
     }, 
     "80": {
-        "salidas": 2, 
+        "salidas": 3, 
         "balun": false, 
         "1": {
             "estado": true, 
-            "nombre": "ROT"
+            "nombre": "ANT1"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "DIP"
+            "nombre": "ANT2"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "BVG"
+            "nombre": "ANT3"
         }
     }, 
     "40": {
@@ -52,11 +52,11 @@
         "balun": false, 
         "1": {
             "estado": true, 
-            "nombre": "MB40"
+            "nombre": "ANT1"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "DIP"
+            "nombre": "ANT2"
         }, 
         "3": {
             "estado": false, 
@@ -68,15 +68,15 @@
         "balun": false, 
         "1": {
             "estado": true, 
-            "nombre": "MB6"
+            "nombre": "ANT1"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "MB7"
+            "nombre": "ANT2"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "MB8"
+            "nombre": "ANT3"
         }
     }, 
     "15": {
@@ -84,31 +84,31 @@
         "balun": false, 
         "1": {
             "estado": true, 
-            "nombre": "MB6"
+            "nombre": "ANT1"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "MB7"
+            "nombre": "ANT2"
         }, 
         "3": {
             "estado": false, 
-            "nombre": "--"
+            "nombre": "ANT3"
         }
     }, 
     "10": {
-        "salidas": 2, 
+        "salidas": 3, 
         "balun": false, 
         "1": {
             "estado": true, 
-            "nombre": "MB6"
+            "nombre": "ANT1"
         }, 
         "2": {
             "estado": false, 
-            "nombre": "MB7"
+            "nombre": "ANT2"
         }, 
         "3": {
             "estado": false, 
-            "nombre": ""
+            "nombre": "ANT3"
         }
     }
 }
