@@ -19,6 +19,7 @@ function onConnect() {
   client.subscribe("stn2/radio1/op");
   client.subscribe("spots/rbn/cw");
   client.subscribe("spots/rbn/mgm");
+  client.subscribe("solar/wcy");
   client.subscribe("spots/spider/spots");
   message = new Paho.MQTT.Message('0');
   message.destinationName = "update";
@@ -59,6 +60,31 @@ function checkBand(qrg) {
     else bandcheck = 6
   }
   return bandcheck
+}
+
+
+function isWCY(rawwcy) {
+  var jsonwcy = JSON.parse(rawwcy)
+  
+  var spottime = jsonwcy.tstamp
+  var ki = jsonwcy.k
+  var ai = jsonwcy.a
+  var ssn = jsonwcy.ssn
+  var sfi = jsonwcy.sfi
+
+  var date = new Date(spottime * 1000);
+  
+  var hours = date.getHours();
+  var minutes = "0" + date.getMinutes();
+  var seconds = "0" + date.getSeconds();
+  var formattedTime = hours + ':' + minutes.substr(-2)
+  
+  $("#ts").text(formattedTime);
+  $("#ki").text("K: " + ki);
+  $("#ai").text("A: " + ai);
+  $("#sfi").text("SFI: " + sfi);
+  $("#ssn").text("SSN: " + ssn);
+  
 }
 
 
@@ -165,6 +191,8 @@ function onMessageArrived(message) {
       isSpot(message.payloadString, true, false)
     } else if (message.destinationName == "spots/spider/spots") {
       isSpot(message.payloadString, false, false)
+    } else if (message.destinationName == "solar/wcy") {
+      isWCY(message.payloadString)
     } else {
         json = JSON.parse(message.payloadString)
         if (json.stn1 != undefined) {
