@@ -21,6 +21,7 @@ function onConnect() {
   client.subscribe("spots/rbn/mgm");
   client.subscribe("solar/wcy");
   client.subscribe("s/1");
+  client.subscribe("s/2");
   client.subscribe("spots/spider/spots");
   message = new Paho.MQTT.Message('0');
   message.destinationName = "update";
@@ -62,14 +63,20 @@ function checkBand(qrg) {
 }
 
 
-function isWX(rawwx) {
+function isWX(rawwx, s) {
   var jsonwx = JSON.parse(rawwx)
   var tem = jsonwx.tem.toFixed(1)
   var hum = jsonwx.hum.toFixed(1)
   var pre = jsonwx.pre.toFixed(1)
-  $("#tem").text("Temperatura: " + tem + "ºC");
-  $("#hum").text("Humedad: " + hum + "%");
-  $("#pre").text("Presión: " + pre + "mbar");
+  if (s == 1) {
+    $("#tem").text("Temperatura: " + tem + "ºC");
+    $("#hum").text("Humedad: " + hum + "%");
+    $("#pre").text("Presión: " + pre + "mbar");
+  } else {
+    $("#etem").text("Temperatura: " + tem + "ºC");
+    $("#ehum").text("Humedad: " + hum + "%");
+    $("#epre").text("Presión: " + pre + "mbar");
+  }
 }
 
 function isWCY(rawwcy) {
@@ -194,7 +201,9 @@ function onMessageArrived(message) {
     } else if (message.destinationName == "solar/wcy") {
       isWCY(message.payloadString)
     } else if (message.destinationName == "s/1") {
-      isWX(message.payloadString)
+      isWX(message.payloadString, 1)
+    } else if (message.destinationName == "s/2") {
+      isWX(message.payloadString, 2)
     } else {
         json = JSON.parse(message.payloadString)
         if (json.stn1 != undefined) {
