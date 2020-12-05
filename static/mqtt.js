@@ -20,6 +20,7 @@ function onConnect() {
   client.subscribe("spots/rbn/cw");
   client.subscribe("spots/rbn/mgm");
   client.subscribe("solar/wcy");
+  client.subscribe("s/1");
   client.subscribe("spots/spider/spots");
   message = new Paho.MQTT.Message('0');
   message.destinationName = "update";
@@ -34,13 +35,11 @@ function onConnectionLost(responseObject) {
   }
 }
 
-
 function send_command(comm, dato){
   message = new Paho.MQTT.Message(String(dato));
   message.destinationName = comm;
   client.send(message);
 }
-
 
 function checkBand(qrg) {
   qrg = parseFloat(qrg)
@@ -63,30 +62,34 @@ function checkBand(qrg) {
 }
 
 
+function isWX(rawwx) {
+  var jsonwx = JSON.parse(rawwx)
+  var tem = jsonwx.tem.toFixed(1)
+  var hum = jsonwx.hum.toFixed(1)
+  var pre = jsonwx.pre.toFixed(1)
+  $("#tem").text("Temperatura: " + tem + "ºC");
+  $("#hum").text("Humedad: " + hum + "%");
+  $("#pre").text("Presión: " + pre + "mbar");
+}
+
 function isWCY(rawwcy) {
   var jsonwcy = JSON.parse(rawwcy)
-  
   var spottime = jsonwcy.tstamp
   var ki = jsonwcy.k
   var ai = jsonwcy.a
   var ssn = jsonwcy.ssn
   var sfi = jsonwcy.sfi
-
   var date = new Date(spottime * 1000);
-  
   var hours = date.getHours();
   var minutes = "0" + date.getMinutes();
   var seconds = "0" + date.getSeconds();
   var formattedTime = hours + ':' + minutes.substr(-2)
-  
   $("#ts").text(formattedTime);
   $("#ki").text("K: " + ki);
   $("#ai").text("A: " + ai);
   $("#sfi").text("SFI: " + sfi);
   $("#ssn").text("SSN: " + ssn);
-  
 }
-
 
 function isSpot(rawspot, fromrbn, rbncw) {
   var jsonspot = JSON.parse(rawspot)
@@ -136,7 +139,6 @@ function isSpot(rawspot, fromrbn, rbncw) {
         $(".spotstn1rbn").last().remove();
       }
     }
-    
     if (band == bandstn1 && !fromrbn) {
       spotline = '<tr class="spotstn1 ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
        + '</td><td width="25%" align="left">' + srccall
@@ -147,7 +149,6 @@ function isSpot(rawspot, fromrbn, rbncw) {
         $(".spotstn1").last().remove();
       }
     }
-    
     if (band == bandstn2 && fromrbn) {
       spotline = '<tr class="spotstn2rbn ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
        + '</td><td width="25%" align="left">' + srccall
@@ -158,7 +159,6 @@ function isSpot(rawspot, fromrbn, rbncw) {
         $(".spotstn2rbn").last().remove();
       }
     }
-    
     if (band == bandstn2 && !fromrbn) {
       spotline = '<tr class="spotstn2 ' + sigcolor +'"><td width="15%" align="left">' + formattedTime
        + '</td><td width="25%" align="left">' + srccall
@@ -193,6 +193,8 @@ function onMessageArrived(message) {
       isSpot(message.payloadString, false, false)
     } else if (message.destinationName == "solar/wcy") {
       isWCY(message.payloadString)
+    } else if (message.destinationName == "s/1") {
+      isWX(message.payloadString)
     } else {
         json = JSON.parse(message.payloadString)
         if (json.stn1 != undefined) {
