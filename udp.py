@@ -104,7 +104,7 @@ def process_radio_info(xml_data, mqtt_c):
     if radio_i[0] == 0:
         print("STN no se ha encontrado: " + str(radio_i))
     else:
-        print(str(radio_i))
+        print("UDP -> " + str(radio_i))
 
 
 def process_xml(xml_data, mqtt_c):

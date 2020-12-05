@@ -116,7 +116,7 @@ def is_wcy(data, mqtt_client):
 
     )
     mqtt_client.publish('solar/wcy', str(processed_data))
-    print(processed_data)
+    print("SPIDER WCY -> " + str(processed_data))
 
 
 def is_spot(data, mqtt_client):
@@ -134,7 +134,7 @@ def is_spot(data, mqtt_client):
         }, sort_keys=False
     )
     mqtt_client.publish(MQTT_TOPIC, str(processed_data))
-    print(processed_data)
+    print("SPIDER SPOT -> " + str(processed_data))
 
 
 def do_telnet():

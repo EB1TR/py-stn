@@ -327,7 +327,7 @@ def status():
             'stn2': STN2
         }, sort_keys=False
     )
-    print(data_json)
+    print("CONTROL -> " + str(data_json))
     #  MQTT broker -------------------------------------------------------------------------------------
     #
     mqtt_client.publish("pytofront", data_json)

@@ -50,7 +50,7 @@ def is_spot(data, mqtt_client):
         }, sort_keys=False
     )
     mqtt_client.publish(MQTT_TOPIC, str(processed_data))
-    print(processed_data)
+    print("RBN CW -> " + str(processed_data))
 
 
 def do_telnet():
