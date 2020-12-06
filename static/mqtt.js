@@ -1,10 +1,8 @@
 clientID = "stn"
 clientID += new Date().getUTCMilliseconds()
-client = new Paho.MQTT.Client("127.0.0.1", Number(9001), clientID);
-
+client = new Paho.MQTT.Client("192.168.33.200", Number(9001), clientID);
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
-
 client.connect({onSuccess:onConnect});
 
 function onConnect() {
@@ -250,4 +248,27 @@ function onMessageArrived(message) {
             if (fsstn2 == true) $("#stn2-fs").addClass("spanitemselected")
         }
     }
+}
+
+
+var wcyAPI = "https://api.ure.es/v1/dk0wcy/";
+function dataWCY() {
+  $.ajax({
+    type: "GET",
+    dataType: "json",
+    url: wcyAPI
+  })
+  .done(function(data) {
+    const spottime = Math.round(Date.now() / 1000)
+    var date = new Date(spottime * 1000);
+    var hours = date.getHours();
+    var minutes = "0" + date.getMinutes();
+    var seconds = "0" + date.getSeconds();
+    var formattedTime = hours + ':' + minutes.substr(-2)
+    $("#ts").text(formattedTime);
+    $("#ki").text("K: " + data.gmf.k3h);
+    $("#ai").text("A: " + data.index.aboulder);
+    $("#sfi").text("SFI: " + data.index.sfi);
+    $("#ssn").text("SSN: " + data.index.ssn);
+  })
 }
