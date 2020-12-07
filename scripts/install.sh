@@ -1,6 +1,5 @@
 sudo apt update && \
 sudo apt install -y nginx mosquitto git python3 python3-distutils python3-gpiozero && \
-git clone https://github.com/EB1TR/docker-mqtt-ws.git && \
 git clone https://github.com/EB1TR/py-stn.git && \
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
 sudo python3 get-pip.py && \
