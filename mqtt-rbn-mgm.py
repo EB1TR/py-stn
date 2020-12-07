@@ -13,11 +13,11 @@ try:
     with open('config.json') as json_file:
         data = json.load(json_file)
         CONFIG = dict(data)
-        print("Datos de configuración cargados desde fichero...")
+        print("Datos de configuracion cargados desde fichero...")
 except:
     if os.path.exists('cfg/stacks.json'):
         os.remove('cfg/stacks.json')
-        print("Fallo en la carga de fichero de configuración...")
+        print("Fallo en la carga de fichero de configuracion...")
 
 CALL = CONFIG['rbnmgm-call']
 HOST = CONFIG['rbnmgm-host']
@@ -50,7 +50,7 @@ def is_spot(data, mqtt_client):
         }, sort_keys=False
     )
     mqtt_client.publish(MQTT_TOPIC, str(processed_data))
-    print("RBN MGM -> " + str(processed_data))
+    print("MGM " + str(processed_data))
 
 
 def do_telnet():
@@ -71,7 +71,7 @@ def do_telnet():
         mqtt_client.connect(MQTT_HOST, MQTT_PORT, 600)
         print('|-> Conectado.')
     except Exception as e:
-        print('\n** Cerrando conexión con MQTT por un error: %s' % e)
+        print('\n** Cerrando conexion con MQTT por un error: %s' % e)
         sys.exit(1)
     while True:
         try:

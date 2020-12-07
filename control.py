@@ -32,11 +32,11 @@ try:
     with open('config.json') as json_file:
         data = json.load(json_file)
         CONFIG = dict(data)
-        print("Datos de configuración cargados desde fichero...")
+        print("Datos de configuracion cargados desde fichero...")
 except:
     if os.path.exists('cfg/stacks.json'):
         os.remove('cfg/stacks.json')
-        print("Fallo en la carga de fichero de configuración...")
+        print("Fallo en la carga de fichero de configuracion...")
 
 STN1 = {
     'auto': True,
@@ -262,11 +262,12 @@ def activate_fil_gpio(stn, new):
 
 def rpi(cmd):
     if cmd == "reboot":
-        os.system('sudo shutdown -r now')
         print("Reiniciando")
+        os.system('sudo shutdown -r now')
     elif cmd == "shutdown":
-        os.system('sudo shutdown -h now')
         print("Apagando")
+        os.system('sudo shutdown -h now')
+
 
 def swap(stn):
     global STN1
@@ -379,7 +380,7 @@ def status():
             'stn2': STN2
         }, sort_keys=False
     )
-    print("CONTROL -> " + str(data_json))
+    print("CTL " + str(data_json))
     #  MQTT broker -------------------------------------------------------------------------------------
     #
     mqtt_client.publish("pytofront", data_json)
@@ -496,7 +497,7 @@ def on_message(client, userdata, msg):
         swap(2)
     
     if msg.topic == "set/reboot":
-        rebootpi()
+        rpi(dato)
 
     status()
 

@@ -21,11 +21,11 @@ try:
     with open('config.json') as json_file:
         data = json.load(json_file)
         CONFIG = dict(data)
-        print("Datos de configuración cargados desde fichero...")
+        print("Datos de configuracion cargados desde fichero...")
 except:
     if os.path.exists('cfg/stacks.json'):
         os.remove('cfg/stacks.json')
-        print("Fallo en la carga de fichero de configuración...")
+        print("Fallo en la carga de fichero de configuracion...")
 
 MQTT_HOST = "127.0.0.1"
 MQTT_PORT = 1883
@@ -104,14 +104,14 @@ def process_radio_info(xml_data, mqtt_c):
     if radio_i[0] == 0:
         print("STN no se ha encontrado: " + str(radio_i))
     else:
-        print("UDP -> " + str(radio_i))
+        print("UDP " + str(radio_i))
 
 
 def process_xml(xml_data, mqtt_c):
     try:
         process_radio_info(xml_data, mqtt_c)
     except:
-        print("Paquete no válido")
+        print("Paquete no valido")
 
 
 def do_udp():
