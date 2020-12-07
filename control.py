@@ -216,6 +216,10 @@ def activate_fil_gpio(stn, new):
             gpio_pin24.on()
 
 
+def rebootpi():
+    os.system('sudo shutdown -r now')
+
+
 def swap(stn):
     global STN1
     global STN2
@@ -441,6 +445,9 @@ def on_message(client, userdata, msg):
 
     if msg.topic == "set/stn2/swap":
         swap(2)
+    
+    if msg.topic == "set/reboot":
+        rebootpi()
 
     status()
 
