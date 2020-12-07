@@ -15,6 +15,16 @@ import paho.mqtt.client as mqtt
 from gpiozero import LED
 import os
 
+import board
+import busio
+import digitalio
+from adafruit_mcp230xx.mcp23017 import MCP23017
+
+i2c = busio.I2C(board.SCL, board.SDA)
+mcp = MCP23017(i2c)
+
+
+
 MQTT_HOST = "127.0.0.1"
 MQTT_PORT = 1883
 
@@ -105,120 +115,158 @@ SP = {
 }
 
 # GPIOs al SixPack A
-gpio_pin1 = LED(4)
-gpio_pin2 = LED(17)
-gpio_pin3 = LED(27)
-gpio_pin4 = LED(22)
-gpio_pin5 = LED(10)
-gpio_pin6 = LED(9)
+rpi_gpio1 = LED(4)
+rpi_gpio2 = LED(17)
+rpi_gpio3 = LED(27)
+rpi_gpio4 = LED(22)
+rpi_gpio5 = LED(10)
+rpi_gpio6 = LED(9)
 # GPIOs al SixPack B
-gpio_pin7 = LED(11)
-gpio_pin8 = LED(5)
-gpio_pin9 = LED(6)
-gpio_pin10 = LED(13)
-gpio_pin11 = LED(19)
-gpio_pin12 = LED(26)
+rpi_gpio7 = LED(11)
+rpi_gpio8 = LED(5)
+rpi_gpio9 = LED(6)
+rpi_gpio10 = LED(13)
+rpi_gpio11 = LED(19)
+rpi_gpio12 = LED(26)
 # GPIOs a Filtros A
-gpio_pin13 = LED(14)
-gpio_pin14 = LED(15)
-gpio_pin15 = LED(18)
-gpio_pin16 = LED(23)
-gpio_pin17 = LED(24)
-gpio_pin18 = LED(25)
+rpi_gpio13 = LED(14)
+rpi_gpio14 = LED(15)
+rpi_gpio15 = LED(18)
+rpi_gpio16 = LED(23)
+rpi_gpio17 = LED(24)
+rpi_gpio18 = LED(25)
 # GPIOs a Filtros B
-gpio_pin19 = LED(8)
-gpio_pin20 = LED(7)
-gpio_pin21 = LED(12)
-gpio_pin22 = LED(16)
-gpio_pin23 = LED(20)
-gpio_pin24 = LED(21)
+rpi_gpio19 = LED(8)
+rpi_gpio20 = LED(7)
+rpi_gpio21 = LED(12)
+rpi_gpio22 = LED(16)
+rpi_gpio23 = LED(20)
+rpi_gpio24 = LED(21)
+
+# GPIOS expansion
+ext_gpio0 = mcp.get_pin(0)
+ext_gpio1 = mcp.get_pin(1)
+ext_gpio2 = mcp.get_pin(2)
+ext_gpio3 = mcp.get_pin(3)
+ext_gpio4 = mcp.get_pin(4)
+ext_gpio5 = mcp.get_pin(5)
+ext_gpio6 = mcp.get_pin(6)
+ext_gpio7 = mcp.get_pin(7)
+ext_gpio8 = mcp.get_pin(8)
+ext_gpio9 = mcp.get_pin(9)
+ext_gpio10 = mcp.get_pin(10)
+ext_gpio11 = mcp.get_pin(11)
+ext_gpio12 = mcp.get_pin(12)
+ext_gpio13 = mcp.get_pin(13)
+ext_gpio14 = mcp.get_pin(14)
+ext_gpio15 = mcp.get_pin(15)
+ext_gpio0.switch_to_output(value=False)
+ext_gpio1.switch_to_output(value=False)
+ext_gpio2.switch_to_output(value=False)
+ext_gpio3.switch_to_output(value=False)
+ext_gpio4.switch_to_output(value=False)
+ext_gpio5.switch_to_output(value=False)
+ext_gpio6.switch_to_output(value=False)
+ext_gpio7.switch_to_output(value=False)
+ext_gpio8.switch_to_output(value=False)
+ext_gpio9.switch_to_output(value=False)
+ext_gpio10.switch_to_output(value=False)
+ext_gpio11.switch_to_output(value=False)
+ext_gpio12.switch_to_output(value=False)
+ext_gpio13.switch_to_output(value=False)
+ext_gpio14.switch_to_output(value=False)
+ext_gpio15.switch_to_output(value=False)
 
 
 def activate_ant_gpio(stn, new):
     if stn == 1:
-        gpio_pin1.off()
-        gpio_pin2.off()
-        gpio_pin3.off()
-        gpio_pin4.off()
-        gpio_pin5.off()
-        gpio_pin6.off()
+        rpi_gpio1.off()
+        rpi_gpio2.off()
+        rpi_gpio3.off()
+        rpi_gpio4.off()
+        rpi_gpio5.off()
+        rpi_gpio6.off()
         if new == 1:
-            gpio_pin1.on()
+            rpi_gpio1.on()
         if new == 2:
-            gpio_pin2.on()
+            rpi_gpio2.on()
         if new == 3:
-            gpio_pin3.on()
+            rpi_gpio3.on()
         if new == 4:
-            gpio_pin4.on()
+            rpi_gpio4.on()
         if new == 5:
-            gpio_pin5.on()
+            rpi_gpio5.on()
         if new == 6:
-            gpio_pin6.on()
+            rpi_gpio6.on()
     if stn == 2:
-        gpio_pin7.off()
-        gpio_pin8.off()
-        gpio_pin9.off()
-        gpio_pin10.off()
-        gpio_pin11.off()
-        gpio_pin12.off()
+        rpi_gpio7.off()
+        rpi_gpio8.off()
+        rpi_gpio9.off()
+        rpi_gpio10.off()
+        rpi_gpio11.off()
+        rpi_gpio12.off()
         if new == 1:
-            gpio_pin7.on()
+            rpi_gpio7.on()
         if new == 2:
-            gpio_pin8.on()
+            rpi_gpio8.on()
         if new == 3:
-            gpio_pin9.on()
+            rpi_gpio9.on()
         if new == 4:
-            gpio_pin10.on()
+            rpi_gpio10.on()
         if new == 5:
-            gpio_pin11.on()
+            rpi_gpio11.on()
         if new == 6:
-            gpio_pin12.on()
+            rpi_gpio12.on()
 
 
 def activate_fil_gpio(stn, new):
     if stn == 1:
-        gpio_pin13.off()
-        gpio_pin14.off()
-        gpio_pin15.off()
-        gpio_pin16.off()
-        gpio_pin17.off()
-        gpio_pin18.off()
+        rpi_gpio13.off()
+        rpi_gpio14.off()
+        rpi_gpio15.off()
+        rpi_gpio16.off()
+        rpi_gpio17.off()
+        rpi_gpio18.off()
         if new == 1:
-            gpio_pin13.on()
+            rpi_gpio13.on()
         if new == 2:
-            gpio_pin14.on()
+            rpi_gpio14.on()
         if new == 3:
-            gpio_pin15.on()
+            rpi_gpio15.on()
         if new == 4:
-            gpio_pin16.on()
+            rpi_gpio16.on()
         if new == 5:
-            gpio_pin17.on()
+            rpi_gpio17.on()
         if new == 6:
-            gpio_pin18.on()
+            rpi_gpio18.on()
     if stn == 2:
-        gpio_pin19.off()
-        gpio_pin20.off()
-        gpio_pin21.off()
-        gpio_pin22.off()
-        gpio_pin23.off()
-        gpio_pin24.off()
+        rpi_gpio19.off()
+        rpi_gpio20.off()
+        rpi_gpio21.off()
+        rpi_gpio22.off()
+        rpi_gpio23.off()
+        rpi_gpio24.off()
         if new == 1:
-            gpio_pin19.on()
+            rpi_gpio19.on()
         if new == 2:
-            gpio_pin20.on()
+            rpi_gpio20.on()
         if new == 3:
-            gpio_pin21.on()
+            rpi_gpio21.on()
         if new == 4:
-            gpio_pin22.on()
+            rpi_gpio22.on()
         if new == 5:
-            gpio_pin23.on()
+            rpi_gpio23.on()
         if new == 6:
-            gpio_pin24.on()
+            rpi_gpio24.on()
 
 
-def rebootpi():
-    os.system('sudo shutdown -r now')
-
+def rpi(cmd):
+    if cmd == "reboot":
+        os.system('sudo shutdown -r now')
+        print("Reiniciando")
+    elif cmd == "shutdown":
+        os.system('sudo shutdown -h now')
+        print("Apagando")
 
 def swap(stn):
     global STN1
@@ -354,6 +402,7 @@ def on_connect(client, userdata, flags, rc):
         ("set/stn2/band", 0),
         ("set/stn1/swap", 0),
         ("set/stn2/swap", 0),
+        ("set/rpi", 0),
         ("update", 0)
     ])
 

@@ -1,5 +1,4 @@
 #!/bin/bash
-source /home/pi/venv/bin/activate
 cd /home/pi/py-stn/scripts
 ./udp.sh&
 sleep 2

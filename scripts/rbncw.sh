@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /home/pi/py-stn
-python mqtt-rbn-cw.py&
+python3 mqtt-rbn-cw.py&

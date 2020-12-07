@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /home/pi/py-stn
-python mqtt-spider.py&
+python3 mqtt-spider.py&
