@@ -1,15 +1,14 @@
 #!/bin/bash
-cd /home/pi/venv
-source bin/activate
-cd /home/pi
-./ip.sh&
-sleep 5
+source /home/pi/venv/bin/activate
+cd /home/pi/py-stn/scripts
 ./udp.sh&
-sleep 5
+sleep 2
 ./control.sh&
-sleep 5
+sleep 30
 ./spider.sh&
-sleep 5
+sleep 2
 ./rbncw.sh&
-sleep 5
+sleep 2
 ./rbnmgm.sh&
+sleep 2
+./ip.sh

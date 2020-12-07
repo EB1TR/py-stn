@@ -15,7 +15,6 @@
 _IP=$(hostname -I) || true
 if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
-  ./home/pi/py-stn/scripts/srv.sh
 fi
-
+./home/pi/py-stn/scripts/srv.sh&
 exit 0
