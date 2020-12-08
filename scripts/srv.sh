@@ -1,13 +1,13 @@
 #!/bin/bash
-cd /home/pi/py-stn/scripts
-./udp.sh&
+cd /home/pi/py-stn
+python3 udp.py&
 sleep 2
-./control.sh&
+python3  control.py&
 sleep 30
-./spider.sh&
+python3 mqtt-spider.py&
 sleep 2
-./rbncw.sh&
+python3 mqtt.rbn.cw.py&
 sleep 2
-./rbnmgm.sh&
+python3 mqtt-rbn-mgm.py&
 sleep 2
 ./ip.sh
