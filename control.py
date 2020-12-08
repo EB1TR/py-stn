@@ -496,7 +496,7 @@ def on_message(client, userdata, msg):
     if msg.topic == "set/stn2/swap":
         swap(2)
     
-    if msg.topic == "set/reboot":
+    if msg.topic == "set/rpi":
         rpi(dato)
 
     status()
