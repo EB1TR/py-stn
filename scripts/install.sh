@@ -1,7 +1,7 @@
 sudo su && \
 apt update && \
-apt upgrade && \
-apt install -y nginx mosquitto git python3 python3-distutils python3-gpiozero gcc libffi-dev libssl-dev python3-dev && \
+apt upgrade -y && \
+apt install -y nginx mosquitto git python3 python3-distutils python3-gpiozero gcc libffi-dev libssl-dev python3-dev python-smbus i2c-tools && \
 git clone https://github.com/EB1TR/py-stn.git && \
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
 python3 get-pip.py && \
