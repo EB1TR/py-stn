@@ -178,6 +178,8 @@ function isSpot(rawspot, fromrbn, rbncw) {
 }
 
 function onMessageArrived(message) {
+    console.log(message.destinationName)
+    console.log(message.payloadString)
     if (message.destinationName == "stn1/radio1/qrg") {
         $('#stn1-r1-qrg').text((message.payloadString/100).toFixed(2))
     } else if (message.destinationName == "stn2/radio1/qrg") {
@@ -216,13 +218,19 @@ function onMessageArrived(message) {
             asstn2 = json.stn2.auto
             fsstn1 = json.stn1.bpf
             fsstn2 = json.stn2.bpf
-            $('#stn1-an').text(json.stn1.antname)
-            $('#stn2-an').text(json.stn2.antname)
             for (i = 0; i <= 6; i++) {
               $("#stn1-a"+i).removeClass("spanitemselected");
               $("#stn1-f"+i).removeClass("spanitemselected");
               $("#stn2-a"+i).removeClass("spanitemselected");
               $("#stn2-f"+i).removeClass("spanitemselected");
+            }
+            for (i = 1; i <= 3; i++) {
+              if (json.stn1.stack[i] == 2) $("#stack1"+i).addClass("spanitemnd");
+              else if (json.stn1.stack[i] == 0) $("#stack1"+i).removeClass("spanitemselected").removeClass("spanitemnd");
+              else $("#stack1"+i).addClass("spanitemselected").removeClass("spanitemnd");
+              if (json.stn2.stack[i] == 2) $("#stack2"+i).addClass("spanitemnd");
+              else if (json.stn2.stack[i] == 0) $("#stack2"+i).removeClass("spanitemselected").removeClass("spanitemnd");
+              else $("#stack2"+i).addClass("spanitemselected").removeClass("spanitemnd")
             }
             for (i = 1; i <= 2; i++) {
               $("#stn"+i+"-b0").removeClass("spanitemselected");
@@ -232,6 +240,9 @@ function onMessageArrived(message) {
               $("#stn"+i+"-b20").removeClass("spanitemselected");
               $("#stn"+i+"-b15").removeClass("spanitemselected");
               $("#stn"+i+"-b10").removeClass("spanitemselected");
+              $("#stn"+i+"-b111").removeClass("spanitemselected");
+              $("#stn"+i+"-b222").removeClass("spanitemselected");
+              $("#stn"+i+"-b333").removeClass("spanitemselected");
               $("#stn"+i+"-as").removeClass("spanitemselected");
               $("#stn"+i+"-fs").removeClass("spanitemselected");
               
