@@ -115,7 +115,7 @@ def do_udp():
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.bind(("0.0.0.0", 12060))
         while True:
-            data, address = sock.recvfrom(1024)
+            data = sock.recvfrom(1024)
             data = data.decode('utf-8')
             data = xmltodict.parse(data)
             data = process_xml(data)
