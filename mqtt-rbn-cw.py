@@ -57,13 +57,13 @@ def do_telnet():
     try:
         print('+ Conectando a RBN CW %s:%s' % (HOST, PORT))
         print('|-> Usando CALL: ' + CALL)
-        t = telnetlib.Telnet(HOST, PORT, 10)
+        t = telnetlib.Telnet(HOST, PORT, 120)
         # t.set_debuglevel(100)
     except Exception as e:
         print('|- No es posible conectar a RBN CW %s: %s' % HOST, e)
         return
     t.read_until(b'Please enter your call: ', 10)
-    sleep(2)
+    sleep(1)
     t.write(CALL.encode('ascii') + b"\r\n")
     mqtt_client = mqtt.Client(transport='tcp')
     try:
